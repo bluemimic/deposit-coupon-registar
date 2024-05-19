@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Registar</h1>
+
+    <div class="d-flex flex-row">
+        <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Logout" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}
