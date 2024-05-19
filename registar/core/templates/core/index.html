@@ -5,11 +5,30 @@
 {% block content %}
     <h1>Welcome to Registar</h1>
 
-    <div class="d-flex flex-row">
-        <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
-        <form action="{% url 'logout' %}" method="post">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <p>Hi, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</p>
+
+        <form action="{% url 'account:logout' %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Logout" class="btn btn-primary">
         </form>
-    </div>
+    {% else %}
+        <p>Welcome to Registar! Please login or register to continue.</p>
+        
+        <div class="d-flex flex-row">
+            <a href="{% url 'account:login' %}" class="btn btn-outline-primary me-3">Login</a>
+            <a href="{% url 'account:register' %}" class="btn btn-outline-primary">Register</a>
+        </div>
+    {% endif %}
 {% endblock %}

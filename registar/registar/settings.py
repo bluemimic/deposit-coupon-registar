@@ -36,14 +36,14 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
-    'account.apps.AccountConfig',
+    'accounts.apps.AccountsConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
 ]
 
 MIDDLEWARE = [
@@ -133,4 +133,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "account.User"
+AUTH_USER_MODEL = "accounts.User"
