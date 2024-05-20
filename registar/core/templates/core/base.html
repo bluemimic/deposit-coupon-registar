@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,27 +38,54 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav mb-2 mb-lg-0 justify-content-between flex-grow-1">
                         {% if user.is_authenticated %}
-                        <li class="nav-item align-self-center me-3">Hi, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</li>
-                        <li class="nav-item me-3">
-                            <a class="btn btn-outline-primary" aria-current="page"
-                                href="{% url 'account:profile' %}">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{% url 'account:logout' %}" method="post">
-                                {% csrf_token %}
-                                <input type="submit" value="Logout" class="btn btn-outline-primary">
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% translate "My account" %}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <div class="px-2">
+                                    <li><a class="dropdown-item"
+                                            href="{% url 'account:profile' %}">{% translate "Profile" %}</a></li>
+                                    <li class="nav-item">
+                                        <form action="{% url 'account:logout' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="submit" value="{% translate 'Logout' %}" class="dropdown-item">
+                                        </form>
+                                    </li>
+                                </div>
+                            </ul>
                         </li>
                         {% else %}
                         <li class="nav-item me-3">
-                            <a class="btn btn-outline-primary" aria-current="page"
-                                href="{% url 'account:login' %}">Login</a>
+                            <a class="nav-link" aria-current="page"
+                                href="{% url 'account:login' %}">{% translate 'Login' %}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-outline-primary" aria-current="page"
-                                href="{% url 'account:register' %}">Register</a>
+                            <a class="nav-link" aria-current="page"
+                                href="{% url 'account:register' %}">{% translate 'Register' %}</a>
                         </li>
                         {% endif %}
+                        <li class="nav-item dropdown">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_language_info for LANGUAGE_CODE as lang %}
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ lang.name_local }}
+                            </a>
+                            <ul class="dropdown-menu">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ redirect_to }}">
+                                    <input type="hidden" name="language" value="{{ language.code }}">
+                                    <input type="submit" value="{{ language.name_local }}" class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}">
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </li>
+                    </ul>
                     </ul>
                 </div>
             </div>

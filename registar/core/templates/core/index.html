@@ -1,34 +1,25 @@
 {% extends "core/base.html" %}
 
-{% block title %}Home{% endblock %}
+{% load i18n %}
+
+{% block title %}{% translate "Home" %}{% endblock %}
 
 {% block content %}
-    <h1>Welcome to Registar</h1>
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-            {{ message }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <h1>{% translate "Welcome to Registar" %}</h1>
 
     {% if user.is_authenticated %}
-        <p>Hi, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</p>
+        <p>{% translate 'Hi' %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</p>
 
         <form action="{% url 'account:logout' %}" method="post">
             {% csrf_token %}
-            <input type="submit" value="Logout" class="btn btn-primary">
+            <input type="submit" value="{% translate 'Logout' %}" class="btn btn-primary">
         </form>
     {% else %}
-        <p>Welcome to Registar! Please login or register to continue.</p>
+        <p>{% translate "Welcome to Registar! Please login or register to continue." %}</p>
         
         <div class="d-flex flex-row">
-            <a href="{% url 'account:login' %}" class="btn btn-outline-primary me-3">Login</a>
-            <a href="{% url 'account:register' %}" class="btn btn-outline-primary">Register</a>
+            <a href="{% url 'account:login' %}" class="btn btn-outline-primary me-3">{% translate 'Login' %}</a>
+            <a href="{% url 'account:register' %}" class="btn btn-outline-primary">{% translate 'Register' %}</a>
         </div>
     {% endif %}
 {% endblock %}
