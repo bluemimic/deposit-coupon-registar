@@ -1,0 +1,11 @@
+{% extends "core/base.html" %}
+
+{% block title %}Contact admin{% endblock %}
+
+{% block content %}
+    <h2>Hi!</h2>
+
+    <p>Looks like you have forgotten your password? Don't worry! Just <strong>contact the admin</strong> and he will help you out.</p>
+
+    <a href="{% url 'core:index' %}" class="btn btn-primary">Return to the main page</a>
+{% endblock %}

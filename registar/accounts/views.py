@@ -21,3 +21,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
     View for displaying a user's profile.
     """
     template_name = 'registration/profile.html'
+    
+
+class ContactAdminView(TemplateView):
+    """
+    View for contacting the admin in case of forgotten password.
+    Temporary solution for MVP.
+    """
+    template_name = 'registration/contact_admin.html'

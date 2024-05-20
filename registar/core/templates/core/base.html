@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,13 +16,14 @@
         crossorigin="anonymous"></script>
 
     {% block assets %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     {% endblock %}
 </head>
 
 <body>
     <header>
         {% block navbar %}
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'core:index' %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" fill="currentColor" class="bi bi-ticket-fill pb-1 me-1" id="icon" viewBox="0 0 16 16">
@@ -28,18 +31,11 @@
                     </svg>
                     Registar
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-flex flex-row justify-content-between"
-                    id="navbarSupportedContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mb-2 mb-lg-0 justify-content-between flex-grow-1">
                         {% if user.is_authenticated %}
                         <li class="nav-item align-self-center me-3">Hi, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</li>
                         <li class="nav-item me-3">
@@ -69,7 +65,7 @@
         {% endblock %}
     </header>
 
-    <main class="container">
+    <main class="container mb-3">
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
