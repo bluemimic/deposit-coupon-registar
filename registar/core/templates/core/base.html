@@ -69,7 +69,7 @@
                             {% get_current_language as LANGUAGE_CODE %}
                             {% get_language_info for LANGUAGE_CODE as lang %}
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ lang.name_local }}
+                                {{ lang.name_local|title }}
                             </a>
                             <ul class="dropdown-menu">
                             {% get_available_languages as LANGUAGES %}
@@ -80,7 +80,7 @@
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ redirect_to }}">
                                     <input type="hidden" name="language" value="{{ language.code }}">
-                                    <input type="submit" value="{{ language.name_local }}" class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}">
+                                    <input type="submit" value="{{ language.name_local|title }}" class="dropdown-item {% if language.code == LANGUAGE_CODE %} active{% endif %}">
                                 </form>
                             </li>
                             {% endfor %}

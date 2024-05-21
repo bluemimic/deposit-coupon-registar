@@ -21,239 +21,239 @@ msgstr ""
 
 #: accounts/admin.py:8
 msgid "Promote selected users to staff"
-msgstr ""
+msgstr "Paaugstināt atlasītos lietotājus par darbiniekiem"
 
 #: accounts/admin.py:13
 msgid "Demote selected users from staff"
-msgstr ""
+msgstr "Pazemināt atlasītos lietotājus no personāla"
 
 #: accounts/admin.py:18
 msgid "Activate selected users"
-msgstr ""
+msgstr "Aktivizēt atlasītos lietotājus"
 
 #: accounts/admin.py:23
 msgid "Deactivate selected users"
-msgstr ""
+msgstr "Deaktivizēt atlasītos lietotājus"
 
 #: accounts/admin.py:43
 msgid "Search by first name, last name, email, username"
-msgstr ""
+msgstr "Meklēt pēc vārda, uzvārda, e-pasta, lietotājvārda"
 
 #: accounts/apps.py:8
 msgid "accounts"
-msgstr ""
+msgstr "konti"
 
 #: accounts/forms.py:10
 msgid "Email"
-msgstr ""
+msgstr "E-pasts"
 
 #: accounts/models.py:11 core/models.py:15 core/models.py:38
 msgid "updated at"
-msgstr ""
+msgstr "atjaunināts"
 
 #: accounts/models.py:15
 msgid "user"
-msgstr ""
+msgstr "lietotājs"
 
 #: accounts/models.py:16
 msgid "users"
-msgstr ""
+msgstr "lietotāji"
 
 #: accounts/templates/registration/contact_admin.html:5
 msgid "Contact admin"
-msgstr ""
+msgstr "Sazinieties ar administratoru"
 
 #: accounts/templates/registration/contact_admin.html:8
 msgid "Hi!"
-msgstr ""
+msgstr "Sveiki!"
 
 #: accounts/templates/registration/contact_admin.html:10
 msgid ""
 "Looks like you have forgotten your password? Don't worry! Just contact the "
 "admin and he will help you out!"
-msgstr ""
+msgstr "Šķiet, ka esat aizmirsis savu paroli? Neuztraucieties! Sazinieties ar administratoru, un viņš jums palīdzēs!"
 
 #: accounts/templates/registration/contact_admin.html:13
 #: accounts/templates/registration/logged_out.html:14
 #: accounts/templates/registration/password_change_done.html:10
 msgid "Return to the main page"
-msgstr ""
+msgstr "Atgriezties uz galveno lapu"
 
 #: accounts/templates/registration/logged_out.html:5
 #: accounts/templates/registration/logged_out.html:8
 #: core/templates/core/base.html:52 core/templates/core/index.html:15
 msgid "Logout"
-msgstr ""
+msgstr "Atslēgties"
 
 #: accounts/templates/registration/logged_out.html:11
 msgid "You have been logged out"
-msgstr ""
+msgstr "Jūs esat atslēgušies"
 
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
 #: accounts/templates/registration/login.html:31
 #: core/templates/core/base.html:61 core/templates/core/index.html:21
 msgid "Login"
-msgstr ""
+msgstr "Pieslēgties"
 
 #: accounts/templates/registration/login.html:32
 msgid "Forgot password?"
-msgstr ""
+msgstr "Aizmirsis  paroli?"
 
 #: accounts/templates/registration/password_change_done.html:5
 #: accounts/templates/registration/password_change_done.html:8
 msgid "Password has been successfully changed"
-msgstr ""
+msgstr "Parole ir veiksmīgi nomainīta"
 
 #: accounts/templates/registration/password_change_form.html:6
 #: accounts/templates/registration/password_change_form.html:9
 #: accounts/templates/registration/password_change_form.html:36
 #: accounts/templates/registration/profile.html:10
 msgid "Change password"
-msgstr ""
+msgstr "Nomainīt paroli"
 
 #: accounts/templates/registration/profile.html:5
 #, python-format
 msgid "%(user.username)s profile"
-msgstr ""
+msgstr "%(user.username)s profils"
 
 #: accounts/templates/registration/profile.html:8
 #: core/templates/core/index.html:11
 msgid "Hi"
-msgstr ""
+msgstr "Sveiki"
 
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
 #: accounts/templates/registration/register.html:31
 #: core/templates/core/base.html:65 core/templates/core/index.html:22
 msgid "Register"
-msgstr ""
+msgstr "Reģistrēties"
 
 #: core/admin.py:7
 msgid "Pin selected item"
-msgstr ""
+msgstr "Piespraust atlasīto vienumu"
 
 #: core/admin.py:11
 msgid "Unpin selected item"
-msgstr ""
+msgstr "Atspraust atlasīto vienumu"
 
 #: core/admin.py:15
 msgid "Mark selected coupons as used"
-msgstr ""
+msgstr "Atzīmējiet atlasītos kuponus kā izmantotus"
 
 #: core/admin.py:19
 msgid "Mark selected coupons as unused"
-msgstr ""
+msgstr "Atzīmējiet atlasītos kuponus kā neizmantotus"
 
 #: core/admin.py:38
 msgid "Search by title, owner username, owner email"
-msgstr ""
+msgstr "Meklēt pēc nosaukuma, īpašnieka lietotājvārda, īpašnieka e-pasta"
 
 #: core/admin.py:54
 msgid ""
 "Search by title, barcode, owner username, owner email, amount, store title"
-msgstr ""
+msgstr "Meklēt pēc nosaukuma, svītrkoda, īpašnieka lietotājvārda, īpašnieka e-pasta, summas, veikala nosaukuma"
 
 #: core/admin.py:56
 msgid "Owner's username"
-msgstr ""
+msgstr "Īpašnieka lietotājvārds"
 
 #: core/apps.py:8
 msgid "core"
-msgstr ""
+msgstr "pamats"
 
 #: core/models.py:11
 msgid "shop title"
-msgstr ""
+msgstr "veikala nosaukums"
 
 #: core/models.py:12
 msgid "is shop pinned?"
-msgstr ""
+msgstr "vai veikals ir piesprausts?"
 
 #: core/models.py:13
 msgid "owner of the shop"
-msgstr ""
+msgstr "veikala īpašnieks"
 
 #: core/models.py:14 core/models.py:37
 msgid "created at"
-msgstr ""
+msgstr "izveidots"
 
 #: core/models.py:19
 msgid "shop"
-msgstr ""
+msgstr "veikals"
 
 #: core/models.py:20
 msgid "shops"
-msgstr ""
+msgstr "veikali"
 
 #: core/models.py:30
 msgid "coupon title"
-msgstr ""
+msgstr "kupona nosaukums"
 
 #: core/models.py:30
 msgid "can be null"
-msgstr ""
+msgstr "var būt nulle"
 
 #: core/models.py:31
 msgid "coupon barcode"
-msgstr ""
+msgstr "kupona svītrkods"
 
 #: core/models.py:32
 msgid "is used?"
-msgstr ""
+msgstr "vai ir izmantots?"
 
 #: core/models.py:33
 msgid "is pinned?"
-msgstr ""
+msgstr "ir piesprausts?"
 
 #: core/models.py:34
 msgid "is shared?"
-msgstr ""
+msgstr "ir koplietots?"
 
 #: core/models.py:35
 msgid "amount"
-msgstr ""
+msgstr "summa"
 
 #: core/models.py:36
 msgid "store"
-msgstr ""
+msgstr "veikals"
 
 #: core/models.py:42
 msgid "coupon"
-msgstr ""
+msgstr "kupons"
 
 #: core/models.py:43
 msgid "coupons"
-msgstr ""
+msgstr "kuponi"
 
 #: core/templates/core/base.html:43
 msgid "My account"
-msgstr ""
+msgstr "Mans konts"
 
 #: core/templates/core/base.html:48
 msgid "Profile"
-msgstr ""
+msgstr "Profils"
 
 #: core/templates/core/index.html:5
 msgid "Home"
-msgstr ""
+msgstr "Mājas lapa"
 
 #: core/templates/core/index.html:8
 msgid "Welcome to Registar"
-msgstr ""
+msgstr "Laipni lūdzam Registar"
 
 #: core/templates/core/index.html:18
 msgid "Welcome to Registar! Please login or register to continue."
-msgstr ""
+msgstr "Laipni lūdzam Registar! Lūdzu, pieslēdzieties vai reģistrējieties, lai turpinātu."
 
 #: registar/settings.py:152
 msgid "English"
-msgstr ""
+msgstr "Angļu"
 
 #: registar/settings.py:153
 msgid "Latvian"
-msgstr ""
+msgstr "Latviešu"
 
 #: registar/settings.py:154
 msgid "Russian"
-msgstr ""
+msgstr "Krievu"
