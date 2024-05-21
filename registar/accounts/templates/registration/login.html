@@ -1,11 +1,12 @@
 {% extends "core/base.html" %}
 
 {% load core_extras %}
+{% load i18n %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{% translate "Login" %}{% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
+    <h2>{% translate "Login" %}</h2>
     
     <form method="post">
         {% csrf_token %}
@@ -27,8 +28,8 @@
             {% endif %}
         {% endfor %}
         <div class="d-flex flex-row justify-content-between mt-3">
-            <input type="submit" value="Login" class="btn btn-primary">
-            <a href="{% url 'account:contact_admin' %}" class="btn btn-outline-primary">Forgot password?</a>
+            <input type="submit" value="{% translate 'Login' %}" class="btn btn-primary">
+            <a href="{% url 'account:contact_admin' %}" class="btn btn-outline-primary">{% translate "Forgot password?" %}</a>
         </div>
         
     </form>

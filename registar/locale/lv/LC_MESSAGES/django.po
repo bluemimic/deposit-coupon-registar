@@ -16,253 +16,244 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
 
 #: accounts/admin.py:8
 msgid "Promote selected users to staff"
-msgstr "Назначить выбранных пользователей сотрудниками"
+msgstr ""
 
 #: accounts/admin.py:13
 msgid "Demote selected users from staff"
-msgstr "Понизить выбранных пользователей из штата сотрудников"
+msgstr ""
 
 #: accounts/admin.py:18
 msgid "Activate selected users"
-msgstr "Активировать выбранных пользователей"
+msgstr ""
 
 #: accounts/admin.py:23
 msgid "Deactivate selected users"
-msgstr "Деактивировать выбранных пользователей"
+msgstr ""
 
 #: accounts/admin.py:43
 msgid "Search by first name, last name, email, username"
-msgstr "Поиск по имени, фамилии, электронной почте, имени пользователя"
+msgstr ""
 
 #: accounts/apps.py:8
 msgid "accounts"
-msgstr "аккаунты"
+msgstr ""
 
 #: accounts/forms.py:10
 msgid "Email"
-msgstr "Электронная почта"
+msgstr ""
 
 #: accounts/models.py:11 core/models.py:15 core/models.py:38
 msgid "updated at"
-msgstr "обновлено в"
+msgstr ""
 
 #: accounts/models.py:15
 msgid "user"
-msgstr "пользователь"
+msgstr ""
 
 #: accounts/models.py:16
 msgid "users"
-msgstr "пользователи"
+msgstr ""
 
 #: accounts/templates/registration/contact_admin.html:5
 msgid "Contact admin"
-msgstr "Связаться с администратором"
+msgstr ""
 
 #: accounts/templates/registration/contact_admin.html:8
-#, fuzzy
-#| msgid "Hi"
 msgid "Hi!"
-msgstr "Привет!"
+msgstr ""
 
 #: accounts/templates/registration/contact_admin.html:10
 msgid ""
 "Looks like you have forgotten your password? Don't worry! Just contact the "
 "admin and he will help you out!"
-msgstr "Похоже, вы забыли свой пароль? Не волнуйтесь! Свяжитесь с администратором и он вам поможет!"
+msgstr ""
 
 #: accounts/templates/registration/contact_admin.html:13
 #: accounts/templates/registration/logged_out.html:14
 #: accounts/templates/registration/password_change_done.html:10
 msgid "Return to the main page"
-msgstr "Вернуться на главную страницу"
+msgstr ""
 
 #: accounts/templates/registration/logged_out.html:5
 #: accounts/templates/registration/logged_out.html:8
 #: core/templates/core/base.html:52 core/templates/core/index.html:15
 msgid "Logout"
-msgstr "Выйти"
+msgstr ""
 
 #: accounts/templates/registration/logged_out.html:11
 msgid "You have been logged out"
-msgstr "Вы вышли из системы"
+msgstr ""
 
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
 #: accounts/templates/registration/login.html:31
 #: core/templates/core/base.html:61 core/templates/core/index.html:21
 msgid "Login"
-msgstr "Войти"
+msgstr ""
 
 #: accounts/templates/registration/login.html:32
 msgid "Forgot password?"
-msgstr "Забыли пароль?"
+msgstr ""
 
 #: accounts/templates/registration/password_change_done.html:5
 #: accounts/templates/registration/password_change_done.html:8
 msgid "Password has been successfully changed"
-msgstr "Пароль успешно изменен"
+msgstr ""
 
 #: accounts/templates/registration/password_change_form.html:6
 #: accounts/templates/registration/password_change_form.html:9
 #: accounts/templates/registration/password_change_form.html:36
 #: accounts/templates/registration/profile.html:10
 msgid "Change password"
-msgstr "Изменить пароль"
+msgstr ""
 
 #: accounts/templates/registration/profile.html:5
 #, python-format
 msgid "%(user.username)s profile"
-msgstr "Профиль %(user.username)s"
+msgstr ""
 
 #: accounts/templates/registration/profile.html:8
 #: core/templates/core/index.html:11
 msgid "Hi"
-msgstr "Привет"
+msgstr ""
 
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
 #: accounts/templates/registration/register.html:31
 #: core/templates/core/base.html:65 core/templates/core/index.html:22
 msgid "Register"
-msgstr "Зарегистрироваться"
+msgstr ""
 
 #: core/admin.py:7
 msgid "Pin selected item"
-msgstr "Закрепить выбранный элемент"
+msgstr ""
 
 #: core/admin.py:11
 msgid "Unpin selected item"
-msgstr "Открепить выбранный элемент"
+msgstr ""
 
 #: core/admin.py:15
 msgid "Mark selected coupons as used"
-msgstr "Отметить выбранные купоны как использованные"
+msgstr ""
 
 #: core/admin.py:19
 msgid "Mark selected coupons as unused"
-msgstr "Отметить выбранные купоны как неиспользованные"
+msgstr ""
 
 #: core/admin.py:38
 msgid "Search by title, owner username, owner email"
 msgstr ""
-"Поиск по названию, имени пользователя владельца, адресу электронной почты "
-"владельца"
 
 #: core/admin.py:54
 msgid ""
 "Search by title, barcode, owner username, owner email, amount, store title"
 msgstr ""
-"Поиск по названию, штрих-коду, имени пользователя владельца, адресу "
-"электронной почты владельца, сумме, названию магазина"
 
 #: core/admin.py:56
 msgid "Owner's username"
-msgstr "Имя пользователя владельца"
+msgstr ""
 
 #: core/apps.py:8
 msgid "core"
-msgstr "основные"
+msgstr ""
 
 #: core/models.py:11
 msgid "shop title"
-msgstr "название магазина"
+msgstr ""
 
 #: core/models.py:12
 msgid "is shop pinned?"
-msgstr "магазин закреплен?"
+msgstr ""
 
 #: core/models.py:13
 msgid "owner of the shop"
-msgstr "владелец магазина"
+msgstr ""
 
 #: core/models.py:14 core/models.py:37
 msgid "created at"
-msgstr "создан в"
+msgstr ""
 
 #: core/models.py:19
 msgid "shop"
-msgstr "магазин"
+msgstr ""
 
 #: core/models.py:20
 msgid "shops"
-msgstr "магазины"
+msgstr ""
 
 #: core/models.py:30
 msgid "coupon title"
-msgstr "название купона"
+msgstr ""
 
 #: core/models.py:30
 msgid "can be null"
-msgstr "может быть нулевым"
+msgstr ""
 
 #: core/models.py:31
 msgid "coupon barcode"
-msgstr "штрих-код купона"
+msgstr ""
 
 #: core/models.py:32
 msgid "is used?"
-msgstr "был использован?"
+msgstr ""
 
 #: core/models.py:33
 msgid "is pinned?"
-msgstr "закреплен?"
+msgstr ""
 
 #: core/models.py:34
 msgid "is shared?"
-msgstr "является общим?"
+msgstr ""
 
 #: core/models.py:35
 msgid "amount"
-msgstr "сумма"
+msgstr ""
 
 #: core/models.py:36
 msgid "store"
-msgstr "магазин"
+msgstr ""
 
 #: core/models.py:42
 msgid "coupon"
-msgstr "купон"
+msgstr ""
 
 #: core/models.py:43
 msgid "coupons"
-msgstr "купоны"
+msgstr ""
 
 #: core/templates/core/base.html:43
 msgid "My account"
-msgstr "Мой аккаунт"
+msgstr ""
 
 #: core/templates/core/base.html:48
 msgid "Profile"
-msgstr "Профиль"
+msgstr ""
 
 #: core/templates/core/index.html:5
 msgid "Home"
-msgstr "Домашняя"
+msgstr ""
 
 #: core/templates/core/index.html:8
 msgid "Welcome to Registar"
-msgstr "Добро пожаловать в Registar"
+msgstr ""
 
 #: core/templates/core/index.html:18
 msgid "Welcome to Registar! Please login or register to continue."
 msgstr ""
-"Добро пожаловать в Registar. Пожалуйста войдите или зарегистрируйтесь чтобы "
-"продолжить."
 
 #: registar/settings.py:152
 msgid "English"
-msgstr "Английский"
+msgstr ""
 
 #: registar/settings.py:153
 msgid "Latvian"
-msgstr "Латышский"
+msgstr ""
 
 #: registar/settings.py:154
 msgid "Russian"
-msgstr "Русский"
+msgstr ""

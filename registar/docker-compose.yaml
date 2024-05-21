@@ -4,9 +4,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: registar_django
-    command: sh -c "python3 manage.py migrate --noinput && 
+    command: sh -c "python3 manage.py makemigrations &&
+                    python3 manage.py migrate --noinput && 
                     python3 manage.py collectstatic --noinput &&
-                    python manage.py runserver 0.0.0.0:8000"
+                    django-admin compilemessages &&
+                    python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/src/app
     ports:

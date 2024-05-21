@@ -1,13 +1,15 @@
 {% extends "core/base.html" %}
 
-{% block title %}Logout{% endblock %}
+{% load i18n %}
+
+{% block title %}{% translate "Logout" %}{% endblock %}
 
 {% block content %}
-    <h2>Logout</h2>
+    <h2>{% translate "Logout" %}</h2>
     
     <div class="alert alert-primary" role="alert">
-        {{ title }}
+        {% translate "You have been logged out" %}
     </div>
 
-    <a href="{% url 'core:index' %}" class="btn btn-primary">Return to the main page</a>
+    <a href="{% url 'core:index' %}" class="btn btn-primary">{% translate "Return to the main page" %}</a>
 {% endblock %}

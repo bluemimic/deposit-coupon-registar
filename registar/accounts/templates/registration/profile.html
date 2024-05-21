@@ -1,9 +1,11 @@
 {% extends "core/base.html" %}
 
-{% block title %}{{ user.username }} profile{% endblock %}
+{% load i18n %}
+
+{% block title %}{% blocktranslate %}{{ user.username }} profile{% endblocktranslate %}{% endblock %}
 
 {% block content %}
-    <h2>Hi, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
+    <h2>{% translate "Hi" %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
 
-    <a href="{% url 'account:password_change' %}" class="btn btn-primary">Change password</a>
+    <a href="{% url 'account:password_change' %}" class="btn btn-primary">{% translate "Change password" %}</a>
 {% endblock %}
