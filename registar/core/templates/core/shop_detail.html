@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</h2>
+    <ul>
+        <li>Title: {{ shop.title }}</li>
+        <li>Is pinned?: {{ shop.is_pinned }}</li>
+        <li>Date added: {{ shop.date_added }}</li>
+    </ul>
+    <div class="d-flex gap-3">
+        <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "Back to shop list" %}</a>
+        <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary ms-auto">{% translate "Update shop" %}</a>
+        <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger">{% translate "Delete shop" %}</a>
+    </div>
+{% endblock %}

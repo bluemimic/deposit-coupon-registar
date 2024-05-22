@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate %}Are you sure you want to delete your account?{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate %}Are you sure you want to delete your account?{% endblocktranslate %}</h2>
+    <p>{% blocktranslate %}
+        This will permanently delete your account. All your data will be lost, including all your stores and coupons, and you will not be able to recover them. 
+        All your coupons will be removed from all groups and will no longer be available to users in them.
+        Are you sure you want to delete the account?
+        {% endblocktranslate %}</p>
+    <div class="d-flex gap-3">
+        <a href="{% url 'account:profile' %}" class="btn btn-primary">{% translate "Cancel" %}</a>
+        <form method="post" class="ms-auto">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="{% translate 'Delete my account' %}" class="btn btn-danger ">
+        </form>
+    </div>
+{% endblock %}

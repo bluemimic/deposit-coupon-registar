@@ -1,11 +1,22 @@
-{% extends "core/base.html" %}
+{% extends "base.html" %}
 
 {% load i18n %}
 
-{% block title %}{% blocktranslate %}{{ user.username }} profile{% endblocktranslate %}{% endblock %}
+{% block title %}
+    {% if user.first_name %}
+        {% blocktranslate with username=user.first_name %}{{ username }} profile{% endblocktranslate %}
+    {% else %}
+        {% blocktranslate with username=user.username %}{{ username }} profile{% endblocktranslate %}
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     <h2>{% translate "Hi" %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
 
-    <a href="{% url 'account:password_change' %}" class="btn btn-primary">{% translate "Change password" %}</a>
+    <div class="d-flex gap-3">
+        <a href="{% url 'account:password_change' %}" class="btn btn-primary">{% translate "Change password" %}</a>
+        <a href="{% url 'account:profile_update' user.pk %}" class="btn btn-primary">{% translate "Edit profile" %}</a>
+        <a href="{% url 'account:profile_delete' user.pk %}" class="btn btn-danger ms-auto">{% translate "Delete account" %}</a>
+    </div>
+        
 {% endblock %}

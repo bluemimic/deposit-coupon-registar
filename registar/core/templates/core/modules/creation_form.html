@@ -1,0 +1,13 @@
+{% load core_extras %}
+{% load i18n %}
+
+<form method="post">
+    {% include "creation_form_body.html" with form=form %}
+
+    <div class="d-flex flex-row justify-content-between mt-3">
+        <input 
+        type="submit" 
+        value="{% if submit_text %}{{ submit_text }}{% else %}{% if edit %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %}{% endif %}" 
+        class="btn btn-primary">
+    </div>
+</form>

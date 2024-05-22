@@ -1,0 +1,18 @@
+{% extends "confirm_delete.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=coupon.title %}Are you sure you want to delete coupon {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block header %}{% blocktranslate with title=coupon.title %}Are you sure you want to delete coupon {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block warning_text %}
+{% blocktranslate %}This will permanently delete the coupon. 
+This action cannot be undone. The coupon will be removed from all groups and will no longer be available to users in them.
+Are you sure you want to delete the coupon?
+{% endblocktranslate %}
+{% endblock %}
+
+{% block cancel_href %}{% url 'core:coupon_detail' coupon.id %}{% endblock %}
+
+{% block confirm_text %}{% translate 'Delete coupon' %}{% endblock %}

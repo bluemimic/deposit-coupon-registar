@@ -64,7 +64,10 @@ ROOT_URLCONF = 'registar.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / "core" / "templates" / "core" / "base",
+            BASE_DIR / "core" / "templates" / "core" / "modules",
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,0 +1,21 @@
+{% load core_extras %}
+{% load i18n %}
+
+{% csrf_token %}
+    
+{% for error in form.non_field_errors %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{error}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+{% for field in form|bootstrapify %}
+    {{ field.label_tag }} {{ field }}
+    {% if field.help_text %}
+    <p class="help" id="{{ field.auto_id }}_helptext">
+        {{ field.help_text|safe }}
+    </p>
+    {% endif %}
+    {{ field.errors }}
+{% endfor %}

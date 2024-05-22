@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Coupons" %}{% endblock %}
+
+{% block content %}
+    <h2>{% translate "Coupons" %}</h2>
+    <ul>
+        {% for coupon in coupons %}
+            <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
+            <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "Details" %}</a>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+{% endblock %}

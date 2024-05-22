@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</h2>
+    <ul>
+        <li>Barcode: {{ coupon.barcode }}</li>
+        <li>Is used: {{ coupon.is_used }}</li>
+        <li>Is pinned: {{ coupon.is_pinned }}</li>
+        <li>Amount: {{ coupon.amount }}</li>
+        <li>Store: {{ coupon.store }}</li>
+        <li>Date added: {{ coupon.date_added }}</li>
+    </ul>
+    <div class="d-flex gap-3">
+        <a href="{% url 'core:coupon_list' %}" class="btn btn-primary">{% translate "Back to coupon list" %}</a>
+        <a href="{% url 'core:coupon_update' coupon.id %}" class="btn btn-primary ms-auto">{% translate "Update coupon" %}</a>
+        <a href="{% url 'core:coupon_delete' coupon.id %}" class="btn btn-danger">{% translate "Delete coupon" %}</a>
+    </div>
+{% endblock %}

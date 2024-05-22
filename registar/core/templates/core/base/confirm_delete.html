@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <h2>{% block header %}{% endblock %}</h2>
+    <p>{% block warning_text %}{% endblock %}</p>
+
+    <div class="d-flex gap-3">
+        <a href="{% block cancel_href %}{% endblock %}" class="btn btn-primary">{% translate "Cancel" %}</a>
+        <form method="post" class="ms-auto">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="{% block confirm_text %}{% endblock %}" class="btn btn-danger">
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Shops" %}{% endblock %}
+
+{% block content %}
+    <h2>{% translate "Shops" %}</h2>
+    <ul>
+        {% for shop in shops %}
+            <li>{{ shop.title }} {{ shop.date_added }}</li>
+            <a href="{% url 'core:shop_detail' shop.id %}">{% translate "Details" %}</a>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'core:shop_create' %}" class="btn btn-primary">{% translate "Create shop" %}</a>
+{% endblock %}

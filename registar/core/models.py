@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from django.contrib import admin
+from django.urls import reverse
 
 
 class Shop(models.Model):
@@ -18,6 +18,9 @@ class Shop(models.Model):
         ordering = ["-date_added", "title"]
         verbose_name = _('shop')
         verbose_name_plural = _('shops')
+
+    def get_absolute_url(self):
+        return reverse('core:shop_detail', kwargs={'pk': self.pk})
 
     def __str__(self) -> str:
         return self.title
@@ -41,6 +44,9 @@ class Coupon(models.Model):
         ordering = ["-date_added", "title"]
         verbose_name = _('coupon')
         verbose_name_plural = _('coupons')
+
+    def get_absolute_url(self):
+        return reverse('core:coupon_detail', kwargs={'pk': self.pk})
 
     def __str__(self) -> str:
         return self.title

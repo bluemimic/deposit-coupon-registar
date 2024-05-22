@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load core_extras %}
+{% load i18n %}
+
+{% block title %}{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}{% endblock %}
+
+{% block content %}
+    <h2>{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}</h2>
+    
+    {% include "creation_form.html" with form=form %}
+{% endblock %}

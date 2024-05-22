@@ -1,0 +1,19 @@
+{% extends "confirm_delete.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=shop.title %}Are you sure you want to delete shop {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block header %}{% blocktranslate with title=shop.title %}Are you sure you want to delete shop {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block warning_text %}
+{% blocktranslate %}
+This will permanently delete the shop and all coupons associated with it. 
+This action cannot be undone. The shop and its associated coupons will be removed from all groups and will no longer be available to users in them.
+Are you sure you want to delete the shop?
+{% endblocktranslate %}
+{% endblock %}
+
+{% block cancel_href %}{% url 'core:shop_detail' shop.id %}{% endblock %}
+
+{% block confirm_text %}{% translate 'Delete shop' %}{% endblock %}
