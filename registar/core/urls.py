@@ -23,4 +23,3 @@ urlpatterns = [
     path("coupons/<int:pk>/delete/", CouponDeleteView.as_view(), name="coupon_delete"),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
