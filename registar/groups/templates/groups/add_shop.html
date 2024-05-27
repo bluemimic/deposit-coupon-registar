@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=group.title %}Add shops to the group {{ title }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with title=group.title %}Add shops to the group {{ title }}{% endblocktranslate %}</h2>
+    <p>{% blocktranslate %}Select the shop you want to add to the group.{% endblocktranslate %}</p>
+    <hr>
+    {% url 'groups:group_detail' group.pk as link %}
+    {% include "creation_form.html" with submit_text=_('Add') form=form return_url=link %}
+{% endblock %}

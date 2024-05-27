@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load core_extras %}
+{% load i18n %}
+
+{% block title %}{% if edit %}{% translate "Edit group" %}{% else %}{% translate "Create group" %}{% endif %}{% endblock %}
+
+{% block content %}
+    <h2>{% if edit %}{% translate "Edit group" %}{% else %}{% translate "Create group" %}{% endif %} {{ group.title }}</h2>
+    
+    {% if edit %}
+        {% url 'groups:group_detail' group.pk as link %}
+    {% else %}
+        {% url 'groups:group_list' as link %}
+    {% endif %}
+
+    {% include "creation_form.html" with form=form return_url=link %}
+{% endblock %}

@@ -37,6 +37,7 @@ class Coupon(models.Model):
     is_shared        = models.BooleanField(default=False, verbose_name=_('is shared?'))
     amount           = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('amount'))
     store            = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name=_('store'))
+    owner            = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('user'))
     date_added       = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
     date_modified    = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
 

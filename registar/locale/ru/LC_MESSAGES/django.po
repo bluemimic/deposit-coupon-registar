@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-21 18:26+0000\n"
+"POT-Creation-Date: 2024-05-22 21:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,15 +48,15 @@ msgstr "аккаунты"
 msgid "Email"
 msgstr "Электронная почта"
 
-#: accounts/models.py:11 core/models.py:15 core/models.py:38
+#: accounts/models.py:12 core/models.py:15 core/models.py:41
 msgid "updated at"
 msgstr "обновлено в"
 
-#: accounts/models.py:15
+#: accounts/models.py:16
 msgid "user"
 msgstr "пользователь"
 
-#: accounts/models.py:16
+#: accounts/models.py:17
 msgid "users"
 msgstr "пользователи"
 
@@ -65,16 +65,18 @@ msgid "Contact admin"
 msgstr "Связаться с администратором"
 
 #: accounts/templates/registration/contact_admin.html:8
-#, fuzzy
-#| msgid "Hi"
-msgid "Hi!"
-msgstr "Привет!"
+#: accounts/templates/registration/profile.html:14
+#: core/templates/core/index.html:11
+msgid "Hi"
+msgstr "Привет"
 
 #: accounts/templates/registration/contact_admin.html:10
 msgid ""
 "Looks like you have forgotten your password? Don't worry! Just contact the "
 "admin and he will help you out!"
-msgstr "Похоже, вы забыли свой пароль? Не волнуйтесь! Свяжитесь с администратором и он вам поможет!"
+msgstr ""
+"Похоже, вы забыли свой пароль? Не волнуйтесь! Свяжитесь с администратором и "
+"он вам поможет!"
 
 #: accounts/templates/registration/contact_admin.html:13
 #: accounts/templates/registration/logged_out.html:14
@@ -84,7 +86,7 @@ msgstr "Вернуться на главную страницу"
 
 #: accounts/templates/registration/logged_out.html:5
 #: accounts/templates/registration/logged_out.html:8
-#: core/templates/core/base.html:52 core/templates/core/index.html:15
+#: core/templates/core/base/base.html:64 core/templates/core/index.html:15
 msgid "Logout"
 msgstr "Выйти"
 
@@ -94,12 +96,12 @@ msgstr "Вы вышли из системы"
 
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
-#: accounts/templates/registration/login.html:31
-#: core/templates/core/base.html:61 core/templates/core/index.html:21
+#: accounts/templates/registration/login.html:15
+#: core/templates/core/base/base.html:73 core/templates/core/index.html:21
 msgid "Login"
 msgstr "Войти"
 
-#: accounts/templates/registration/login.html:32
+#: accounts/templates/registration/login.html:16
 msgid "Forgot password?"
 msgstr "Забыли пароль?"
 
@@ -110,27 +112,103 @@ msgstr "Пароль успешно изменен"
 
 #: accounts/templates/registration/password_change_form.html:6
 #: accounts/templates/registration/password_change_form.html:9
-#: accounts/templates/registration/password_change_form.html:36
-#: accounts/templates/registration/profile.html:10
+#: accounts/templates/registration/password_change_form.html:11
+#: accounts/templates/registration/profile.html:17
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: accounts/templates/registration/profile.html:5
-#, python-format
-msgid "%(user.username)s profile"
-msgstr "Профиль %(user.username)s"
+#: accounts/templates/registration/profile.html:7
+#: accounts/templates/registration/profile.html:9
+#: accounts/templates/registration/user_detail.html:7
+#: accounts/templates/registration/user_detail.html:9
+#: accounts/templates/registration/user_detail.html:17
+#: accounts/templates/registration/user_detail.html:19
+msgid "%(username)s profile"
+msgstr "Профиль %(username)s"
 
-#: accounts/templates/registration/profile.html:8
-#: core/templates/core/index.html:11
-msgid "Hi"
-msgstr "Привет"
+#: accounts/templates/registration/profile.html:18
+#: accounts/templates/registration/user_form.html:6
+#: accounts/templates/registration/user_form.html:9
+msgid "Edit profile"
+msgstr "Изменить профиль"
+
+#: accounts/templates/registration/profile.html:19
+msgid "Delete account"
+msgstr "Удалить аккаунт"
 
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
-#: accounts/templates/registration/register.html:31
-#: core/templates/core/base.html:65 core/templates/core/index.html:22
+#: accounts/templates/registration/register.html:11
+#: core/templates/core/base/base.html:77 core/templates/core/index.html:22
 msgid "Register"
 msgstr "Зарегистрироваться"
+
+#: accounts/templates/registration/user_confirm_delete.html:5
+#: accounts/templates/registration/user_confirm_delete.html:8
+msgid "Are you sure you want to delete your account?"
+msgstr "Вы уверены, что хотите удалить свою учетную запись?"
+
+#: accounts/templates/registration/user_confirm_delete.html:9
+msgid ""
+"\n"
+"        This will permanently delete your account. All your data will be "
+"lost, including all your stores and coupons, and you will not be able to "
+"recover them. \n"
+"        All your coupons will be removed from all groups and will no longer "
+"be available to users in them.\n"
+"        Are you sure you want to delete the account?\n"
+"        "
+msgstr ""
+"\n"
+"        Это приведет к безвозвратному удалению вашей учетной записи. Все "
+"ваши данные будут потеряны, включая все ваши магазины и купоны, и вы не "
+"сможете их восстановить. \n"
+"        Все ваши купоны будут удалены из всех групп и больше не будут "
+"доступны пользователям в них.\n"
+"        Вы уверены, что хотите удалить учетную запись?\n"
+"        "
+
+#: accounts/templates/registration/user_confirm_delete.html:15
+#: core/templates/core/base/confirm_delete.html:10
+msgid "Cancel"
+msgstr "Отмена"
+
+#: accounts/templates/registration/user_confirm_delete.html:19
+msgid "Delete my account"
+msgstr "Удалить мой аккаунт"
+
+#: accounts/templates/registration/user_detail.html:29
+#: core/templates/core/shop_detail.html:15
+msgid "Back to shop list"
+msgstr "Вернуться к списку магазинов"
+
+#: accounts/templates/registration/user_detail.html:30
+#: core/templates/core/shop_detail.html:16
+msgid "Update shop"
+msgstr "Изменить магазин"
+
+#: accounts/templates/registration/user_detail.html:31
+#: core/templates/core/shop_confirm_delete.html:19
+#: core/templates/core/shop_detail.html:17
+msgid "Delete shop"
+msgstr "Удалить магазин"
+
+#: accounts/templates/registration/user_form.html:6
+#: accounts/templates/registration/user_form.html:9
+msgid "Create profile"
+msgstr "Создать профиль"
+
+#: accounts/views.py:20
+msgid "Your profile was created successfully"
+msgstr "Ваш профиль успешно создан"
+
+#: accounts/views.py:44
+msgid "User updated successfully"
+msgstr "Пользователь успешно изменён"
+
+#: accounts/views.py:63
+msgid "User deleted successfully"
+msgstr "Пользователь успешно удален"
 
 #: core/admin.py:7
 msgid "Pin selected item"
@@ -169,6 +247,10 @@ msgstr "Имя пользователя владельца"
 msgid "core"
 msgstr "основные"
 
+#: core/forms.py:28
+msgid "You cannot select another user's store!"
+msgstr "Вы не можете выбрать магазин другого пользователя!"
+
 #: core/models.py:11
 msgid "shop title"
 msgstr "название магазина"
@@ -181,7 +263,7 @@ msgstr "магазин закреплен?"
 msgid "owner of the shop"
 msgstr "владелец магазина"
 
-#: core/models.py:14 core/models.py:37
+#: core/models.py:14 core/models.py:40
 msgid "created at"
 msgstr "создан в"
 
@@ -193,53 +275,120 @@ msgstr "магазин"
 msgid "shops"
 msgstr "магазины"
 
-#: core/models.py:30
+#: core/models.py:33
 msgid "coupon title"
 msgstr "название купона"
 
-#: core/models.py:30
+#: core/models.py:33
 msgid "can be null"
 msgstr "может быть нулевым"
 
-#: core/models.py:31
+#: core/models.py:34
 msgid "coupon barcode"
 msgstr "штрих-код купона"
 
-#: core/models.py:32
+#: core/models.py:35
 msgid "is used?"
 msgstr "был использован?"
 
-#: core/models.py:33
+#: core/models.py:36
 msgid "is pinned?"
 msgstr "закреплен?"
 
-#: core/models.py:34
+#: core/models.py:37
 msgid "is shared?"
 msgstr "является общим?"
 
-#: core/models.py:35
+#: core/models.py:38
 msgid "amount"
 msgstr "сумма"
 
-#: core/models.py:36
+#: core/models.py:39
 msgid "store"
 msgstr "магазин"
 
-#: core/models.py:42
+#: core/models.py:45
 msgid "coupon"
 msgstr "купон"
 
-#: core/models.py:43
+#: core/models.py:46
 msgid "coupons"
 msgstr "купоны"
 
-#: core/templates/core/base.html:43
+#: core/templates/core/base/base.html:43 core/templates/core/shop_list.html:5
+#: core/templates/core/shop_list.html:8
+msgid "Shops"
+msgstr "Магазины"
+
+#: core/templates/core/base/base.html:47 core/templates/core/coupon_list.html:5
+#: core/templates/core/coupon_list.html:8
+msgid "Coupons"
+msgstr "Купоны"
+
+#: core/templates/core/base/base.html:55
 msgid "My account"
 msgstr "Мой аккаунт"
 
-#: core/templates/core/base.html:48
+#: core/templates/core/base/base.html:60
 msgid "Profile"
 msgstr "Профиль"
+
+#: core/templates/core/base/base.html:117
+msgid "Close"
+msgstr "Закрыть"
+
+#: core/templates/core/coupon_confirm_delete.html:5
+#: core/templates/core/coupon_confirm_delete.html:7
+#, python-format
+msgid "Are you sure you want to delete coupon %(title)s?"
+msgstr "Вы уверены, что хотите удалить купон %(title)s?"
+
+#: core/templates/core/coupon_confirm_delete.html:10
+msgid ""
+"This will permanently delete the coupon. \n"
+"This action cannot be undone. The coupon will be removed from all groups and "
+"will no longer be available to users in them.\n"
+"Are you sure you want to delete the coupon?\n"
+msgstr ""
+"Это приведет к безвозвратному удалению купона.\n"
+"Это действие невозможно отменить. Купон будет удален из всех групп и больше "
+"не будет доступен пользователям в них.\n"
+"Вы уверены, что хотите удалить купон?\n"
+
+#: core/templates/core/coupon_confirm_delete.html:18
+#: core/templates/core/coupon_detail.html:20
+msgid "Delete coupon"
+msgstr "Удалить купон"
+
+#: core/templates/core/coupon_detail.html:5
+#: core/templates/core/coupon_detail.html:8
+#, python-format
+msgid "Coupon %(title)s"
+msgstr "Купон %(title)s"
+
+#: core/templates/core/coupon_detail.html:18
+msgid "Back to coupon list"
+msgstr "Вернуться к списку купонов"
+
+#: core/templates/core/coupon_detail.html:19
+msgid "Update coupon"
+msgstr "Изменить купон"
+
+#: core/templates/core/coupon_form.html:6
+#: core/templates/core/coupon_form.html:9
+msgid "Edit coupon"
+msgstr "Изменить купон"
+
+#: core/templates/core/coupon_form.html:6
+#: core/templates/core/coupon_form.html:9
+#: core/templates/core/coupon_list.html:15
+msgid "Create coupon"
+msgstr "Создать купон"
+
+#: core/templates/core/coupon_list.html:12
+#: core/templates/core/shop_list.html:12
+msgid "Details"
+msgstr "Побробнее"
 
 #: core/templates/core/index.html:5
 msgid "Home"
@@ -255,14 +404,85 @@ msgstr ""
 "Добро пожаловать в Registar. Пожалуйста войдите или зарегистрируйтесь чтобы "
 "продолжить."
 
-#: registar/settings.py:152
+#: core/templates/core/modules/creation_form.html:10
+msgid "Edit"
+msgstr "Изменить"
+
+#: core/templates/core/modules/creation_form.html:10
+msgid "Create"
+msgstr "Создать"
+
+#: core/templates/core/shop_confirm_delete.html:5
+#: core/templates/core/shop_confirm_delete.html:7
+#, python-format
+msgid "Are you sure you want to delete shop %(title)s?"
+msgstr "Вы уверены, что хотите удалить магазин %(title)s?"
+
+#: core/templates/core/shop_confirm_delete.html:10
+msgid ""
+"\n"
+"This will permanently delete the shop and all coupons associated with it. \n"
+"This action cannot be undone. The shop and its associated coupons will be "
+"removed from all groups and will no longer be available to users in them.\n"
+"Are you sure you want to delete the shop?\n"
+msgstr ""
+"\n"
+"Это приведет к безвозвратному удалению магазина и всех связанных с ним "
+"купонов.\n"
+"Это действие невозможно отменить. Магазин и связанные с ним купоны будут "
+"удалены из всех групп и больше не будут доступны пользователям в них.\n"
+"Вы уверены, что хотите удалить магазин?\n"
+
+#: core/templates/core/shop_detail.html:5
+#: core/templates/core/shop_detail.html:8
+#, python-format
+msgid "Shop %(title)s"
+msgstr "Магазин %(title)s"
+
+#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
+msgid "Edit shop"
+msgstr "Изменить магазин"
+
+#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
+#: core/templates/core/shop_list.html:15
+msgid "Create shop"
+msgstr "Создать магазин"
+
+#: core/views.py:52
+msgid "Shop created successfully"
+msgstr "Магазин успешно создан"
+
+#: core/views.py:65
+msgid "Shop updated successfully"
+msgstr "Магазин успешно изменён"
+
+#: core/views.py:83
+msgid "Shop deleted successfully"
+msgstr "Магазин успешно удален"
+
+#: core/views.py:122
+msgid "Coupon created successfully"
+msgstr "Купон успешно создан"
+
+#: core/views.py:140
+msgid "Coupon updated successfully"
+msgstr "Купон успешно изменён"
+
+#: core/views.py:163
+msgid "Coupon deleted successfully"
+msgstr "Купон успешно удален"
+
+#: registar/settings.py:155
 msgid "English"
 msgstr "Английский"
 
-#: registar/settings.py:153
+#: registar/settings.py:156
 msgid "Latvian"
 msgstr "Латышский"
 
-#: registar/settings.py:154
+#: registar/settings.py:157
 msgid "Russian"
 msgstr "Русский"
+
+#~ msgid "Hi!"
+#~ msgstr "Привет!"

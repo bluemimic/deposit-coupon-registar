@@ -47,15 +47,15 @@ class CouponAdmin(admin.ModelAdmin):
     actions = [pin, unpin, use, unuse]
     date_hierarchy = "date_added"
     exclude = ["date_added, date_modified"]
-    list_display = ["title", "get_owner_username", "store", "amount", "is_pinned", "is_used", "date_added"]
+    list_display = ["title", "owner", "store", "amount", "is_pinned", "is_used", "date_added"]
     list_filter = ["is_pinned"]
     save_as = True
-    search_fields = ["title", "barcode", "store__owner__username", "store__owner__email", "amount", "store__title"]
+    search_fields = ["title", "barcode", "owner__username", "owner__email", "amount", "store__title"]
     search_help_text = _("Search by title, barcode, owner username, owner email, amount, store title")
 
-    @admin.display(description=_("Owner's username"), ordering="store__owner__username")
+    @admin.display(description=_("Owner's username"), ordering="owner__username")
     def get_owner_username(self, obj):
-        return obj.store.owner.username
+        return obj.owner
 
 
 admin.site.register(Shop, ShopAdmin)

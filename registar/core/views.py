@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import CouponForm
 
+from groups.models import Group
+
 from django.utils.translation import gettext_lazy as _
 
 from .models import Shop, Coupon
@@ -40,7 +42,7 @@ class ShopDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self) -> bool:
         shop = self.get_object()
-        return shop.owner.pk == self.request.user.pk
+        return shop.owner.pk == self.request.user.pk or shop.groups.filter(members=self.request.user.pk).exists()
     
 
 class ShopCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -98,7 +100,7 @@ class CouponListView(LoginRequiredMixin, ListView):
     context_object_name = "coupons"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(store__owner=self.request.user.pk)
+        return super().get_queryset().filter(owner=self.request.user.pk)
 
 
 class CouponDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
@@ -110,7 +112,7 @@ class CouponDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def test_func(self) -> bool:
         coupon = self.get_object()
-        return coupon.store.owner.pk == self.request.user.pk
+        return coupon.owner.pk == self.request.user.pk or coupon.store.groups.filter(members=self.request.user.pk).exists()
 
 
 class CouponCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -141,7 +143,7 @@ class CouponUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
     def test_func(self) -> bool:
         coupon = self.get_object()
-        return coupon.store.owner.pk == self.request.user.pk
+        return coupon.owner.pk == self.request.user.pk
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -164,4 +166,4 @@ class CouponDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
 
     def test_func(self) -> bool:
         coupon = self.get_object()
-        return coupon.store.owner.pk == self.request.user.pk
+        return coupon.owner.pk == self.request.user.pk

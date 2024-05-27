@@ -11,9 +11,18 @@
         <li>Is pinned?: {{ shop.is_pinned }}</li>
         <li>Date added: {{ shop.date_added }}</li>
     </ul>
+    <h3>{% translate "Coupons" %}</h3>
+    <ul>
+        {% for coupon in shop.coupon_set.all %}
+            <li>{{ coupon.title }}</li>
+            <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "View coupon" %}</a>
+        {% endfor %}
+    </ul>
     <div class="d-flex gap-3">
         <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "Back to shop list" %}</a>
-        <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary ms-auto">{% translate "Update shop" %}</a>
-        <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger">{% translate "Delete shop" %}</a>
+        {% if shop.owner.pk == request.user.pk %}
+            <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary ms-auto">{% translate "Update shop" %}</a>
+            <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger">{% translate "Delete shop" %}</a>
+        {% endif %}
     </div>
 {% endblock %}

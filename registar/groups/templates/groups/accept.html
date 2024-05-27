@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load core_extras %}
+{% load i18n %}
+
+{% block title %}{% translate "Please enter access password to join" %}{% endblock %}
+
+{% block content %}
+    <h2>{% translate "Please enter access password to join" %}</h2>
+    
+    {% url 'groups:invitation_list' group.pk as link %}
+
+    {% include "creation_form.html" with form=form return_url=link submit_text=_("Join") %}
+{% endblock %}

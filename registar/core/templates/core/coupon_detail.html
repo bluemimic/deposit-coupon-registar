@@ -16,7 +16,9 @@
     </ul>
     <div class="d-flex gap-3">
         <a href="{% url 'core:coupon_list' %}" class="btn btn-primary">{% translate "Back to coupon list" %}</a>
-        <a href="{% url 'core:coupon_update' coupon.id %}" class="btn btn-primary ms-auto">{% translate "Update coupon" %}</a>
-        <a href="{% url 'core:coupon_delete' coupon.id %}" class="btn btn-danger">{% translate "Delete coupon" %}</a>
+        {% if coupon.owner.pk == request.user.pk %}
+            <a href="{% url 'core:coupon_update' coupon.id %}" class="btn btn-primary ms-auto">{% translate "Update coupon" %}</a>
+            <a href="{% url 'core:coupon_delete' coupon.id %}" class="btn btn-danger">{% translate "Delete coupon" %}</a>
+        {% endif %}
     </div>
 {% endblock %}

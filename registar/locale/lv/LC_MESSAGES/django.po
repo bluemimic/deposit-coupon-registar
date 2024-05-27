@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-21 18:26+0000\n"
+"POT-Creation-Date: 2024-05-22 20:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,15 +47,15 @@ msgstr "konti"
 msgid "Email"
 msgstr "E-pasts"
 
-#: accounts/models.py:11 core/models.py:15 core/models.py:38
+#: accounts/models.py:12 core/models.py:15 core/models.py:41
 msgid "updated at"
 msgstr "atjaunināts"
 
-#: accounts/models.py:15
+#: accounts/models.py:16
 msgid "user"
 msgstr "lietotājs"
 
-#: accounts/models.py:16
+#: accounts/models.py:17
 msgid "users"
 msgstr "lietotāji"
 
@@ -64,14 +64,18 @@ msgid "Contact admin"
 msgstr "Sazinieties ar administratoru"
 
 #: accounts/templates/registration/contact_admin.html:8
-msgid "Hi!"
-msgstr "Sveiki!"
+#: accounts/templates/registration/profile.html:14
+#: core/templates/core/index.html:11
+msgid "Hi"
+msgstr "Sveiki"
 
 #: accounts/templates/registration/contact_admin.html:10
 msgid ""
 "Looks like you have forgotten your password? Don't worry! Just contact the "
 "admin and he will help you out!"
-msgstr "Šķiet, ka esat aizmirsis savu paroli? Neuztraucieties! Sazinieties ar administratoru, un viņš jums palīdzēs!"
+msgstr ""
+"Šķiet, ka esat aizmirsis savu paroli? Neuztraucieties! Sazinieties ar "
+"administratoru, un viņš jums palīdzēs!"
 
 #: accounts/templates/registration/contact_admin.html:13
 #: accounts/templates/registration/logged_out.html:14
@@ -81,7 +85,7 @@ msgstr "Atgriezties uz galveno lapu"
 
 #: accounts/templates/registration/logged_out.html:5
 #: accounts/templates/registration/logged_out.html:8
-#: core/templates/core/base.html:52 core/templates/core/index.html:15
+#: core/templates/core/base/base.html:64 core/templates/core/index.html:15
 msgid "Logout"
 msgstr "Atslēgties"
 
@@ -91,12 +95,12 @@ msgstr "Jūs esat atslēgušies"
 
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
-#: accounts/templates/registration/login.html:31
-#: core/templates/core/base.html:61 core/templates/core/index.html:21
+#: accounts/templates/registration/login.html:15
+#: core/templates/core/base/base.html:73 core/templates/core/index.html:21
 msgid "Login"
 msgstr "Pieslēgties"
 
-#: accounts/templates/registration/login.html:32
+#: accounts/templates/registration/login.html:16
 msgid "Forgot password?"
 msgstr "Aizmirsis  paroli?"
 
@@ -107,27 +111,105 @@ msgstr "Parole ir veiksmīgi nomainīta"
 
 #: accounts/templates/registration/password_change_form.html:6
 #: accounts/templates/registration/password_change_form.html:9
-#: accounts/templates/registration/password_change_form.html:36
-#: accounts/templates/registration/profile.html:10
+#: accounts/templates/registration/password_change_form.html:11
+#: accounts/templates/registration/profile.html:17
 msgid "Change password"
 msgstr "Nomainīt paroli"
 
-#: accounts/templates/registration/profile.html:5
-#, python-format
-msgid "%(user.username)s profile"
+#: accounts/templates/registration/profile.html:7
+#: accounts/templates/registration/profile.html:9
+#: accounts/templates/registration/user_detail.html:7
+#: accounts/templates/registration/user_detail.html:9
+#: accounts/templates/registration/user_detail.html:17
+#: accounts/templates/registration/user_detail.html:19
+#, fuzzy, python-format
+#| msgid "%(user.username)s profile"
+msgid "%(username)s profile"
 msgstr "%(user.username)s profils"
 
-#: accounts/templates/registration/profile.html:8
-#: core/templates/core/index.html:11
-msgid "Hi"
-msgstr "Sveiki"
+#: accounts/templates/registration/profile.html:18
+#: accounts/templates/registration/user_form.html:6
+#: accounts/templates/registration/user_form.html:9
+#, fuzzy
+#| msgid "Profile"
+msgid "Edit profile"
+msgstr "Profils"
+
+#: accounts/templates/registration/profile.html:19
+#, fuzzy
+#| msgid "My account"
+msgid "Delete account"
+msgstr "Mans konts"
 
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
-#: accounts/templates/registration/register.html:31
-#: core/templates/core/base.html:65 core/templates/core/index.html:22
+#: accounts/templates/registration/register.html:11
+#: core/templates/core/base/base.html:77 core/templates/core/index.html:22
 msgid "Register"
 msgstr "Reģistrēties"
+
+#: accounts/templates/registration/user_confirm_delete.html:5
+#: accounts/templates/registration/user_confirm_delete.html:8
+msgid "Are you sure you want to delete your account?"
+msgstr ""
+
+#: accounts/templates/registration/user_confirm_delete.html:9
+msgid ""
+"\n"
+"        This will permanently delete your account. All your data will be "
+"lost, including all your stores and coupons, and you will not be able to "
+"recover them. \n"
+"        All your coupons will be removed from all groups and will no longer "
+"be available to users in them.\n"
+"        Are you sure you want to delete the account?\n"
+"        "
+msgstr ""
+
+#: accounts/templates/registration/user_confirm_delete.html:15
+#: core/templates/core/base/confirm_delete.html:10
+msgid "Cancel"
+msgstr ""
+
+#: accounts/templates/registration/user_confirm_delete.html:19
+#, fuzzy
+#| msgid "My account"
+msgid "Delete my account"
+msgstr "Mans konts"
+
+#: accounts/templates/registration/user_detail.html:29
+#: core/templates/core/shop_detail.html:15
+msgid "Back to shop list"
+msgstr ""
+
+#: accounts/templates/registration/user_detail.html:30
+#: core/templates/core/shop_detail.html:16
+msgid "Update shop"
+msgstr ""
+
+#: accounts/templates/registration/user_detail.html:31
+#: core/templates/core/shop_confirm_delete.html:19
+#: core/templates/core/shop_detail.html:17
+msgid "Delete shop"
+msgstr ""
+
+#: accounts/templates/registration/user_form.html:6
+#: accounts/templates/registration/user_form.html:9
+#, fuzzy
+#| msgid "%(user.username)s profile"
+msgid "Create profile"
+msgstr "%(user.username)s profils"
+
+#: accounts/views.py:20
+msgid "Your profile was created successfully"
+msgstr ""
+
+#: accounts/views.py:44
+msgid "User updated successfully"
+msgstr ""
+
+#: accounts/views.py:63
+msgid "User deleted successfully"
+msgstr ""
 
 #: core/admin.py:7
 msgid "Pin selected item"
@@ -152,7 +234,9 @@ msgstr "Meklēt pēc nosaukuma, īpašnieka lietotājvārda, īpašnieka e-pasta
 #: core/admin.py:54
 msgid ""
 "Search by title, barcode, owner username, owner email, amount, store title"
-msgstr "Meklēt pēc nosaukuma, svītrkoda, īpašnieka lietotājvārda, īpašnieka e-pasta, summas, veikala nosaukuma"
+msgstr ""
+"Meklēt pēc nosaukuma, svītrkoda, īpašnieka lietotājvārda, īpašnieka e-pasta, "
+"summas, veikala nosaukuma"
 
 #: core/admin.py:56
 msgid "Owner's username"
@@ -161,6 +245,10 @@ msgstr "Īpašnieka lietotājvārds"
 #: core/apps.py:8
 msgid "core"
 msgstr "pamats"
+
+#: core/forms.py:28
+msgid "You cannot select another user's store!"
+msgstr ""
 
 #: core/models.py:11
 msgid "shop title"
@@ -174,7 +262,7 @@ msgstr "vai veikals ir piesprausts?"
 msgid "owner of the shop"
 msgstr "veikala īpašnieks"
 
-#: core/models.py:14 core/models.py:37
+#: core/models.py:14 core/models.py:40
 msgid "created at"
 msgstr "izveidots"
 
@@ -186,53 +274,129 @@ msgstr "veikals"
 msgid "shops"
 msgstr "veikali"
 
-#: core/models.py:30
+#: core/models.py:33
 msgid "coupon title"
 msgstr "kupona nosaukums"
 
-#: core/models.py:30
+#: core/models.py:33
 msgid "can be null"
 msgstr "var būt nulle"
 
-#: core/models.py:31
+#: core/models.py:34
 msgid "coupon barcode"
 msgstr "kupona svītrkods"
 
-#: core/models.py:32
+#: core/models.py:35
 msgid "is used?"
 msgstr "vai ir izmantots?"
 
-#: core/models.py:33
+#: core/models.py:36
 msgid "is pinned?"
 msgstr "ir piesprausts?"
 
-#: core/models.py:34
+#: core/models.py:37
 msgid "is shared?"
 msgstr "ir koplietots?"
 
-#: core/models.py:35
+#: core/models.py:38
 msgid "amount"
 msgstr "summa"
 
-#: core/models.py:36
+#: core/models.py:39
 msgid "store"
 msgstr "veikals"
 
-#: core/models.py:42
+#: core/models.py:45
 msgid "coupon"
 msgstr "kupons"
 
-#: core/models.py:43
+#: core/models.py:46
 msgid "coupons"
 msgstr "kuponi"
 
-#: core/templates/core/base.html:43
+#: core/templates/core/base/base.html:43 core/templates/core/shop_list.html:5
+#: core/templates/core/shop_list.html:8
+#, fuzzy
+#| msgid "shops"
+msgid "Shops"
+msgstr "veikali"
+
+#: core/templates/core/base/base.html:47 core/templates/core/coupon_list.html:5
+#: core/templates/core/coupon_list.html:8
+#, fuzzy
+#| msgid "coupons"
+msgid "Coupons"
+msgstr "kuponi"
+
+#: core/templates/core/base/base.html:55
 msgid "My account"
 msgstr "Mans konts"
 
-#: core/templates/core/base.html:48
+#: core/templates/core/base/base.html:60
 msgid "Profile"
 msgstr "Profils"
+
+#: core/templates/core/base/base.html:117
+msgid "Close"
+msgstr ""
+
+#: core/templates/core/coupon_confirm_delete.html:5
+#: core/templates/core/coupon_confirm_delete.html:7
+#, python-format
+msgid "Are you sure you want to delete coupon %(title)s?"
+msgstr ""
+
+#: core/templates/core/coupon_confirm_delete.html:10
+msgid ""
+"This will permanently delete the coupon. \n"
+"This action cannot be undone. The coupon will be removed from all groups and "
+"will no longer be available to users in them.\n"
+"Are you sure you want to delete the coupon?\n"
+msgstr ""
+
+#: core/templates/core/coupon_confirm_delete.html:18
+#: core/templates/core/coupon_detail.html:20
+#, fuzzy
+#| msgid "coupon"
+msgid "Delete coupon"
+msgstr "kupons"
+
+#: core/templates/core/coupon_detail.html:5
+#: core/templates/core/coupon_detail.html:8
+#, fuzzy, python-format
+#| msgid "coupon title"
+msgid "Coupon %(title)s"
+msgstr "kupona nosaukums"
+
+#: core/templates/core/coupon_detail.html:18
+msgid "Back to coupon list"
+msgstr ""
+
+#: core/templates/core/coupon_detail.html:19
+#, fuzzy
+#| msgid "coupon"
+msgid "Update coupon"
+msgstr "kupons"
+
+#: core/templates/core/coupon_form.html:6
+#: core/templates/core/coupon_form.html:9
+#, fuzzy
+#| msgid "coupon"
+msgid "Edit coupon"
+msgstr "kupons"
+
+#: core/templates/core/coupon_form.html:6
+#: core/templates/core/coupon_form.html:9
+#: core/templates/core/coupon_list.html:15
+#, fuzzy
+#| msgid "coupon"
+msgid "Create coupon"
+msgstr "kupons"
+
+#: core/templates/core/coupon_list.html:12
+#: core/templates/core/shop_list.html:12
+msgid "Details"
+msgstr ""
 
 #: core/templates/core/index.html:5
 msgid "Home"
@@ -244,16 +408,88 @@ msgstr "Laipni lūdzam Registar"
 
 #: core/templates/core/index.html:18
 msgid "Welcome to Registar! Please login or register to continue."
-msgstr "Laipni lūdzam Registar! Lūdzu, pieslēdzieties vai reģistrējieties, lai turpinātu."
+msgstr ""
+"Laipni lūdzam Registar! Lūdzu, pieslēdzieties vai reģistrējieties, lai "
+"turpinātu."
 
-#: registar/settings.py:152
+#: core/templates/core/modules/creation_form.html:10
+msgid "Edit"
+msgstr ""
+
+#: core/templates/core/modules/creation_form.html:10
+#, fuzzy
+#| msgid "created at"
+msgid "Create"
+msgstr "izveidots"
+
+#: core/templates/core/shop_confirm_delete.html:5
+#: core/templates/core/shop_confirm_delete.html:7
+#, python-format
+msgid "Are you sure you want to delete shop %(title)s?"
+msgstr ""
+
+#: core/templates/core/shop_confirm_delete.html:10
+msgid ""
+"\n"
+"This will permanently delete the shop and all coupons associated with it. \n"
+"This action cannot be undone. The shop and its associated coupons will be "
+"removed from all groups and will no longer be available to users in them.\n"
+"Are you sure you want to delete the shop?\n"
+msgstr ""
+
+#: core/templates/core/shop_detail.html:5
+#: core/templates/core/shop_detail.html:8
+#, fuzzy, python-format
+#| msgid "shop title"
+msgid "Shop %(title)s"
+msgstr "veikala nosaukums"
+
+#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
+#, fuzzy
+#| msgid "shop"
+msgid "Edit shop"
+msgstr "veikals"
+
+#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
+#: core/templates/core/shop_list.html:15
+msgid "Create shop"
+msgstr ""
+
+#: core/views.py:52
+msgid "Shop created successfully"
+msgstr ""
+
+#: core/views.py:65
+msgid "Shop updated successfully"
+msgstr ""
+
+#: core/views.py:83
+msgid "Shop deleted successfully"
+msgstr ""
+
+#: core/views.py:122
+msgid "Coupon created successfully"
+msgstr ""
+
+#: core/views.py:140
+msgid "Coupon updated successfully"
+msgstr ""
+
+#: core/views.py:163
+msgid "Coupon deleted successfully"
+msgstr ""
+
+#: registar/settings.py:155
 msgid "English"
 msgstr "Angļu"
 
-#: registar/settings.py:153
+#: registar/settings.py:156
 msgid "Latvian"
 msgstr "Latviešu"
 
-#: registar/settings.py:154
+#: registar/settings.py:157
 msgid "Russian"
 msgstr "Krievu"
+
+#~ msgid "Hi!"
+#~ msgstr "Sveiki!"

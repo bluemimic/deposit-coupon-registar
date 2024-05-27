@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Invitations" %}{% endblock %}
+
+{% block content %}
+    <h2>{% translate "Invitations" %}</h2>
+    {% if invitations %}
+        <ul>
+            {% for invitation in invitations %}
+                <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
+                <a href="{% url 'groups:invitation_detail' invitation.id %}">{% translate "Details" %}</a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{% translate "No invitations" %}</p>
+    {% endif %}
+    <hr>
+
+    <h2>{% translate "Invitation archive" %}</h2>
+    <p>{% translate "Here you can find all invitations that you have already processed." %}</p>
+    <h3>{% translate "Accepted" %}</h3>
+    {% if not accepted %}
+        <p>{% translate "No accepted invitations" %}</p>
+    {% else %}
+    <ul>
+        {% for invitation in accepted %}
+            <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h3>{% translate "Rejected" %}</h3>
+
+    {% if not rejected %}
+        <p>{% translate "No rejected invitations" %}</p>
+    {% else %}
+    <ul>
+        {% for invitation in rejected %}
+            <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

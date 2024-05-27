@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core.apps.CoreConfig',
     'accounts.apps.AccountsConfig',
+    'groups.apps.GroupsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
 ]

@@ -8,5 +8,11 @@
 {% block content %}
     <h2>{% if edit %}{% translate "Edit coupon" %}{% else %}{% translate "Create coupon" %}{% endif %} {{ coupon.title }}</h2>
     
-    {% include "creation_form.html" with form=form %}
+    {% if edit %}
+        {% url 'core:coupon_detail' coupon.pk as link %}
+    {% else %}
+        {% url 'core:coupon_list' as link %}
+    {% endif %}
+
+    {% include "creation_form.html" with form=form return_url=link %}
 {% endblock %}

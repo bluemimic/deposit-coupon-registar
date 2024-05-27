@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation from {{ sender }} to join group {{ group }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation from {{ sender }} to join group {{ group }}{% endblocktranslate %}</h2>
+    <ul>
+        <li>Group: {{ invitation.group.title }}</li>
+        <li>Sender: {{ invitation.sender.username }}</li>
+        <li>Date sent: {{ invitation.date_sent }}</li>
+    </ul>
+    <div class="d-flex gap-3">
+        <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Back to invitations list" %}</a>
+        <a href="{% url 'groups:invitation_accept' invitation.id %}" class="btn btn-success">{% translate "Accept" %}</a>
+        <a href="{% url 'groups:invitation_reject' invitation.id %}" class="btn btn-danger ms-auto">{% translate "Reject" %}</a>
+    </div>
+{% endblock %}

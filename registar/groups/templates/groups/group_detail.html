@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</h2>
+    <ul>
+        <li>Title: {{ group.title }}</li>
+        <li>Owner: {{ group.owner.username }}</li>
+        <li>Is pinned?: {{ group.is_pinned }}</li>
+        <li>Date added: {{ group.date_added }}</li>
+    </ul>
+    <h3>{% translate "Members:" %}</h3>
+    <ul>
+        {% for member in group.members.all %}
+            <li>{{ member.username }}</li>
+        {% endfor %}
+    </ul>
+    <h3>{% translate "Shops:" %}</h3>
+    <ul>
+        {% for shop in group.shops.all %}
+            <li>{{ shop.title }}</li>
+            <a href="{% url 'core:shop_detail' shop.id %}">{% translate "View shop" %}</a>
+        {% endfor %}
+    </ul>
+    <div class="d-flex gap-3 mb-3">
+        <a href="{% url 'groups:group_list' %}" class="btn btn-primary">{% translate "Back to group list" %}</a>
+        {% if group.owner.pk == request.user.pk %}
+            <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
+        {% endif %}
+    </div>
+    {% if group.owner.pk == request.user.pk %}
+        <div class="d-flex gap-3">
+            <a href="{% url 'groups:group_invite' group.id %}" class="btn btn-primary">{% translate "Invite users" %}</a>
+            <a href="{% url 'groups:group_remove_member' group.id %}" class="btn btn-primary {% if not group.members.all %}disabled{% endif %}">{% translate "Remove users" %}</a>
+            <a href="{% url 'groups:group_add_shop' group.id %}" class="btn btn-primary">{% translate "Add shop" %}</a>
+            <a href="{% url 'groups:group_remove_shop' group.id %}" class="btn btn-primary {% if not group.shops.all %}disabled{% endif %}">{% translate "Remove shop" %}</a>
+            <a href="{% url 'groups:group_update' group.id %}" class="btn btn-primary">{% translate "Edit group" %}</a>
+        </div>
+    {% endif %}
+{% endblock %}

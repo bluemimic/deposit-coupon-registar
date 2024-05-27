@@ -1,0 +1,18 @@
+{% extends "confirm_delete.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=group.title %}Are you sure you want to delete group {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block header %}{% blocktranslate with title=group.title %}Are you sure you want to delete group {{ title }}?{% endblocktranslate %}{% endblock %}
+
+{% block warning_text %}
+{% blocktranslate %}This will permanently delete the group. 
+This action cannot be undone. All the members and shops associated with this group will be removed from the group. Your shops will still be available for you.
+Are you sure you want to delete the group?
+{% endblocktranslate %}
+{% endblock %}
+
+{% block cancel_href %}{% url 'groups:group_detail' group.id %}{% endblock %}
+
+{% block confirm_text %}{% translate 'Delete group' %}{% endblock %}

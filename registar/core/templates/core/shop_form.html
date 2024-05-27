@@ -8,5 +8,11 @@
 {% block content %}
     <h2>{% if edit %}{% translate "Edit shop" %}{% else %}{% translate "Create shop" %}{% endif %} {{ shop.title }}</h2>
     
-    {% include "creation_form.html" with form=form %}
+    {% if edit %}
+        {% url 'core:shop_detail' shop.pk as link %}
+    {% else %}
+        {% url 'core:shop_list' as link %}
+    {% endif %}
+
+    {% include "creation_form.html" with form=form return_url=link %}
 {% endblock %}
