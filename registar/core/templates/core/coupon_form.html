@@ -2,6 +2,12 @@
 
 {% load core_extras %}
 {% load i18n %}
+{% load static %}
+
+{% block assets %}
+    {{ block.super }}
+    <script src="{% static 'js/coupon_form.js' %}"></script>
+{% endblock %}
 
 {% block title %}{% if edit %}{% translate "Edit coupon" %}{% else %}{% translate "Create coupon" %}{% endif %} {{ coupon.title }}{% endblock %}
 
@@ -14,5 +20,5 @@
         {% url 'core:coupon_list' as link %}
     {% endif %}
 
-    {% include "creation_form.html" with form=form return_url=link %}
+    {% include "creation_form.html" with form=form return_url=link enctype='multipart/form-data' %}
 {% endblock %}

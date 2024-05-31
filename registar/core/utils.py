@@ -1,6 +1,15 @@
 from typing import Type
 from django.forms import CheckboxInput, Form, Select, SelectMultiple
 
+import cv2 
+from pyzbar.pyzbar import decode 
+
+class NoBarcodeDetected(Exception):
+    pass
+
+class NoBarcodeData(Exception):
+    pass
+
 
 def bootstrapify_form(form: Form, floating: bool = False) -> Form:
     """
@@ -23,3 +32,17 @@ def bootstrapify_form(form: Form, floating: bool = False) -> Form:
             field.field.widget.attrs["class"] += " is-invalid"
 
     return form
+
+
+def extract_barcode(image):
+    img = cv2.imdecode(image, cv2.IMREAD_COLOR)
+    detectedBarcodes = decode(img)
+
+    if not detectedBarcodes:
+        raise NoBarcodeDetected("No barcode detected in the image.")
+
+    for barcode in detectedBarcodes:
+        if barcode.data == "":
+            raise NoBarcodeData("No data found in the barcode.")
+
+        return barcode.data.decode("utf-8") 
