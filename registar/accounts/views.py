@@ -1,16 +1,19 @@
 from typing import Any
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, DeleteView, UpdateView
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin,
+                                        UserPassesTestMixin)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import (CreateView, DeleteView, TemplateView,
+                                  UpdateView)
 
 from .forms import UserRegisterForm
 
-class SignUpView(SuccessMessageMixin, CreateView):
+
+class SignUpView(SuccessMessageMixin, UserPassesTestMixin, CreateView):
     """
     View for registering a new user.
     """
@@ -18,16 +21,20 @@ class SignUpView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('account:login')
     form_class = UserRegisterForm
     success_message = _("Your profile was created successfully")
+    
+    def test_func(self):
+        return not self.request.user.is_authenticated
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     """
     View for displaying a user's profile.
     """
     template_name = 'registration/profile.html'
+    permission_required = "accounts.view_user"
 
 
-class ContactAdminView(TemplateView):
+class ContactAdminView(LoginRequiredMixin, TemplateView):
     """
     View for contacting the admin in case of forgotten password.
     Temporary solution for MVP.
@@ -35,7 +42,7 @@ class ContactAdminView(TemplateView):
     template_name = 'registration/contact_admin.html'
 
 
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     """
     A view that updates a user.
     """
@@ -43,6 +50,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     fields = ['username', 'first_name', 'last_name', 'email']
     success_message = _("User updated successfully")
     template_name = 'registration/user_form.html'
+    permission_required = "accounts.change_user"
 
     def test_func(self) -> bool:
         user = self.get_object()
@@ -54,7 +62,7 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         return context
 
 
-class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     """
     A view that deletes a user.
     """
@@ -62,6 +70,7 @@ class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     success_url = reverse_lazy('core:index')
     success_message = _("User deleted successfully")
     template_name = 'registration/user_confirm_delete.html'
+    permission_required = "accounts.delete_user"
 
     def test_func(self) -> bool:
         user = self.get_object()

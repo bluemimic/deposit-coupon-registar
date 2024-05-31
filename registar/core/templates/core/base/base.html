@@ -38,18 +38,28 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav mb-2 mb-lg-0 justify-content-between flex-grow-1">
                         <div class="navigation d-lg-flex">
+                            {% if not user.is_authenticated or perms.core.view_shop %}
                             <li class="nav-item me-3">
                                 <a class="nav-link" aria-current="page"
-                                    href="{% url 'core:shop_list' %}">{% translate 'Shops' %}</a>
+                                    href="{% url 'core:shop_list' %}">
+                                    {% translate 'Shops' %}
+                                </a>
                             </li>
+                            {% endif %}
+                            {% if not user.is_authenticated or perms.core.view_coupon %}
                             <li class="nav-item me-3">
-                                <a class="nav-link" aria-current="page"
-                                    href="{% url 'core:coupon_list' %}">{% translate 'Coupons' %}</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'core:coupon_list' %}">
+                                    {% translate 'Coupons' %}
+                                </a>
                             </li>
+                            {% endif %}
+                            {% if not user.is_authenticated or perms.groups.view_group %}
                             <li class="nav-item me-3">
-                                <a class="nav-link" aria-current="page"
-                                    href="{% url 'groups:group_list' %}">{% translate 'Groups' %}</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'groups:group_list' %}">
+                                    {% translate 'Groups' %}
+                                </a>
                             </li>
+                            {% endif %}
                         </div>
                         <hr class="d-lg-none">
                         <div class="auth d-lg-flex">
@@ -60,6 +70,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <div class="px-2">
+                                        
                                         <li><a class="dropdown-item"
                                                 href="{% url 'account:profile' %}">{% translate "Profile" %}</a></li>
                                         <li class="nav-item">

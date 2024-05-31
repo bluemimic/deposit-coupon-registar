@@ -15,14 +15,20 @@
     <ul>
         {% for coupon in shop.coupon_set.all %}
             <li>{{ coupon.title }}</li>
+            {% if perms.core.view_coupon %}
             <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "View coupon" %}</a>
+            {% endif %}
         {% endfor %}
     </ul>
     <div class="d-flex gap-3">
         <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "Back to shop list" %}</a>
         {% if shop.owner.pk == request.user.pk %}
+            {% if perms.core.change_shop %}
             <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary ms-auto">{% translate "Update shop" %}</a>
+            {% endif %}
+            {% if perms.core.delete_shop %}
             <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger">{% translate "Delete shop" %}</a>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

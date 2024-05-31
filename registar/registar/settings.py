@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 
 from dotenv import load_dotenv
-
 from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
@@ -161,3 +160,18 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / "locale",
 ]
+
+# Groups and permissions
+
+REGULAR_USER_ROLE = "Registered user"
+ADMIN_ROLE = "Admin"
+
+ROLES_PERMISSIONS = {
+    REGULAR_USER_ROLE: {
+        'core.Shop': ['add', 'change', 'delete', 'view'],
+        'core.Coupon': ['add', 'change', 'delete', 'view'],
+        'groups.Group': ['add', 'change', 'delete', 'view', 'invite_user', 'remove_user', 'add_shop', 'remove_shop'],
+        'groups.Invitation': ['add', 'change', 'view', 'accept', 'reject'],
+        'accounts.User': ['change', 'delete', 'view'],
+    },
+}

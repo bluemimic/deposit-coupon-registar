@@ -45,6 +45,7 @@ class AddShopForm(Form):
     """
 
     shop = forms.ModelChoiceField(queryset=None, label=_("shop"))
+    is_pinned = forms.BooleanField(label=_("is pinned"), required=False)
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')

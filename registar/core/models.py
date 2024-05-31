@@ -46,6 +46,7 @@ class Coupon(models.Model):
         verbose_name = _('coupon')
         verbose_name_plural = _('coupons')
 
+
     def get_absolute_url(self):
         return reverse('core:coupon_detail', kwargs={'pk': self.pk})
 

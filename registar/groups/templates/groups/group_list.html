@@ -5,30 +5,37 @@
 {% block title %}{% translate "Groups" %}{% endblock %}
 
 {% block content %}
-    <h2>{% translate "Invitations" %}</h2>
-    <p>{{ invitations }}</p>
-    {% if invitation_count %}
-        <div class="alert alert-primary" role="alert">
-            <p class="mb-0">{% blocktranslate count count=invitation_count %}
-                You have {{ count }} unprocessed invitation
-                {% plural %}
-                You have {{ count }} unprocessed invitations
-                {% endblocktranslate %}
-        </div>
-    {% else %}
-        <p>{% translate "No invitations" %}</p>
+    {% if perms.groups.view_invitation %}
+        <h2>{% translate "Invitations" %}</h2>
+        <p>{{ invitations }}</p>
+        {% if invitation_count %}
+            <div class="alert alert-primary" role="alert">
+                <p class="mb-0">{% blocktranslate count count=invitation_count %}
+                    You have {{ count }} unprocessed invitation
+                    {% plural %}
+                    You have {{ count }} unprocessed invitations
+                    {% endblocktranslate %}
+            </div>
+        {% else %}
+            <p>{% translate "No invitations" %}</p>
+        {% endif %}
+        
+        <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Open invitation overview" %}</a>
+        <hr>
     {% endif %}
-    <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Open invitation overview" %}</a>
-    <hr>
-
+        
     <h2>{% translate "Groups" %}</h2>
     <ul>
         {% for group in groups %}
             <li>{{ group.title }} {{ group.date_added }}</li>
+            {% if perms.groups.view_group %}
             <a href="{% url 'groups:group_detail' group.id %}">{% translate "Details" %}</a>
+            {% endif %}
         {% endfor %}
     </ul>
     <div class="d-flex gap-3">
+        {% if perms.groups.add_group %}
         <a href="{% url 'groups:group_create' %}" class="btn btn-primary">{% translate "Create group" %}</a>
+        {% endif %}
     </div>
 {% endblock %}

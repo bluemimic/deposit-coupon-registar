@@ -22,6 +22,14 @@ class Group(models.Model):
         ordering = ["-date_added", "title"]
         verbose_name = _('group')
         verbose_name_plural = _('groups')
+        
+        permissions = [
+            ("invite_user_group", _("Can invite user to a group")),
+            ("remove_user_group", _("Can remove user from a group")),
+            ("add_shop_group", _("Can add shop to a group")),
+            ("remove_shop_group", _("Can remove shop from a group")),
+        ]
+
 
     def get_absolute_url(self):
         return reverse('groups:group_detail', kwargs={'pk': self.pk})
@@ -89,6 +97,11 @@ class Invitation(models.Model):
         ]
         verbose_name = _('invitation')
         verbose_name_plural = _('invitations')
+        
+        permissions = [
+            ("accept_invitation", _("Can accept invitation")),
+            ("reject_invitation", _("Can reject invitation")),
+        ]
 
     def __str__(self) -> str:
         return f"{ self.sender.username } invited { self.recipient.username } to { self.group.title }"

@@ -9,8 +9,12 @@
     <ul>
         {% for coupon in coupons %}
             <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
+            {% if perms.core.view_coupon %}
             <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "Details" %}</a>
+            {% endif %}
         {% endfor %}
     </ul>
+    {% if perms.core.add_coupon %}
     <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+    {% endif %}
 {% endblock %}

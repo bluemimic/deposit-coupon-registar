@@ -15,8 +15,12 @@
 
     <div class="d-flex gap-3">
         <a href="{% url 'account:password_change' %}" class="btn btn-primary">{% translate "Change password" %}</a>
+        {% if perms.accounts.change_user %}
         <a href="{% url 'account:profile_update' user.pk %}" class="btn btn-primary">{% translate "Edit profile" %}</a>
+        {% endif %}
+        {% if perms.accounts.delete_user %}
         <a href="{% url 'account:profile_delete' user.pk %}" class="btn btn-danger ms-auto">{% translate "Delete account" %}</a>
+        {% endif %}
     </div>
         
 {% endblock %}

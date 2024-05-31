@@ -15,6 +15,6 @@ class User(AbstractUser):
         ordering = ["-date_joined", "username"]
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        
+
     def get_absolute_url(self):
         return reverse('account:profile')

@@ -1,15 +1,17 @@
 from typing import Any
-from django.db.models.query import QuerySet
-from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from .forms import CouponForm
 
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin,
+                                        UserPassesTestMixin)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models.query import QuerySet
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from groups.models import Group
 
-from django.utils.translation import gettext_lazy as _
-
-from .models import Shop, Coupon
+from .forms import CouponForm
+from .models import Coupon, Shop
 
 
 class IndexView(TemplateView):
@@ -22,49 +24,53 @@ class IndexView(TemplateView):
 # ========== Shop views ==========
 
 
-class ShopListView(LoginRequiredMixin, ListView):
+class ShopListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     A view that renders a list of shops.
     """
     model = Shop
     context_object_name = "shops"
+    permission_required = "core.view_shop"
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset().filter(owner=self.request.user.pk)
 
 
-class ShopDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class ShopDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
     """
     A view that renders a list of coupons for a shop.
     """
     model = Shop
     context_object_name = "shop"
+    permission_required = "core.view_shop"
 
     def test_func(self) -> bool:
         shop = self.get_object()
         return shop.owner.pk == self.request.user.pk or shop.groups.filter(members=self.request.user.pk).exists()
     
 
-class ShopCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class ShopCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     A view that creates a shop.
     """
     model = Shop
     fields = ['title', 'is_pinned']
     success_message = _("Shop created successfully")
+    permission_required = "core.add_shop"
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
         return super().form_valid(form)
     
     
-class ShopUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class ShopUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     A view that updates a shop.
     """
     model = Shop
     fields = ['title', 'is_pinned']
     success_message = _("Shop updated successfully")
+    permission_required = "core.change_shop"
 
     def test_func(self) -> bool:
         shop = self.get_object()
@@ -76,13 +82,14 @@ class ShopUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         return context
 
     
-class ShopDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class ShopDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     A view that deletes a shop.
     """
     model = Shop
     success_url = '/shops/'
     success_message = _("Shop deleted successfully")
+    permission_required = "core.delete_shop"
 
     def test_func(self) -> bool:
         shop = self.get_object()
@@ -92,36 +99,39 @@ class ShopDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
 # ========== Coupon views ==========
  
 
-class CouponListView(LoginRequiredMixin, ListView):
+class CouponListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     """
     A view that renders a list of shops.
     """
     model = Coupon
     context_object_name = "coupons"
+    permission_required = "core.view_coupon"
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset().filter(owner=self.request.user.pk)
 
 
-class CouponDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class CouponDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
     """
     A view that renders a list of coupons for a shop.
     """
     model = Coupon
     context_object_name = "coupon"
+    permission_required = "core.view_coupon"
 
     def test_func(self) -> bool:
         coupon = self.get_object()
         return coupon.owner.pk == self.request.user.pk or coupon.store.groups.filter(members=self.request.user.pk).exists()
 
 
-class CouponCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CouponCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     """
     A view that creates a coupon.
     """
     model = Coupon
     form_class = CouponForm
     success_message = _("Coupon created successfully")
+    permission_required = "core.add_coupon"
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
@@ -133,13 +143,14 @@ class CouponCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         return kwargs
 
 
-class CouponUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+class CouponUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     """
     A view that updates a coupon.
     """
     model = Coupon
     form_class = CouponForm
     success_message = _("Coupon updated successfully")
+    permission_required = "core.change_coupon"
 
     def test_func(self) -> bool:
         coupon = self.get_object()
@@ -156,13 +167,14 @@ class CouponUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMi
         return kwargs
 
 
-class CouponDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class CouponDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
     A view that deletes a coupon.
     """
     model = Coupon
     success_url = '/coupons/'
     success_message = _("Coupon deleted successfully")
+    permission_required = "core.delete_coupon"
 
     def test_func(self) -> bool:
         coupon = self.get_object()

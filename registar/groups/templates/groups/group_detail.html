@@ -28,16 +28,28 @@
     <div class="d-flex gap-3 mb-3">
         <a href="{% url 'groups:group_list' %}" class="btn btn-primary">{% translate "Back to group list" %}</a>
         {% if group.owner.pk == request.user.pk %}
+            {% if perms.groups.delete_group %}
             <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
+            {% endif %}
         {% endif %}
     </div>
     {% if group.owner.pk == request.user.pk %}
         <div class="d-flex gap-3">
+            {% if perms.groups.invite_user_group %}
             <a href="{% url 'groups:group_invite' group.id %}" class="btn btn-primary">{% translate "Invite users" %}</a>
+            {% endif %}
+            {% if perms.groups.remove_user_group %}
             <a href="{% url 'groups:group_remove_member' group.id %}" class="btn btn-primary {% if not group.members.all %}disabled{% endif %}">{% translate "Remove users" %}</a>
+            {% endif %}
+            {% if perms.groups.add_shop_group %}
             <a href="{% url 'groups:group_add_shop' group.id %}" class="btn btn-primary">{% translate "Add shop" %}</a>
+            {% endif %}
+            {% if perms.groups.remove_shop_group %}
             <a href="{% url 'groups:group_remove_shop' group.id %}" class="btn btn-primary {% if not group.shops.all %}disabled{% endif %}">{% translate "Remove shop" %}</a>
+            {% endif %}
+            {% if perms.groups.change_group %}
             <a href="{% url 'groups:group_update' group.id %}" class="btn btn-primary">{% translate "Edit group" %}</a>
+            {% endif %}
         </div>
     {% endif %}
 {% endblock %}

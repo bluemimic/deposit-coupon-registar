@@ -9,8 +9,12 @@
     <ul>
         {% for shop in shops %}
             <li>{{ shop.title }} {{ shop.date_added }}</li>
+            {% if perms.core.view_shop %}
             <a href="{% url 'core:shop_detail' shop.id %}">{% translate "Details" %}</a>
+            {% endif %}
         {% endfor %}
     </ul>
+    {% if perms.core.add_shop %}
     <a href="{% url 'core:shop_create' %}" class="btn btn-primary">{% translate "Create shop" %}</a>
+    {% endif %}
 {% endblock %}

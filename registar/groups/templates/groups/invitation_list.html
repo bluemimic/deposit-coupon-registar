@@ -10,7 +10,9 @@
         <ul>
             {% for invitation in invitations %}
                 <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
+                {% if perms.groups.view_invitation %}
                 <a href="{% url 'groups:invitation_detail' invitation.id %}">{% translate "Details" %}</a>
+                {% endif %}
             {% endfor %}
         </ul>
     {% else %}

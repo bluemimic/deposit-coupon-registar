@@ -13,7 +13,11 @@
     </ul>
     <div class="d-flex gap-3">
         <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Back to invitations list" %}</a>
+        {% if perms.groups.accept_invitation %}
         <a href="{% url 'groups:invitation_accept' invitation.id %}" class="btn btn-success">{% translate "Accept" %}</a>
+        {% endif %}
+        {% if perms.groups.reject_invitation %}
         <a href="{% url 'groups:invitation_reject' invitation.id %}" class="btn btn-danger ms-auto">{% translate "Reject" %}</a>
+        {% endif %}
     </div>
 {% endblock %}
