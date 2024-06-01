@@ -21,7 +21,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 
 from .forms import (AddShopForm, GroupForm, InvitationAcceptForm,
                     InvitationForm, RemoveMemberForm, RemoveShopForm)
-from .models import Group, Invitation
+from .models import Group, Invitation, GroupMembership
 
 
 class IndexView(TemplateView):
@@ -62,10 +62,14 @@ class GroupDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     def test_func(self) -> bool:
         group = self.get_object()
         return group.owner.pk == self.request.user.pk or group.members.filter(pk=self.request.user.pk).exists()
-    
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['shops'] = Invitation.objects.filter(recipient=self.request.user, is_processed=False).count()
+
+        if self.request.user.pk != self.get_object().owner.pk:
+            context['membership'] = get_object_or_404(GroupMembership, user=self.request.user, group=self.get_object())
+
         return context
 
 
@@ -124,6 +128,101 @@ class GroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     def test_func(self) -> bool:
         group = self.get_object()
         return group.owner.pk == self.request.user.pk
+
+
+# class GroupLeaveView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+#     """
+#     A view that allows a user to leave a group.
+#     """
+#     success_message = _("You have left the group %(group)s")
+#     permission_required = "groups.leave_group"
+#     success_url = reverse_lazy('groups:group_list')
+
+#     def test_func(self) -> bool:
+#         group = self.get_object()
+#         return group.members.filter(pk=self.request.user.pk).exists()
+
+#     def get(self, request, *args, **kwargs):
+#         group = self.get_object()
+#         group.members.remove(request.user)
+
+#         messages.add_message(request, self.get_success_message())
+#         return redirect('groups:group_list')
+
+#     def get_success_message(self, cleaned_data = None):
+#         return self.success_message % {'group': self.get_object().title}
+
+#     def get_object(self):
+        # return get_object_or_404(Group, pk=self.kwargs['pk'])
+
+
+class GroupPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+    """
+    A view that pins a group.
+    """
+    success_message = _("Group pinned successfully!")
+    permission_required = "groups.change_group"
+
+    def test_func(self) -> bool:
+        group = self.get_object()
+
+        if group.owner.pk == self.request.user.pk:
+            return not group.is_pinned
+
+        return GroupMembership.objects.filter(user=self.request.user, group=group, is_pinned=False).exists()
+
+    def post(self, request, *args, **kwargs):
+        group = self.get_object()
+        
+        if group.owner.pk == request.user.pk:
+            group.is_pinned = True
+            group.save()
+
+            messages.add_message(request, messages.INFO, self.success_message)
+            return redirect('groups:group_detail', pk=group.pk)
+
+        membership = GroupMembership.objects.get(user=request.user, group=group)
+        membership.is_pinned = True
+        membership.save()
+
+        return redirect('groups:group_detail', pk=group.pk)
+
+    def get_object(self, queryset=None):
+        return Group.objects.get(pk=self.kwargs['pk'])
+
+
+class GroupUnpinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+    """
+    A view that unpins a group.
+    """
+    success_message = _("Group unpinned successfully!")
+    permission_required = "groups.change_group"
+
+    def test_func(self) -> bool:
+        group = self.get_object()
+        if group.owner.pk == self.request.user.pk:
+            return group.is_pinned
+
+        return GroupMembership.objects.filter(user=self.request.user, group=group, is_pinned=True).exists()
+
+    def post(self, request, *args, **kwargs):
+        group = self.get_object()
+
+        if group.owner.pk == request.user.pk:
+            group.is_pinned = False
+            group.save()
+
+            messages.add_message(request, messages.INFO, self.success_message)
+            return redirect('groups:group_detail', pk=group.pk)
+
+        membership = GroupMembership.objects.get(user=request.user, group=group)
+        membership.is_pinned = False
+        membership.save()
+
+        return redirect('groups:group_detail', pk=group.pk)
+
+    def get_object(self, queryset=None):
+        return Group.objects.get(pk=self.kwargs['pk'])
 
 
 class GroupInviteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, FormView):

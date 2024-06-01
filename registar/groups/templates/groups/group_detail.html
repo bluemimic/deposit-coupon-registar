@@ -9,7 +9,7 @@
     <ul>
         <li>Title: {{ group.title }}</li>
         <li>Owner: {{ group.owner.username }}</li>
-        <li>Is pinned?: {{ group.is_pinned }}</li>
+        <li>Is pinned?: {% if membership %}{{ membership.is_pinned }}{% else %}{{ group.is_pinned }}{% endif %}</li>
         <li>Date added: {{ group.date_added }}</li>
     </ul>
     <h3>{% translate "Members:" %}</h3>
@@ -25,11 +25,32 @@
             <a href="{% url 'core:shop_detail' shop.id %}">{% translate "View shop" %}</a>
         {% endfor %}
     </ul>
+
     <div class="d-flex gap-3 mb-3">
         <a href="{% url 'groups:group_list' %}" class="btn btn-primary">{% translate "Back to group list" %}</a>
-        {% if group.owner.pk == request.user.pk %}
-            {% if perms.groups.delete_group %}
-            <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
+        {% if membership %}
+            {% if membership.is_pinned %}
+                <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">{% translate "Unpin group" %}</button>
+                </form>
+            {% else %}
+                <form action="{% url 'groups:group_pin' group.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">{% translate "Pin group" %}</button>
+                </form>
+            {% endif %}
+        {% else %}
+        {% if group.is_pinned %}
+                <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">{% translate "Unpin group" %}</button>
+                </form>
+            {% else %}
+                <form action="{% url 'groups:group_pin' group.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">{% translate "Pin group" %}</button>
+                </form>
             {% endif %}
         {% endif %}
     </div>

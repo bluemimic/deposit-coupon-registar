@@ -10,7 +10,7 @@
         {% for coupon in coupons %}
             <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
             {% if perms.core.view_coupon %}
-            <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "Details" %}</a>
+            <a href="{% url 'core:coupon_detail' coupon.pk %}">{% translate "Details" %}</a>
             {% endif %}
         {% endfor %}
     </ul>

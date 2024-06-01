@@ -24,10 +24,21 @@
         <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "Back to shop list" %}</a>
         {% if shop.owner.pk == request.user.pk %}
             {% if perms.core.change_shop %}
-            <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary ms-auto">{% translate "Update shop" %}</a>
+            <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary">{% translate "Update shop" %}</a>
+                {% if shop.is_pinned %}
+                    <form action="{% url 'core:shop_unpin' shop.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">{% translate "Unpin shop" %}</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'core:shop_pin' shop.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">{% translate "Pin shop" %}</button>
+                    </form>
+                {% endif %}
             {% endif %}
             {% if perms.core.delete_shop %}
-            <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger">{% translate "Delete shop" %}</a>
+            <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger ms-auto">{% translate "Delete shop" %}</a>
             {% endif %}
         {% endif %}
     </div>

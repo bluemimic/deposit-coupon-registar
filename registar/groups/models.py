@@ -4,11 +4,14 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
+import uuid
+
 
 class Group(models.Model):
     """
     Group model.
     """
+    id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, verbose_name=_('group uuid'))
     title           = models.CharField(max_length=100, verbose_name=_('group title'))
     is_pinned       = models.BooleanField(default=False, verbose_name=_('is group pinned?'))
     owner           = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('owner of the group'))

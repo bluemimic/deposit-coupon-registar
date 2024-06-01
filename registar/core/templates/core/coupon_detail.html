@@ -11,19 +11,61 @@
         <li>Barcode: {{ coupon.barcode }}</li>
         <li>Is used: {{ coupon.is_used }}</li>
         <li>Is pinned: {{ coupon.is_pinned }}</li>
+        <li>Is shared: {{ coupon.is_shared }}</li>
+        {% if coupon.is_shared %}
+            <li>Access URL: {{ shared_url }}</li>
+        {% endif %}
         <li>Amount: {{ coupon.amount }}</li>
         <li>Store: {{ coupon.store }}</li>
         <li>Date added: {{ coupon.date_added }}</li>
     </ul>
+
+    {% if user.is_authenticated %}
     <div class="d-flex gap-3">
         <a href="{% url 'core:coupon_list' %}" class="btn btn-primary">{% translate "Back to coupon list" %}</a>
         {% if coupon.owner.pk == request.user.pk %}
             {% if perms.core.change_coupon %}
-                <a href="{% url 'core:coupon_update' coupon.id %}" class="btn btn-primary">{% translate "Update coupon" %}</a>
+                <a href="{% url 'core:coupon_update' coupon.pk %}" class="btn btn-primary">{% translate "Change coupon" %}</a>
+                {% if not coupon.is_used %}
+                    <form action="{% url 'core:coupon_use' coupon.pk %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="{% translate 'Mark as used' %}">
+                    </form>
+                {% else %}
+                    <form action="{% url 'core:coupon_unuse' coupon.pk %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="{% translate 'Mark as unused' %}">
+                    </form>
+                {% endif %}
+
+                {% if not coupon.is_pinned %}
+                    <form action="{% url 'core:coupon_pin' coupon.pk %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="{% translate 'Pin coupon' %}">
+                    </form>
+                {% else %}
+                    <form action="{% url 'core:coupon_unpin' coupon.pk %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-primary" value="{% translate 'Unpin coupon' %}">
+                    </form>
+                {% endif %}
+            {% endif %}
+            {% if perms.core.share_coupon and not coupon.is_shared %}
+                <form action="{% url 'core:coupon_share' coupon.pk %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="{% translate 'Share coupon' %}">
+                </form>
+            {% endif %}
+            {% if perms.core.share_coupon and coupon.is_shared %}
+                <form action="{% url 'core:coupon_unshare' coupon.pk %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="{% translate 'Unshare coupon' %}">
+                </form>
             {% endif %}
             {% if perms.core.delete_coupon %}
-                <a href="{% url 'core:coupon_delete' coupon.id %}" class="btn btn-danger ms-auto">{% translate "Delete coupon" %}</a>
+                <a href="{% url 'core:coupon_delete' coupon.pk %}" class="btn btn-danger ms-auto">{% translate "Delete coupon" %}</a>
             {% endif %}
         {% endif %}
     </div>
+    {% endif %}
 {% endblock %}

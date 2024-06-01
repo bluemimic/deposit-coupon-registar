@@ -169,7 +169,7 @@ ADMIN_ROLE = "Admin"
 ROLES_PERMISSIONS = {
     REGULAR_USER_ROLE: {
         'core.Shop': ['add', 'change', 'delete', 'view'],
-        'core.Coupon': ['add', 'change', 'delete', 'view'],
+        'core.Coupon': ['add', 'change', 'delete', 'view', 'share', 'unshare'],
         'groups.Group': ['add', 'change', 'delete', 'view', 'invite_user', 'remove_user', 'add_shop', 'remove_shop'],
         'groups.Invitation': ['add', 'change', 'view', 'accept', 'reject'],
         'accounts.User': ['change', 'delete', 'view'],
