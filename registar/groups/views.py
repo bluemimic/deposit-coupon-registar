@@ -130,30 +130,33 @@ class GroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         return group.owner.pk == self.request.user.pk
 
 
-# class GroupLeaveView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
-#     """
-#     A view that allows a user to leave a group.
-#     """
-#     success_message = _("You have left the group %(group)s")
-#     permission_required = "groups.leave_group"
-#     success_url = reverse_lazy('groups:group_list')
+class GroupLeaveView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+    """
+    A view that allows a user to leave a group.
+    """
+    success_message = _("You have left the group %(group)s")
+    permission_required = "groups.leave_group"
+    success_url = reverse_lazy('groups:group_list')
 
-#     def test_func(self) -> bool:
-#         group = self.get_object()
-#         return group.members.filter(pk=self.request.user.pk).exists()
+    def test_func(self) -> bool:
+        group = self.get_object()
+        is_member = group.members.filter(pk=self.request.user.pk).exists()
+        not_owner = group.owner.pk != self.request.user.pk
+        
+        return is_member and not_owner
 
-#     def get(self, request, *args, **kwargs):
-#         group = self.get_object()
-#         group.members.remove(request.user)
+    def post(self, request, *args, **kwargs):
+        group = self.get_object()
+        group.members.remove(request.user)
 
-#         messages.add_message(request, self.get_success_message())
-#         return redirect('groups:group_list')
+        messages.add_message(request, level=messages.INFO, message=self.get_success_message())
+        return redirect('groups:group_list')
 
-#     def get_success_message(self, cleaned_data = None):
-#         return self.success_message % {'group': self.get_object().title}
+    def get_success_message(self, cleaned_data = None):
+        return self.success_message % {'group': self.get_object().title}
 
-#     def get_object(self):
-        # return get_object_or_404(Group, pk=self.kwargs['pk'])
+    def get_object(self):
+        return get_object_or_404(Group, pk=self.kwargs['pk'])
 
 
 class GroupPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):

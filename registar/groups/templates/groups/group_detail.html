@@ -40,6 +40,10 @@
                     <button type="submit" class="btn btn-primary">{% translate "Pin group" %}</button>
                 </form>
             {% endif %}
+            <form action="{% url 'groups:group_leave' group.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">{% translate "Leave group" %}</button>
+            </form>
         {% else %}
         {% if group.is_pinned %}
                 <form action="{% url 'groups:group_unpin' group.id %}" method="POST">

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'accounts.apps.AccountsConfig',
     'groups.apps.GroupsConfig',
+    'marketplace.apps.MarketplaceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
 ]
@@ -168,10 +169,11 @@ ADMIN_ROLE = "Admin"
 
 ROLES_PERMISSIONS = {
     REGULAR_USER_ROLE: {
-        'core.Shop': ['add', 'change', 'delete', 'view'],
+        'core.Shop': ['add', 'change', 'delete', 'view', 'upload_to_marketplace', 'remove_from_marketplace'],
         'core.Coupon': ['add', 'change', 'delete', 'view', 'share', 'unshare'],
-        'groups.Group': ['add', 'change', 'delete', 'view', 'invite_user', 'remove_user', 'add_shop', 'remove_shop'],
+        'groups.Group': ['add', 'change', 'delete', 'view', 'leave', 'invite_user', 'remove_user', 'add_shop', 'remove_shop'],
         'groups.Invitation': ['add', 'change', 'view', 'accept', 'reject'],
         'accounts.User': ['change', 'delete', 'view'],
+        'marketplace.Marketplace': ['view_shop', 'use_shop_from'],
     },
 }

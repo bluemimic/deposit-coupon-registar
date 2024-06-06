@@ -21,19 +21,13 @@ from django.conf.urls.static import static
 
 from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('groups/', include('groups.urls')),
+    path('marketplace/', include('marketplace.urls')),
     path('', include('core.urls')),
     path("i18n/", include("django.conf.urls.i18n")),
-] 
+)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-urlpatterns += i18n_patterns (
-    path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('groups/', include('groups.urls')),
-    path('', include('core.urls')),
-)

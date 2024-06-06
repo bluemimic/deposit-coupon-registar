@@ -31,6 +31,7 @@ class Group(models.Model):
             ("remove_user_group", _("Can remove user from a group")),
             ("add_shop_group", _("Can add shop to a group")),
             ("remove_shop_group", _("Can remove shop from a group")),
+            ("leave_group", _("Can leave group")),
         ]
 
 

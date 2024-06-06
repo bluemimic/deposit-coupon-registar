@@ -5,7 +5,7 @@ from .views import (GroupPinView, GroupUnpinView, GroupAddShopView,
                     GroupInviteView, GroupRemoveMemberView,
                     GroupRemoveShopView, GroupsListView, GroupUpdateView,
                     InvitationAcceptView, InvitationDeclineView,
-                    InvitationDetailView, InvitationsListView)
+                    InvitationDetailView, InvitationsListView, GroupLeaveView)
 
 app_name = "groups"
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path("<uuid:pk>/delete/", GroupDeleteView.as_view(), name="group_delete"),
     path("<uuid:pk>/pin/", GroupPinView.as_view(), name="group_pin"),
     path("<uuid:pk>/unpin/", GroupUnpinView.as_view(), name="group_unpin"),
+    path("<uuid:pk>/leave/", GroupLeaveView.as_view(), name="group_leave"),
     
     path("<uuid:pk>/invite/", GroupInviteView.as_view(), name="group_invite"),
     path("<uuid:pk>/remove/", GroupRemoveMemberView.as_view(), name="group_remove_member"),

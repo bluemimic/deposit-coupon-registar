@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}{% endblock %}
+
+{% block content %}
+    <h2>{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</h2>
+    <ul>
+        <li>Title: {{ shop.title }}</li>
+    </ul>
+    <div class="d-flex gap-3">
+        <a href="{% url 'marketplace:shop_list' %}" class="btn btn-primary">{% translate "Back to the marketplace" %}</a>
+        
+        {% if perms.marketplace.use_shop_from_marketplace %}
+            <form action="{% url 'marketplace:shop_use' shop.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">{% translate "Use this shop" %}</button>
+            </form>
+
+        {% endif %}
+    </div>
+{% endblock %}

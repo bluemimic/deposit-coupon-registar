@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.hashers import make_password
 
-from .models import Group, Invitation
+from .models import Group, Invitation, ShopGroup, GroupMembership
 
 
 @admin.action(description=_("Pin selected item"))
@@ -53,7 +53,7 @@ class GroupAdmin(admin.ModelAdmin):
     @admin.display(description=_("Shops"))
     def get_shop_count(self, obj):
         return obj.shops.count()
-    
+
     def save_model(self, request, obj, form, change):
         access_password = make_password(form.cleaned_data["access_password"])
         if access_password:
@@ -74,5 +74,32 @@ class InvitationAdmin(admin.ModelAdmin):
     search_help_text = _("Search by group title, sender username, sender email, recipient username, recipient email")
 
 
+class ShopGroupAdmin(admin.ModelAdmin):
+    """
+    Shop group admin.
+    """
+    date_hierarchy = "date_added"
+    exclude = ["date_added"]
+    list_display = ["shop", "group", "is_pinned", "date_added"]
+    list_filter = ["is_pinned"]
+    save_as = True
+    search_fields = ["shop__title", "group__title"]
+    search_help_text = _("Search by shop title, group title")
+
+
+class GroupMembershipAdmin(admin.ModelAdmin):
+    """
+    Group membership admin.
+    """
+    date_hierarchy = "date_joined"
+    exclude = ["date_joined"]
+    list_display = ["user", "group", "date_joined"]
+    save_as = True
+    search_fields = ["user__username", "user__email", "group__title"]
+    search_help_text = _("Search by user username, user email, group title")
+
+
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Invitation, InvitationAdmin)
+admin.site.register(ShopGroup, ShopGroupAdmin)
+admin.site.register(GroupMembership, GroupMembershipAdmin)

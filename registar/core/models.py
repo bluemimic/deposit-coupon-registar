@@ -10,17 +10,23 @@ class Shop(models.Model):
     """
     Shop model.
     """
-    id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, verbose_name=_('shop uuid'))
-    title           = models.CharField(max_length=100, verbose_name=_('shop title'))
-    is_pinned       = models.BooleanField(default=False, verbose_name=_('is shop pinned?'))
-    owner           = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('owner of the shop'))
-    date_added      = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
-    date_modified   = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
+    id                  = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, verbose_name=_('shop uuid'))
+    title               = models.CharField(max_length=100, verbose_name=_('shop title'))
+    is_pinned           = models.BooleanField(default=False, verbose_name=_('is shop pinned?'))
+    is_on_marketplace   = models.BooleanField(default=False, verbose_name=_('is shop on marketplace?'))
+    owner               = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name=_('owner of the shop'))
+    date_added          = models.DateTimeField(auto_now_add=True, verbose_name=_('created at'))
+    date_modified       = models.DateTimeField(auto_now=True, verbose_name=_('updated at'))
 
     class Meta:
         ordering = ["-date_added", "title"]
         verbose_name = _('shop')
         verbose_name_plural = _('shops')
+        
+        permissions = [
+            ("upload_to_marketplace_shop", _("Can upload shop to marketplace")),
+            ("remove_from_marketplace_shop", _("Can remove shop from marketplace")),
+        ]
 
     def get_absolute_url(self):
         return reverse('core:shop_detail', kwargs={'pk': self.pk})

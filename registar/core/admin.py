@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from .models import Shop, Coupon
+from groups.models import ShopGroup
 
 
 @admin.action(description=_("Pin selected item"))
@@ -20,24 +21,37 @@ def use(modeladmin, request, queryset):
 def unuse(modeladmin, request, queryset):
     queryset.update(is_used=False)
     
+@admin.action(description=_("Upload selected shops to marketplace"))
+def upload_to_marketplace(modeladmin, request, queryset):
+    queryset.update(is_on_marketplace=True)
+    
+@admin.action(description=_("Remove selected shops from marketplace"))
+def remove_from_marketplace(modeladmin, request, queryset):
+    queryset.update(is_on_marketplace=False)
+
+    
 class CouponInline(admin.TabularInline):
     model = Coupon
+
+
+class ShopGroupInline(admin.TabularInline):
+    model = Shop.groups.through
 
 
 class ShopAdmin(admin.ModelAdmin):
     """
     Shop admin.
     """
-    actions = [pin, unpin]
+    actions = [pin, unpin, upload_to_marketplace, remove_from_marketplace]
     date_hierarchy = "date_added"
     exclude = ["date_added, date_modified"]
-    list_display = ["title", "owner", "is_pinned", "date_added"]
-    list_filter = ["owner", "is_pinned"]
+    list_display = ["title", "owner", "is_pinned", "is_on_marketplace", "date_added"]
+    list_filter = ["owner", "is_pinned", "is_on_marketplace"]
     save_as = True
     search_fields = ["title", "owner__username", "owner__email"]
     search_help_text = _("Search by title, owner username, owner email")
     
-    inlines = [CouponInline]
+    inlines = [CouponInline, ShopGroupInline]
     
 
 class CouponAdmin(admin.ModelAdmin):
