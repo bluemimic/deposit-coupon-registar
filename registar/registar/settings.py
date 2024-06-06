@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'accounts.apps.AccountsConfig',
     'groups.apps.GroupsConfig',
+    'rest_framework',
+    'api.apps.ApiConfig',
     'marketplace.apps.MarketplaceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -176,4 +178,12 @@ ROLES_PERMISSIONS = {
         'accounts.User': ['change', 'delete', 'view'],
         'marketplace.Marketplace': ['view_shop', 'use_shop_from'],
     },
+}
+
+
+# REST framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }

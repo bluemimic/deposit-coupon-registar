@@ -26,6 +26,7 @@ urlpatterns = i18n_patterns(
     path('accounts/', include('accounts.urls')),
     path('groups/', include('groups.urls')),
     path('marketplace/', include('marketplace.urls')),
+    path('api/', include('api.urls')),
     path('', include('core.urls')),
     path("i18n/", include("django.conf.urls.i18n")),
 )
