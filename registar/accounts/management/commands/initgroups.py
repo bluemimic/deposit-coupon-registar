@@ -17,24 +17,39 @@ class Command(BaseCommand):
         "ADMIN_ROLE",
         "REGULAR_USER_ROLE",
     ]
+    
+    def add_arguments(self, parser):
+        # Named (optional) arguments
+        parser.add_argument(
+            "--nooutput",
+            action="store_true",
+            help=_("Do not print any output."),
+        )
 
     def handle(self, *args, **options):
+        verbose = not options["nooutput"]
+
         for role_name, permissions_mapping in settings.ROLES_PERMISSIONS.items():
-            self.stdout.write(f"==== Initialiazing role '{ role_name }' ====\n")
+            if verbose:
+                self.stdout.write(f"==== Initialiazing role '{ role_name }' ====\n")
             role, created = Group.objects.get_or_create(name=role_name)
 
             for model_name, permissions in permissions_mapping.items():
                 model = self.get_model(model_name)
-                self.stdout.write(f"Adding permissions for the model { model_name }\n")
                 
-                self._add_permissions_to_role(permissions, role, model)
+                if verbose:
+                    self.stdout.write(f"Adding permissions for the model { model_name }\n")
+                
+                self._add_permissions_to_role(permissions, role, model, options=options)
 
-        self.stdout.write(f"==== Initialiazing admin role '{ settings.ADMIN_ROLE }' ====\n")
+        if verbose:
+            self.stdout.write(f"==== Initialiazing admin role '{ settings.ADMIN_ROLE }' ====\n")
         
         admin_role, created = Group.objects.get_or_create(name=settings.ADMIN_ROLE)
         admin_role.permissions.set(Permission.objects.all())
         
-        self.stdout.write(f"Done!\n")
+        if verbose:
+            self.stdout.write(f"Done!\n")
 
     @staticmethod
     def get_model(model_name):
@@ -47,7 +62,7 @@ class Command(BaseCommand):
             raise LookupError(f"Model { model_name } does not exist." \
                 "Please check the ROLES_PERMISSIONS dictionary in settings.py.") from exc
 
-    def _add_permissions_to_role(self, permissions, role, model):
+    def _add_permissions_to_role(self, permissions, role, model, options):
         """
         Adds a permission to a role.
         """
@@ -62,8 +77,8 @@ class Command(BaseCommand):
                 permission = Permission.objects.get(codename=codename, content_type=content_type)
 
                 role.permissions.add(permission)
-
-                self.stdout.write(f"-> Added { codename }")
+                if not options["nooutput"]:
+                    self.stdout.write(f"-> Added { codename }")
 
             except Permission.DoesNotExist as exc:
                 raise Permission.DoesNotExist(f"Permission '{ codename }' does not exist, " \

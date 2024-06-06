@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 RUN apt-get update && apt-get install -y gettext && \
     apt install -y libzbar0 && \
-    apt-get install -y libgl1
+    apt install -y python3-opencv
+
 
 COPY . .
