@@ -6,6 +6,13 @@
 
 {% block header %}{% blocktranslate with title=coupon.title %}Are you sure you want to delete coupon {{ title }}?{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:coupon_list' %}">{% translate "Coupons" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:coupon_detail' coupon.id %}">{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=coupon.title %}Delete coupon {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block warning_text %}
 {% blocktranslate %}This will permanently delete the coupon. 
 This action cannot be undone. The coupon will be removed from all groups and will no longer be available to users in them.

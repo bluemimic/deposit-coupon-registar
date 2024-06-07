@@ -10,6 +10,11 @@
     {% endif %}
 {% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with username=user.username %}Profile{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% translate "Hi" %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
 

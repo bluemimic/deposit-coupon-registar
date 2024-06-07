@@ -4,6 +4,13 @@
 
 {% block title %}{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation from {{ sender }} to join group {{ group }}{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% translate "Groups" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:invitation_list' %}">{% blocktranslate with username=user.username %}Invitations{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=invitation.group.title %}Invitation to join group {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation from {{ sender }} to join group {{ group }}{% endblocktranslate %}</h2>
     <ul>

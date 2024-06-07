@@ -5,10 +5,18 @@
 
 {% block title %}{% translate "Please enter access password to join" %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% translate "Groups" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:invitation_list' %}">{% blocktranslate with username=user.username %}Invitations{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:invitation_detail' invitation.id %}">{% blocktranslate with title=invitation.group.title %}Invitation to join group {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Accept invitation{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% translate "Please enter access password to join" %}</h2>
     
-    {% url 'groups:invitation_list' group.pk as link %}
+    {% url 'groups:invitation_detail' invitation.pk as link %}
 
     {% include "creation_form.html" with form=form return_url=link submit_text=_("Join") %}
 {% endblock %}

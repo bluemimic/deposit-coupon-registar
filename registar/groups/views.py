@@ -445,7 +445,7 @@ class InvitationAcceptView(LoginRequiredMixin, PermissionRequiredMixin, UserPass
             messages.add_message(request, messages.INFO, _("Invitation accepted successfully"))
             return redirect('groups:invitation_list')
         else:
-            return render(request, 'groups/accept.html', {'form': InvitationAcceptForm()})
+            return render(request, 'groups/accept.html', {'form': InvitationAcceptForm(), 'invitation': invitation})
 
     def post(self, request, *args, **kwargs):
         invitation = get_object_or_404(Invitation, pk=kwargs['pk'])
@@ -460,7 +460,7 @@ class InvitationAcceptView(LoginRequiredMixin, PermissionRequiredMixin, UserPass
             else:
                 form.add_error('access_password', _("Access password is incorrect!"))
 
-        return render(request, 'groups/accept.html', {'form': form})
+        return render(request, 'groups/accept.html', {'form': form, 'invitation': invitation})
 
 
 class InvitationDeclineView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):

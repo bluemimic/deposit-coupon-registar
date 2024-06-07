@@ -6,6 +6,13 @@
 
 {% block header %}{% blocktranslate with title=group.title %}Are you sure you want to delete group {{ title }}?{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% translate "Groups" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_detail' group.id %}">{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=group.title %}Delete group {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block warning_text %}
 {% blocktranslate %}This will permanently delete the group. 
 This action cannot be undone. All the members and shops associated with this group will be removed from the group. Your shops will still be available for you.

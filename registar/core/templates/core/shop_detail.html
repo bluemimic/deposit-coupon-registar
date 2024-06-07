@@ -4,6 +4,12 @@
 
 {% block title %}{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:shop_list' %}">{% translate "Shops" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</h2>
     <ul>

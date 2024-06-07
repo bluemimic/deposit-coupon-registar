@@ -5,6 +5,17 @@
 
 {% block title %}{% if edit %}{% translate "Edit group" %}{% else %}{% translate "Create group" %}{% endif %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% translate "Groups" %}</a></li>
+    {% if edit %}
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_detail' group.id %}">{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=group.title %}Edit group {{ title }}{% endblocktranslate %}</li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Create group{% endblocktranslate %}</li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h2>{% if edit %}{% translate "Edit group" %}{% else %}{% translate "Create group" %}{% endif %} {{ group.title }}</h2>
     

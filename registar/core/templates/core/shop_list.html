@@ -4,17 +4,41 @@
 
 {% block title %}{% translate "Shops" %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% translate "Shops" %}</li>
+{% endblock %}
+
 {% block content %}
-    <h2>{% translate "Shops" %}</h2>
-    <ul>
-        {% for shop in shops %}
-            <li>{{ shop.title }} {{ shop.date_added }}</li>
-            {% if perms.core.view_shop %}
-            <a href="{% url 'core:shop_detail' shop.id %}">{% translate "Details" %}</a>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% if shops %}
+        <h2>{% translate "Shops" %}</h2>
+        <hr>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+            {% for shop in shops %}
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ shop.title }}</h5>
+                        <p class="card-text">{% blocktranslate with amount=shop.coupon_set.count %}Total amount of coupons: {{ amount }}{% endblocktranslate %}
+                            <br>{% blocktranslate with used=shop.count_unused total=shop.count %}Used {{ used }} of {{ total }}{% endblocktranslate %}
+                        </p>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">{% blocktranslate with amount=shop.amount_unused %}Unused amount: {{ amount }}€{% endblocktranslate %}</p>
+                            {% if perms.core.view_shop %}
+                                <a href="{% url 'core:shop_detail' shop.id %}" class="btn btn-outline-primary">{% translate "Details" %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">{% blocktranslate with date=shop.date_added %}Created at {{ date }}{% endblocktranslate %}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     {% if perms.core.add_shop %}
-    <a href="{% url 'core:shop_create' %}" class="btn btn-primary">{% translate "Create shop" %}</a>
+    <a href="{% url 'core:shop_create' %}" class="btn btn-primary w-100">{% translate "Create shop" %}</a>
     {% endif %}
 {% endblock %}

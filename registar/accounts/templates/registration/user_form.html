@@ -5,8 +5,21 @@
 
 {% block title %}{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'account:profile' %}">{% blocktranslate with username=user.username %}Profile{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">
+        {% if edit %}
+            {% blocktranslate %}Edit profile{% endblocktranslate %}
+        {% else %}
+            {% blocktranslate %}Create user{% endblocktranslate %}
+        {% endif %}
+    </li>
+{% endblock %}
+
 {% block content %}
     <h2>{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}</h2>
-    
-    {% include "creation_form.html" with form=form %}
+
+    {% url 'account:profile' as link %}
+    {% include "creation_form.html" with form=form return_url=link %}
 {% endblock %}

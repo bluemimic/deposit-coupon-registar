@@ -127,6 +127,17 @@
     </header>
 
     <main class="container mb-3">
+
+        {% if user.is_authenticated %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% block breadcrumb %}
+                    <li class="breadcrumb-item active" aria-current="page">{% translate "Home" %}</li>
+                {% endblock %}
+            </ol>
+        </nav>
+        {% endif %}
+
         {% if messages %}
         <div class="messages">
             {% for message in messages %}

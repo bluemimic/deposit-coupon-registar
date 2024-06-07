@@ -4,6 +4,12 @@
 
 {% block title %}{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:coupon_list' %}">{% translate "Coupons" %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</h2>
     <ul>

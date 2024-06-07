@@ -5,6 +5,17 @@
 
 {% block title %}{% if edit %}{% translate "Edit shop" %}{% else %}{% translate "Create shop" %}{% endif %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:shop_list' %}">{% translate "Shops" %}</a></li>
+    {% if edit %}
+    <li class="breadcrumb-item"><a href="{% url 'core:shop_detail' shop.id %}">{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=shop.title %}Edit shop {{ title }}{% endblocktranslate %}</li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Create shop{% endblocktranslate %}</li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h2>{% if edit %}{% translate "Edit shop" %}{% else %}{% translate "Create shop" %}{% endif %} {{ shop.title }}</h2>
     

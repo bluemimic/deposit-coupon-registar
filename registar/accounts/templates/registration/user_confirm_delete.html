@@ -4,6 +4,12 @@
 
 {% block title %}{% blocktranslate %}Are you sure you want to delete your account?{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'account:profile' %}">{% blocktranslate with username=user.username %}Profile{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Delete profile{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate %}Are you sure you want to delete your account?{% endblocktranslate %}</h2>
     <p>{% blocktranslate %}

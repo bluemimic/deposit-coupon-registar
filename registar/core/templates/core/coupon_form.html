@@ -11,6 +11,17 @@
 
 {% block title %}{% if edit %}{% translate "Edit coupon" %}{% else %}{% translate "Create coupon" %}{% endif %} {{ coupon.title }}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'core:coupon_list' %}">{% translate "Coupons" %}</a></li>
+    {% if edit %}
+    <li class="breadcrumb-item"><a href="{% url 'core:coupon_detail' coupon.id %}">{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=coupon.title %}Edit coupon {{ title }}{% endblocktranslate %}</li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Create coupon{% endblocktranslate %}</li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h2>{% if edit %}{% translate "Edit coupon" %}{% else %}{% translate "Create coupon" %}{% endif %} {{ coupon.title }}</h2>
     

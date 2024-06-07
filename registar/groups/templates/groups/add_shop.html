@@ -4,6 +4,13 @@
 
 {% block title %}{% blocktranslate with title=group.title %}Add shops to the group {{ title }}{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% translate "Groups" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_detail' group.id %}">{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Add shop{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate with title=group.title %}Add shops to the group {{ title }}{% endblocktranslate %}</h2>
     <p>{% blocktranslate %}Select the shop you want to add to the group.{% endblocktranslate %}</p>

@@ -4,6 +4,12 @@
 
 {% block title %}{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}{% endblock %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">{% blocktranslate with username=user.username %}Groups{% endblocktranslate %}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</li>
+{% endblock %}
+
 {% block content %}
     <h2>{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</h2>
     <ul>
@@ -74,6 +80,11 @@
             {% endif %}
             {% if perms.groups.change_group %}
             <a href="{% url 'groups:group_update' group.id %}" class="btn btn-primary">{% translate "Edit group" %}</a>
+            {% endif %}
+
+            {% if perms.groups.delete_group %}
+                <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
+
             {% endif %}
         </div>
     {% endif %}
