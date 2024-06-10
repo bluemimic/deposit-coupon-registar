@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from core.models import Shop
@@ -11,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms import BaseForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -21,7 +22,10 @@ from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
 
 from .forms import (AddShopForm, GroupForm, InvitationAcceptForm,
                     InvitationForm, RemoveMemberForm, RemoveShopForm)
-from .models import Group, Invitation, GroupMembership
+from .models import Group, GroupMembership, Invitation
+
+
+logger = logging.getLogger(__name__)
 
 
 class IndexView(TemplateView):
@@ -84,12 +88,23 @@ class GroupCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessag
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
+        
+        logger.info("User %s (pk: %d) created a coupon %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
         return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the group create view", request.user, request.user.pk)
+        return super().get(request, *args, **kwargs)
 
 
 class GroupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -114,6 +129,19 @@ class GroupUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         context = super().get_context_data(**kwargs)
         context["edit"] = True
         return context
+    
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) updated the group %s (pk: %d)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
+        return super().form_valid(form)
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the group update view", request.user, request.user.pk)
+        return super().get(request, *args, **kwargs)
 
 
 class GroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
@@ -128,6 +156,24 @@ class GroupDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     def test_func(self) -> bool:
         group = self.get_object()
         return group.owner.pk == self.request.user.pk
+
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) deleted the group %s (pk: %d)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
+        return super().form_valid(form)
+
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the group delete view for group %s (pk: %s)",
+                    request.user,
+                    request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
 
 
 class GroupLeaveView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
@@ -150,6 +196,13 @@ class GroupLeaveView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         group.members.remove(request.user)
 
         messages.add_message(request, level=messages.INFO, message=self.get_success_message())
+        
+        logger.info("User %s (pk: %d) left the group %s (pk: %d)",
+                    request.user,
+                    request.user.pk,
+                    group.title,
+                    group.pk
+        )
         return redirect('groups:group_list')
 
     def get_success_message(self, cleaned_data = None):
@@ -187,6 +240,13 @@ class GroupPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMi
         membership = GroupMembership.objects.get(user=request.user, group=group)
         membership.is_pinned = True
         membership.save()
+        
+        logger.info("User %s (pk: %d) pinned the group %s (pk: %d)",
+                    request.user,
+                    request.user.pk,
+                    group.title,
+                    group.pk
+        )
 
         return redirect('groups:group_detail', pk=group.pk)
 
@@ -221,6 +281,13 @@ class GroupUnpinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         membership = GroupMembership.objects.get(user=request.user, group=group)
         membership.is_pinned = False
         membership.save()
+        
+        logger.info("User %s (pk: %d) unpinned the group %s (pk: %d)",
+                    request.user,
+                    request.user.pk,
+                    group.title,
+                    group.pk
+        )
 
         return redirect('groups:group_detail', pk=group.pk)
 
@@ -262,8 +329,18 @@ class GroupInviteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
      
             Invitation.objects.create(sender=self.request.user, recipient=user, group=group)
 
+            logger.info("User %s (pk: %d) invited user %s (pk: %d) to the group %s (pk: %d)",
+                        self.request.user,
+                        self.request.user.pk,
+                        user,
+                        user.pk,
+                        group.title,
+                        group.pk
+            )
+
         except Group.DoesNotExist:
             return HttpResponse(status=404)
+        
 
         return super().form_valid(form)
 
@@ -307,6 +384,16 @@ class GroupRemoveMemberView(LoginRequiredMixin, PermissionRequiredMixin, UserPas
         try:
             invitation = Invitation.objects.get(group=group, recipient=user)
             invitation.delete()
+            
+            logger.info("User %s (pk: %d) removed user %s (pk: %d) from the group %s (pk: %d)",
+                        self.request.user,
+                        self.request.user.pk,
+                        user,
+                        user.pk,
+                        group.title,
+                        group.pk
+            )
+            
         except Invitation.DoesNotExist:
             pass
 
@@ -350,6 +437,15 @@ class GroupAddShopView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         shop = form.cleaned_data['shop']
         is_pinned = form.cleaned_data['is_pinned']
         group.shops.add(shop, through_defaults={'is_pinned': is_pinned})
+        
+        logger.info("User %s (pk: %d) added shop %s (pk: %d) to the group %s (pk: %d)",
+                    self.request.user,
+                    self.request.user.pk,
+                    shop.title,
+                    shop.pk,
+                    group.title,
+                    group.pk
+        )
         return super().form_valid(form)
 
 
@@ -389,6 +485,15 @@ class GroupRemoveShopView(LoginRequiredMixin, PermissionRequiredMixin, UserPasse
         group = get_object_or_404(Group, pk=self.kwargs['pk'])
         shop = form.cleaned_data['shop']
         group.shops.remove(shop)
+        
+        logger.info("User %s (pk: %d) removed shop %s (pk: %d) from the group %s (pk: %d)",
+                    self.request.user,
+                    self.request.user.pk,
+                    shop.title,
+                    shop.pk,
+                    group.title,
+                    group.pk
+        )
         return super().form_valid(form)
 
 
@@ -443,7 +548,15 @@ class InvitationAcceptView(LoginRequiredMixin, PermissionRequiredMixin, UserPass
         if not group.access_password:
             invitation.accept()
             messages.add_message(request, messages.INFO, _("Invitation accepted successfully"))
+            
+            logger.info("User %s (pk: %d) accepted the invitation %s (pk: %d)",
+                        request.user,
+                        request.user.pk,
+                        invitation,
+                        invitation.pk,
+            )
             return redirect('groups:invitation_list')
+        
         else:
             return render(request, 'groups/accept.html', {'form': InvitationAcceptForm(), 'invitation': invitation})
 
@@ -456,6 +569,13 @@ class InvitationAcceptView(LoginRequiredMixin, PermissionRequiredMixin, UserPass
             if check_password(form.cleaned_data['access_password'], group.access_password):
                 invitation.accept()
                 messages.add_message(request, messages.INFO, _("Invitation accepted successfully"))
+                
+                logger.info("User %s (pk: %d) accepted the invitation %s (pk: %d)",
+                            request.user,
+                            request.user.pk,
+                            invitation,
+                            invitation.pk
+                )
                 return redirect('groups:invitation_list')
             else:
                 form.add_error('access_password', _("Access password is incorrect!"))
@@ -478,4 +598,11 @@ class InvitationDeclineView(LoginRequiredMixin, PermissionRequiredMixin, UserPas
         invitation = get_object_or_404(Invitation, pk=kwargs['pk'])
         invitation.reject()
         messages.add_message(request, messages.WARNING, _("Invitation was declined"))
+        
+        logger.info("User %s (pk: %d) declined the invitation %s (pk: %d)",
+                    request.user,
+                    request.user.pk,
+                    invitation,
+                    invitation.pk
+        )
         return redirect('groups:invitation_list')

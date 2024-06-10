@@ -187,3 +187,80 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+# Logging
+import logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "filters": {
+        "only_info": {
+            "()": "registar.filters.ExactLevelFilter",
+            "levelno": logging.INFO,
+        },
+        "only_warning": {
+            "()": "registar.filters.ExactLevelFilter",
+            "levelno": logging.WARNING,
+        },
+        "disable_autoreload": {
+            "()": "registar.filters.DisableAutoreload",
+        },
+    },
+
+    "formatters": {
+        "audit": {
+            "format": "[{levelname} {asctime}] {message}",
+            "style": "{",
+        },
+        "error": {
+            "format": "[{levelname} {asctime} {name}] {filename} {message}",
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "error",
+        },
+        "error_log": {
+            "level": "ERROR",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "error.log",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "encoding": "utf-8",
+            "formatter": "error",
+        },
+        "warning_log": {
+            "level": "WARNING",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "warning.log",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "encoding": "utf-8",
+            "filters": ["only_warning"],
+            "formatter": "error",
+        },
+        "audit_log": {
+            "level": "INFO",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs" / "audit.log",
+            "maxBytes": 1024 * 1024 * 10,
+            "backupCount": 5,
+            "encoding": "utf-8",
+            "filters": ["only_info", "disable_autoreload"],
+            "formatter": "audit",
+        },
+    },
+
+    "loggers": {
+        "": {
+            "level": "INFO",
+            "handlers": ["audit_log", "error_log", "console", "warning_log"],
+            "propagate": True,
+        },
+    },
+}

@@ -1,12 +1,16 @@
-from django.views.generic import DetailView, ListView, View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib import messages
-
-from django.utils.translation import gettext_lazy as _
+import logging
 
 from core.models import Shop
+from django.contrib import messages
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin,
+                                        UserPassesTestMixin)
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import DetailView, ListView, View
+
+logger = logging.getLogger(__name__)
 
 
 class ShopListView(ListView):
@@ -54,6 +58,12 @@ class ShopUseView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMix
         )
 
         messages.success(request, self.get_success_message())
+         
+        logger.info("User %s (pk: %d) added shop %s (pk: %s) to their account",
+                    request.user, request.user.pk,
+                    new_shop.title,
+                    new_shop.pk
+        )
         return redirect("core:shop_detail", pk=new_shop.pk)
     
     def get_success_message(self, cleaned_data=None) -> str:

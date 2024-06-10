@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from django.contrib import messages
@@ -6,15 +7,19 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models.query import QuerySet
+from django.forms import BaseForm
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView, View)
-from groups.models import Group
 
 from .forms import CouponForm
 from .models import Coupon, Shop
+
+
+logger = logging.getLogger(__name__)
 
 
 class IndexView(TemplateView):
@@ -63,7 +68,18 @@ class ShopCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessage
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
+        
+        logger.info("User %s (pk: %d) created a shop %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
         return super().form_valid(form)
+
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the shop create view", request.user, request.user.pk)
+        return super().get(request, *args, **kwargs)
 
 
 class ShopUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -83,6 +99,23 @@ class ShopUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         context = super().get_context_data(**kwargs)
         context["edit"] = True
         return context
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the shop update view for shop %s (pk: %s)",
+                    request.user, request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
+    
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) updated shop %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().form_valid(form)
 
 
 class ShopDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
@@ -97,6 +130,23 @@ class ShopDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     def test_func(self) -> bool:
         shop = self.get_object()
         return shop.owner.pk == self.request.user.pk
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the shop delete view for shop %s (pk: %s)",
+                    request.user, request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
+    
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) deleted shop %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().form_valid(form)
 
 
 class ShopPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
@@ -116,6 +166,12 @@ class ShopPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMix
         shop.save()
 
         messages.success(request, self.success_message)
+
+        logger.info("User %s (pk: %d) pinned shop %s (pk: %s)",
+                    request.user, request.user.pk,
+                    shop.title,
+                    shop.pk
+        )
         return redirect('core:shop_detail', pk=shop.pk)
 
     def get_object(self, queryset=None):
@@ -139,10 +195,79 @@ class ShopUnpinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestM
         shop.save()
 
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) unpinned shop %s (pk: %s)",
+                    request.user, request.user.pk,
+                    shop.title,
+                    shop.pk
+        )
         return redirect('core:shop_detail', pk=shop.pk)
 
     def get_object(self, queryset=None):
         return Shop.objects.get(pk=self.kwargs['pk'])
+
+
+class ShopUploadToMarketplaceView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+    """
+    A view that uploads a shop to the marketplace.
+    """
+    success_message = _("Shop uploaded to the marketplace successfully!")
+    permission_required = "core.upload_to_marketplace_shop"
+
+    def test_func(self) -> bool:
+        shop = self.get_object()
+        is_owner = shop.owner.pk == self.request.user.pk
+        
+        return is_owner and not shop.is_on_marketplace
+
+    def post(self, request, *args, **kwargs):
+        shop = self.get_object()
+        shop.is_on_marketplace = True
+        shop.save()
+
+        messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) uploaded shop %s (pk: %s) to the marketplace",
+                    request.user, request.user.pk,
+                    shop.title,
+                    shop.pk
+        )
+        return redirect('core:shop_detail', pk=shop.pk)
+
+    def get_object(self, queryset=None):
+        return Shop.objects.get(pk=self.kwargs['pk'])
+    
+
+class ShopRemoveFromMarketplaceView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
+    """
+    A view that removes a shop from the marketplace.
+    """
+    success_message = _("Shop removed from the marketplace successfully!")
+    permission_required = "core.remove_from_marketplace_shop"
+
+    def test_func(self) -> bool:
+        shop = self.get_object()
+        is_owner = shop.owner.pk == self.request.user.pk
+        
+        return is_owner and shop.is_on_marketplace
+
+    def post(self, request, *args, **kwargs):
+        shop = self.get_object()
+        shop.is_on_marketplace = False
+        shop.save()
+
+        messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) removed shop %s (pk: %s) from the marketplace",
+                    request.user, request.user.pk,
+                    shop.title,
+                    shop.pk
+        )
+        return redirect('core:shop_detail', pk=shop.pk)
+
+    def get_object(self, queryset=None):
+        return Shop.objects.get(pk=self.kwargs['pk'])
+
 
 # ========== Coupon views ==========
 
@@ -192,12 +317,23 @@ class CouponCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
+        
+        logger.info("User %s (pk: %d) created a coupon %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
         return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the coupon create view", request.user, request.user.pk)
+        return super().get(request, *args, **kwargs)
 
 
 class CouponUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
@@ -223,6 +359,22 @@ class CouponUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         kwargs['user'] = self.request.user
         return kwargs
 
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the coupon update view for coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
+    
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) updated coupon %s (pk: %s)",
+                    self.request.user, self.request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().form_valid(form)
+
 
 class CouponDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     """
@@ -236,6 +388,23 @@ class CouponDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
     def test_func(self) -> bool:
         coupon = self.get_object()
         return coupon.owner.pk == self.request.user.pk
+    
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the coupon delete view for coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
+    
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        logger.info("User %s (pk: %d) deleted coupon %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().form_valid(form)
 
 
 class CouponShareView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
@@ -255,6 +424,12 @@ class CouponShareView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         coupon.save()
 
         messages.success(request, self.get_success_message(cleaned_data=None))
+        
+        logger.info("User %s (pk: %d) shared coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
@@ -283,6 +458,12 @@ class CouponUnshareView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesT
         coupon.save()
         
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) unshared coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
@@ -309,6 +490,14 @@ class CouponSharedDetailView(DetailView):
 
         return context
 
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        logger.info("User %s (pk: %d) requested the shared coupon detail view for coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    self.get_object().title,
+                    self.get_object().pk
+        )
+        return super().get(request, *args, **kwargs)
+
 
 class CouponUseView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, View):
     """
@@ -327,6 +516,12 @@ class CouponUseView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestM
         coupon.save()
 
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) marked coupon %s (pk: %s) as used",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
@@ -350,6 +545,12 @@ class CouponUnuseView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         coupon.save()
 
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) marked coupon %s (pk: %s) as unused",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
@@ -373,6 +574,12 @@ class CouponPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestM
         coupon.save()
 
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) pinned coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
@@ -396,6 +603,12 @@ class CouponUnpinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         coupon.save()
 
         messages.success(request, self.success_message)
+        
+        logger.info("User %s (pk: %d) unpinned coupon %s (pk: %s)",
+                    request.user, request.user.pk,
+                    coupon.title,
+                    coupon.pk
+        )
         return redirect('core:coupon_detail', pk=coupon.pk)
 
     def get_object(self, queryset=None):
