@@ -10,6 +10,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, ListView, View
 
+import registar.settings as settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -20,6 +22,7 @@ class ShopListView(ListView):
     model = Shop
     template_name = "marketplace/shop_list.html"
     context_object_name = "shops"
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
         return Shop.objects.filter(is_on_marketplace=True)

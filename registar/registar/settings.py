@@ -264,3 +264,7 @@ LOGGING = {
         },
     },
 }
+
+# Pagination
+
+PAGINATE_BY = 6

@@ -5,15 +5,30 @@
 {% block title %}{% translate "Home" %}{% endblock %}
 
 {% block content %}
-    <h1>{% translate "Welcome to Registar" %}!</h1>
-
     {% if user.is_authenticated %}
-        <p>{% translate 'Hi' %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</p>
+        <div class="d-flex justify-content-between mb-4">
+            <h1>{% translate 'Hi' %}, <span class="fw-bold display-font username">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</span></h1>
+            <p>{% blocktranslate with amount=total_amount_returned %}Returned: {{ amount }}€{% endblocktranslate %}</p>
+        </div>
 
-        <form action="{% url 'account:logout' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="{% translate 'Logout' %}" class="btn btn-primary">
-        </form>
+
+        {% if pinned_shops %}
+        <div class="pinned_shops mb-5">
+            <h2><i class="bi bi-pin-angle me-3 color-purple"></i>{% translate "Pinned shops" %}</h2>
+            <hr>
+            {% include "core/modules/shop_card.html" with shops=pinned_shops %}
+        </div>
+        {% endif %}
+
+        {% if recent_shops %}
+        <div class="recent_shops">
+            <h2><i class="bi bi-clock-history me-3 color-purple"></i>{% translate "Recent shops" %}</h2>
+            <hr>
+            
+            {% include "core/modules/shop_card.html" with shops=recent_shops %}
+        </div>
+        {% endif %}
+
     {% else %}
         <p>{% translate "Welcome to Registar! Please login or register to continue." %}</p>
         

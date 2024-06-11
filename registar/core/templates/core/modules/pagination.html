@@ -1,0 +1,85 @@
+{% load i18n %}
+
+
+<ul class="pagination mb-0">
+    {% if collection.has_previous %}
+        <li class="page-item button">
+            <a class="page-link" href="?page=1">
+                {% translate "First page" %}
+            </a>
+        </li>
+        <li class="page-item button">
+            <a class="page-link" href="?page={{ collection.previous_page_number }}">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% if collection.previous_page_number > 1 %}
+            <li class="page-item button">
+                <a class="page-link" href="?page={{ collection.number|add:-2 }}">
+                    {{ collection.number|add:-2 }}
+                </a>
+            </li>
+        {% endif %}
+        
+        <li class="page-item button">
+            <a class="page-link" href="?page={{ collection.previous_page_number }}">
+                {{ collection.previous_page_number }}
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item button disabled">
+            <a class="page-link" href="?page=1">
+                {% translate "First page" %}
+            </a>
+        </li>
+        <li class="page-item disabled button">
+            <a class="page-link" href="#">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+    {% endif %}
+
+    <li class="page-item active button">
+        <a class="page-link" href="?page={{ collection.number }}">
+            {{ collection.number }}
+        </a>
+    </li>
+
+    {% if collection.has_next %}
+        <li class="page-item button">
+            <a class="page-link" href="?page={{ collection.next_page_number }}">
+                <span aria-hidden="true">{{ collection.next_page_number }}</span>
+            </a>
+        </li>
+
+        {% if collection.number|add:2 <= collection.paginator.num_pages %}
+            <li class="page-item button">
+                <a class="page-link" href="?page={{ collection.number|add:2 }}">
+                    {{ collection.number|add:2 }}
+                </a>
+            </li>
+        {% endif %}
+        
+        <li class="page-item button">
+            <a class="page-link" href="?page={{ collection.next_page_number }}">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item button">
+            <a class="page-link" href="?page={{ collection.paginator.num_pages }}">
+                {% translate "Last page" %}
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled button">
+            <a class="page-link" href="#">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item button disabled">
+            <a class="page-link" href="?page={{ collection.paginator.num_pages }}">
+                {% translate "Last page" %}
+            </a>
+        </li>
+    {% endif %}
+</ul>

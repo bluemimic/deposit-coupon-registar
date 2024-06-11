@@ -20,10 +20,11 @@ from django.views import View
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, TemplateView, UpdateView)
 
+import registar.settings as settings
+
 from .forms import (AddShopForm, GroupForm, InvitationAcceptForm,
                     InvitationForm, RemoveMemberForm, RemoveShopForm)
 from .models import Group, GroupMembership, Invitation
-
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,7 @@ class GroupsListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Group
     context_object_name = "groups"
     permission_required = "groups.view_group"
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset().filter(Q(owner=self.request.user.pk) | Q(members=self.request.user.pk)).distinct()
@@ -504,6 +506,7 @@ class InvitationsListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     model = Invitation
     context_object_name = "invitations"
     permission_required = "groups.view_invitation"
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
         return super().get_queryset().filter(recipient=self.request.user, is_processed=False).order_by('-date_sent')

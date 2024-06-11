@@ -1,11 +1,13 @@
 import logging
 from typing import Any
 
+import registar.settings as settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q, Sum
 from django.db.models.query import QuerySet
 from django.forms import BaseForm
 from django.http import HttpRequest, HttpResponse
@@ -18,7 +20,6 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from .forms import CouponForm
 from .models import Coupon, Shop
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -27,6 +28,61 @@ class IndexView(TemplateView):
     A view that renders the index page.
     """
     template_name = 'core/index.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        
+        amount_of_coupons = Sum('amount',  default=0)
+        count_of_unused_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = False))
+        count_of_coupons = Sum(1, default = 0)
+        amount_of_unused_coupons = Sum(
+                    'coupon__amount',
+                    default=0,
+                    filter=Q(
+                        coupon__is_used=False
+                    )
+                )
+
+        context["total_amount_returned"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons)['amount__sum']
+
+        shops = Shop.objects.filter(
+            owner=self.request.user.pk,
+        ).annotate(
+            amount_unused=amount_of_unused_coupons, 
+            count_unused=count_of_unused_coupons, 
+            count=count_of_coupons
+        ).order_by(
+            "-date_added"
+        )
+        
+        context["pinned_shops"] = shops.filter(is_pinned=True)[:3]
+        context["recent_shops"] = shops[:3]
+
+        context["recent_coupons"] = Coupon.objects.filter(owner=self.request.user.pk).order_by('-date_added')[:3]
+        context["pinned_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_pinned=True)[:3]
+        
+        
+        return context
+
+
+class OverviewView(TemplateView):
+    """
+    A view that renders the overview page.
+    """
+    template_name = 'core/overview.html'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        
+        context["total_amount"] = Coupon.objects.filter(owner=self.request.user.pk).aggregate(Sum('amount'))
+        
+        context["total_shops"] = Shop.objects.filter(owner=self.request.user.pk).count()
+        context["total_coupons"] = Coupon.objects.filter(owner=self.request.user.pk).count()
+        context["total_shared_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_shared=True).count()
+        context["total_used_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).count()
+        context["total_unused_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=False).count()
+        
+        return context
 
 
 # ========== Shop views ==========
@@ -39,9 +95,27 @@ class ShopListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Shop
     context_object_name = "shops"
     permission_required = "core.view_shop"
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(owner=self.request.user.pk)
+        queryset = super().get_queryset()
+
+        amount_of_unused_coupons = Sum(
+                    'coupon__amount',
+                    default=0,
+                    filter=Q(
+                        coupon__is_used=False
+                    )
+                )
+
+        count_of_unused_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = False))
+        count_of_coupons = Sum(1, default = 0)
+
+        return queryset.filter(owner=self.request.user.pk).annotate(
+            amount_unused=amount_of_unused_coupons, 
+            count_unused=count_of_unused_coupons, 
+            count=count_of_coupons
+        )
 
 
 class ShopDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
@@ -279,6 +353,7 @@ class CouponListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Coupon
     context_object_name = "coupons"
     permission_required = "core.view_coupon"
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self) -> QuerySet[Any]:
         return super().get_queryset().filter(owner=self.request.user.pk)

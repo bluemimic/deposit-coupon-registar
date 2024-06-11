@@ -10,16 +10,20 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% translate "Coupons" %}</h2>
-    <ul>
-        {% for coupon in coupons %}
-            <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
-            {% if perms.core.view_coupon %}
-            <a href="{% url 'core:coupon_detail' coupon.pk %}">{% translate "Details" %}</a>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% if page_obj %}
+        <h2>{% translate "Coupons" %}</h2>
+        <ul>
+            {% for coupon in page_obj %}
+                <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
+                {% if perms.core.view_coupon %}
+                <a href="{% url 'core:coupon_detail' coupon.pk %}">{% translate "Details" %}</a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% include "core/modules/pagination.html" with collection=page_obj %}    
+    {% endif %}
+        
     {% if perms.core.add_coupon %}
-    <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+        <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
     {% endif %}
 {% endblock %}

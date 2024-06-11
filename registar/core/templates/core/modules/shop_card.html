@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for shop in shops %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ shop.title }}</h5>
+                <hr>
+                {% if shop.amount_unused %}
+                <p>{% blocktranslate with used=shop.count_unused count total=shop.coupon_set.count %}Used {{ used }} of {{ total }} coupon{% plural %}Used {{ used }} of {{ total }} coupons{% endblocktranslate %}</p>
+                {% else %}
+                <p>{% blocktranslate with count=shop.coupon_set.count %}No coupons yet{% endblocktranslate %}</p>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    {% if shop.amount_unused %}
+                    <p class="card-text mb-0">{% blocktranslate with amount=shop.amount_unused %}Remaining {{ amount }}€{% endblocktranslate %}</p>
+                    {% else %}
+                    <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€{% endblocktranslate %}</p>
+                    {% endif %}
+                    <a href="{% url 'core:shop_detail' shop.id %}" class="btn-blue btn stretched-link">{% translate 'See coupons' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

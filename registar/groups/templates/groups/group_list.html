@@ -28,16 +28,20 @@
         <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Open invitation overview" %}</a>
         <hr>
     {% endif %}
-        
-    <h2>{% translate "Groups" %}</h2>
-    <ul>
-        {% for group in groups %}
-            <li>{{ group.title }} {{ group.date_added }}</li>
-            {% if perms.groups.view_group %}
-            <a href="{% url 'groups:group_detail' group.id %}">{% translate "Details" %}</a>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    
+    {% if page_obj %}
+        <h2>{% translate "Groups" %}</h2>
+        <ul>
+            {% for group in page_obj %}
+                <li>{{ group.title }} {{ group.date_added }}</li>
+                {% if perms.groups.view_group %}
+                <a href="{% url 'groups:group_detail' group.id %}">{% translate "Details" %}</a>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% include "core/modules/pagination.html" with collection=page_obj %}
+    {% endif %}
+
     <div class="d-flex gap-3">
         {% if perms.groups.add_group %}
         <a href="{% url 'groups:group_create' %}" class="btn btn-primary">{% translate "Create group" %}</a>

@@ -10,12 +10,15 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{% translate "Marketplace" %}</h1>
+    {% if page_obj %}
+        <h1>{% translate "Marketplace" %}</h1>
 
-    <ul>
-        {% for shop in shops %}
-            <li>{{ shop.title }}</li>
-            <a href="{% url 'marketplace:shop_detail' shop.id %}">{% translate "View shop" %}</a>
-        {% endfor %}
-    </ul>
+        <ul>
+            {% for shop in page_obj %}
+                <li>{{ shop.title }}</li>
+                <a href="{% url 'marketplace:shop_detail' shop.id %}">{% translate "View shop" %}</a>
+            {% endfor %}
+        </ul>
+        {% include "core/modules/pagination.html" with collection=page_obj %}
+    {% endif %}
 {% endblock %}

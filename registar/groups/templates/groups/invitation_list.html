@@ -12,15 +12,17 @@
 
 {% block content %}
     <h2>{% translate "Invitations" %}</h2>
-    {% if invitations %}
+    {% if page_obj %}
         <ul>
-            {% for invitation in invitations %}
+            {% for invitation in page_obj %}
                 <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
                 {% if perms.groups.view_invitation %}
                 <a href="{% url 'groups:invitation_detail' invitation.id %}">{% translate "Details" %}</a>
                 {% endif %}
             {% endfor %}
+
         </ul>
+        {% include "core/modules/pagination.html" with collection=page_obj %}
     {% else %}
         <p>{% translate "No invitations" %}</p>
     {% endif %}
