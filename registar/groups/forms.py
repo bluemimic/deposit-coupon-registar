@@ -44,7 +44,7 @@ class AddShopForm(Form):
     A form that adds a shop to a group.
     """
 
-    shop = forms.ModelChoiceField(queryset=None, label=_("shop"))
+    shop = forms.ModelChoiceField(queryset=None, label=_("shop"), help_text=_("Select the shop you want to add to the group."))
     is_pinned = forms.BooleanField(label=_("is pinned"), required=False)
 
     def __init__(self, *args, **kwargs):
@@ -63,10 +63,17 @@ class AddShopForm(Form):
 
         return shop
     
-class RemoveShopForm(AddShopForm):
+class RemoveShopForm(Form):
     """
     A form that removes a shop from a group.
     """
+    
+    shop = forms.ModelChoiceField(queryset=None, label=_("shop"), help_text=_("Select the shop you want to remove from the group."))
+    
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        self.group = kwargs.pop('group')
+        super().__init__(*args, **kwargs)
     
     def clean_shop(self):
         shop = self.cleaned_data["shop"]
@@ -85,7 +92,7 @@ class InvitationForm(Form):
     A form that invites a user to a group.
     """
 
-    username = forms.CharField(label=_("username"), max_length=150)
+    username = forms.CharField(label=_("username"), max_length=150, help_text=_("Enter the username of the users you want to invite to the group."))
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -115,7 +122,7 @@ class RemoveMemberForm(Form):
     A form that removes a member from a group.
     """
 
-    user = forms.ModelChoiceField(queryset=None, label=_("user"))
+    user = forms.ModelChoiceField(queryset=None, label=_("user"), help_text=_("Select the user you want to remove from the group."))
 
     def __init__(self, *args, **kwargs):
         self.group = kwargs.pop('group')

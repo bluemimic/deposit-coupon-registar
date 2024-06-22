@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-01 16:22+0000\n"
+"POT-Creation-Date: 2024-06-18 21:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,15 +50,19 @@ msgstr "Электронная почта"
 
 #: accounts/management/commands/initgroups.py:14
 msgid "Initializes the groups and permissions."
-msgstr ""
+msgstr "Инициализировать группы и разрешения."
 
-#: accounts/models.py:12 core/models.py:18 core/models.py:46
+#: accounts/management/commands/initgroups.py:26
+msgid "Do not print any output."
+msgstr "Не печатать никаких выходных данных."
+
+#: accounts/models.py:12 core/models.py:19 core/models.py:52
 #: groups/models.py:22
 msgid "updated at"
 msgstr "обновлено в"
 
-#: accounts/models.py:16 core/models.py:44 groups/forms.py:118
-#: groups/models.py:48
+#: accounts/models.py:16 core/models.py:50 groups/forms.py:118
+#: groups/models.py:49
 msgid "user"
 msgstr "пользователь"
 
@@ -71,8 +75,8 @@ msgid "Contact admin"
 msgstr "Связаться с администратором"
 
 #: accounts/templates/registration/contact_admin.html:8
-#: accounts/templates/registration/profile.html:14
-#: core/templates/core/index.html:11
+#: accounts/templates/registration/profile.html:19
+#: core/templates/core/index.html:10
 msgid "Hi"
 msgstr "Привет"
 
@@ -86,13 +90,12 @@ msgstr ""
 
 #: accounts/templates/registration/contact_admin.html:13
 #: accounts/templates/registration/logged_out.html:14
-#: accounts/templates/registration/password_change_done.html:10
 msgid "Return to the main page"
 msgstr "Вернуться на главную страницу"
 
 #: accounts/templates/registration/logged_out.html:5
 #: accounts/templates/registration/logged_out.html:8
-#: core/templates/core/base/base.html:79 core/templates/core/index.html:15
+#: core/templates/core/base/base.html:105
 msgid "Logout"
 msgstr "Выйти"
 
@@ -103,7 +106,7 @@ msgstr "Вы вышли из системы"
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
 #: accounts/templates/registration/login.html:15
-#: core/templates/core/base/base.html:88 core/templates/core/index.html:21
+#: core/templates/core/base/base.html:114 core/templates/core/index.html:89
 msgid "Login"
 msgstr "Войти"
 
@@ -112,16 +115,61 @@ msgid "Forgot password?"
 msgstr "Забыли пароль?"
 
 #: accounts/templates/registration/password_change_done.html:5
-#: accounts/templates/registration/password_change_done.html:8
+#: accounts/templates/registration/password_change_done.html:14
 msgid "Password has been successfully changed"
 msgstr "Пароль успешно изменен"
 
-#: accounts/templates/registration/password_change_form.html:6
+#: accounts/templates/registration/password_change_done.html:8
 #: accounts/templates/registration/password_change_form.html:9
+#: accounts/templates/registration/profile.html:14
+#: accounts/templates/registration/user_confirm_delete.html:8
+#: accounts/templates/registration/user_form.html:9
+#: core/templates/core/base/base.html:156
+#: core/templates/core/coupon_confirm_delete.html:10
+#: core/templates/core/coupon_detail.html:8
+#: core/templates/core/coupon_form.html:15
+#: core/templates/core/coupon_list.html:8 core/templates/core/index.html:5
+#: core/templates/core/overview.html:8
+#: core/templates/core/shop_confirm_delete.html:10
+#: core/templates/core/shop_detail.html:8 core/templates/core/shop_form.html:9
+#: core/templates/core/shop_list.html:8 groups/templates/groups/accept.html:9
+#: groups/templates/groups/add_shop.html:8
+#: groups/templates/groups/group_confirm_delete.html:10
+#: groups/templates/groups/group_detail.html:8
+#: groups/templates/groups/group_form.html:9
+#: groups/templates/groups/group_list.html:8
+#: groups/templates/groups/invitation_detail.html:8
+#: groups/templates/groups/invitation_list.html:8
+#: groups/templates/groups/invite.html:8
+#: groups/templates/groups/remove_member.html:8
+#: groups/templates/groups/remove_shop.html:8
+#: marketplace/templates/marketplace/shop_detail.html:8
+#: marketplace/templates/marketplace/shop_list.html:8
+msgid "Home"
+msgstr "Домашняя"
+
+#: accounts/templates/registration/password_change_done.html:9
+#: accounts/templates/registration/password_change_form.html:10
+#: accounts/templates/registration/profile.html:15
+#: accounts/templates/registration/user_confirm_delete.html:9
+#: accounts/templates/registration/user_form.html:10
+#: core/templates/core/base/base.html:101
+msgid "Profile"
+msgstr "Профиль"
+
+#: accounts/templates/registration/password_change_done.html:10
+#: accounts/templates/registration/password_change_form.html:6
 #: accounts/templates/registration/password_change_form.html:11
-#: accounts/templates/registration/profile.html:17
+#: accounts/templates/registration/password_change_form.html:15
+#: accounts/templates/registration/password_change_form.html:17
+#: accounts/templates/registration/profile.html:22
 msgid "Change password"
 msgstr "Изменить пароль"
+
+#: accounts/templates/registration/password_change_done.html:16
+#| msgid "Return to the main page"
+msgid "Return to the profile page"
+msgstr "Вернуться на страницу профиля"
 
 #: accounts/templates/registration/profile.html:7
 #: accounts/templates/registration/profile.html:9
@@ -129,29 +177,35 @@ msgstr "Изменить пароль"
 msgid "%(username)s profile"
 msgstr "Профиль %(username)s"
 
-#: accounts/templates/registration/profile.html:19
+#: accounts/templates/registration/profile.html:24
 #: accounts/templates/registration/user_form.html:6
-#: accounts/templates/registration/user_form.html:9
+#: accounts/templates/registration/user_form.html:13
+#: accounts/templates/registration/user_form.html:21
 msgid "Edit profile"
 msgstr "Изменить профиль"
 
-#: accounts/templates/registration/profile.html:22
+#: accounts/templates/registration/profile.html:27
 msgid "Delete account"
 msgstr "Удалить аккаунт"
 
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
 #: accounts/templates/registration/register.html:11
-#: core/templates/core/base/base.html:92 core/templates/core/index.html:22
+#: core/templates/core/base/base.html:118 core/templates/core/index.html:90
 msgid "Register"
 msgstr "Зарегистрироваться"
 
 #: accounts/templates/registration/user_confirm_delete.html:5
-#: accounts/templates/registration/user_confirm_delete.html:8
+#: accounts/templates/registration/user_confirm_delete.html:14
 msgid "Are you sure you want to delete your account?"
 msgstr "Вы уверены, что хотите удалить свою учетную запись?"
 
-#: accounts/templates/registration/user_confirm_delete.html:9
+#: accounts/templates/registration/user_confirm_delete.html:10
+#| msgid "Create profile"
+msgid "Delete profile"
+msgstr "Удалить профиль"
+
+#: accounts/templates/registration/user_confirm_delete.html:15
 msgid ""
 "\n"
 "        This will permanently delete your account. All your data will be "
@@ -171,63 +225,77 @@ msgstr ""
 "        Вы уверены, что хотите удалить учетную запись?\n"
 "        "
 
-#: accounts/templates/registration/user_confirm_delete.html:15
+#: accounts/templates/registration/user_confirm_delete.html:21
 #: core/templates/core/base/confirm_delete.html:10
 #: core/templates/core/modules/creation_form.html:12
 msgid "Cancel"
 msgstr "Отмена"
 
-#: accounts/templates/registration/user_confirm_delete.html:19
+#: accounts/templates/registration/user_confirm_delete.html:25
 msgid "Delete my account"
 msgstr "Удалить мой аккаунт"
 
 #: accounts/templates/registration/user_form.html:6
-#: accounts/templates/registration/user_form.html:9
+#: accounts/templates/registration/user_form.html:21
 msgid "Create profile"
 msgstr "Создать профиль"
 
-#: accounts/views.py:23
+#: accounts/templates/registration/user_form.html:15
+#| msgid "Create shop"
+msgid "Create user"
+msgstr "Создать пользователя"
+
+#: accounts/views.py:59
 msgid "Your profile was created successfully"
 msgstr "Ваш профиль успешно создан"
 
-#: accounts/views.py:51
+#: accounts/views.py:92
 msgid "User updated successfully"
 msgstr "Пользователь успешно изменён"
 
-#: accounts/views.py:71
+#: accounts/views.py:116
 msgid "User deleted successfully"
 msgstr "Пользователь успешно удален"
 
-#: core/admin.py:7 groups/admin.py:8
+#: core/admin.py:8 groups/admin.py:8
 msgid "Pin selected item"
 msgstr "Закрепить выбранный элемент"
 
-#: core/admin.py:11 groups/admin.py:12
+#: core/admin.py:12 groups/admin.py:12
 msgid "Unpin selected item"
 msgstr "Открепить выбранный элемент"
 
-#: core/admin.py:15
+#: core/admin.py:16
 msgid "Mark selected coupons as used"
 msgstr "Отметить выбранные купоны как использованные"
 
-#: core/admin.py:19
+#: core/admin.py:20
 msgid "Mark selected coupons as unused"
 msgstr "Отметить выбранные купоны как неиспользованные"
 
-#: core/admin.py:38
+#: core/admin.py:24
+msgid "Upload selected shops to marketplace"
+msgstr "Загрузить выбранные магазины на маркетплейс"
+
+#: core/admin.py:28
+#| msgid "Demote selected users from staff"
+msgid "Remove selected shops from marketplace"
+msgstr "Убрать выбранные магазины с маркетплейса"
+
+#: core/admin.py:52
 msgid "Search by title, owner username, owner email"
 msgstr ""
 "Поиск по названию, имени пользователя владельца, адресу электронной почты "
 "владельца"
 
-#: core/admin.py:54
+#: core/admin.py:68
 msgid ""
 "Search by title, barcode, owner username, owner email, amount, store title"
 msgstr ""
 "Поиск по названию, штрих-коду, имени пользователя владельца, адресу "
 "электронной почты владельца, сумме, названию магазина"
 
-#: core/admin.py:56
+#: core/admin.py:70
 msgid "Owner's username"
 msgstr "Имя пользователя владельца"
 
@@ -236,7 +304,6 @@ msgid "core"
 msgstr "основные"
 
 #: core/forms.py:16
-#| msgid "coupon title"
 msgid "Coupon image"
 msgstr "Изображение купона"
 
@@ -265,7 +332,6 @@ msgid "No data found in the barcode."
 msgstr "Данные в штрих-коде не обнаружены."
 
 #: core/models.py:13
-#| msgid "shop title"
 msgid "shop uuid"
 msgstr "uuid магазина"
 
@@ -273,109 +339,139 @@ msgstr "uuid магазина"
 msgid "shop title"
 msgstr "название магазина"
 
-#: core/models.py:15 groups/models.py:70
+#: core/models.py:15 groups/models.py:71
 msgid "is shop pinned?"
 msgstr "магазин закреплен?"
 
 #: core/models.py:16
+msgid "is shop on marketplace?"
+msgstr "магазин на маркетплейсе?"
+
+#: core/models.py:17
 msgid "owner of the shop"
 msgstr "владелец магазина"
 
-#: core/models.py:17 core/models.py:45 groups/models.py:21
+#: core/models.py:18 core/models.py:51 groups/models.py:21
 msgid "created at"
 msgstr "создан в"
 
-#: core/models.py:22 groups/forms.py:47 groups/models.py:68
+#: core/models.py:23 groups/forms.py:47 groups/models.py:69
 msgid "shop"
 msgstr "магазин"
 
-#: core/models.py:23 groups/models.py:20
+#: core/models.py:24 groups/models.py:20
 msgid "shops"
 msgstr "магазины"
 
-#: core/models.py:36
-#| msgid "coupon"
+#: core/models.py:27
+#| msgid "Can add shop to a group"
+msgid "Can upload shop to marketplace"
+msgstr "Может добавить магазин на маркетплейс"
+
+#: core/models.py:28
+#| msgid "Can remove shop from a group"
+msgid "Can remove shop from marketplace"
+msgstr "Может удалить магазин с маркетплейса"
+
+#: core/models.py:42
 msgid "coupon uuid"
 msgstr "uuid купона"
 
-#: core/models.py:37
+#: core/models.py:43
 msgid "coupon title"
 msgstr "название купона"
 
-#: core/models.py:37
+#: core/models.py:43
 msgid "can be null"
 msgstr "может быть нулевым"
 
-#: core/models.py:38
+#: core/models.py:44
 msgid "coupon barcode"
 msgstr "штрих-код купона"
 
-#: core/models.py:39
+#: core/models.py:45
 msgid "is used?"
 msgstr "был использован?"
 
-#: core/models.py:40
+#: core/models.py:46
 msgid "is pinned?"
 msgstr "закреплен?"
 
-#: core/models.py:41
+#: core/models.py:47
 msgid "is shared?"
 msgstr "является общим?"
 
-#: core/models.py:42
+#: core/models.py:48
 msgid "amount"
 msgstr "сумма"
 
-#: core/models.py:43
+#: core/models.py:49
 msgid "store"
 msgstr "магазин"
 
-#: core/models.py:50
+#: core/models.py:56
 msgid "coupon"
 msgstr "купон"
 
-#: core/models.py:51
+#: core/models.py:57
 msgid "coupons"
 msgstr "купоны"
 
-#: core/models.py:54
-#| msgid "Create coupon"
+#: core/models.py:60
 msgid "Can share coupon"
 msgstr "Может поделиться купоном"
 
-#: core/models.py:55
-#| msgid "Create coupon"
+#: core/models.py:61
 msgid "Can unshare coupon"
 msgstr "Может отменить совместное использование купона"
 
-#: core/templates/core/base/base.html:45 core/templates/core/shop_list.html:5
-#: core/templates/core/shop_list.html:8 groups/admin.py:53
+#: core/templates/core/base/base.html:66 core/templates/core/overview.html:56
+#: core/templates/core/shop_confirm_delete.html:11
+#: core/templates/core/shop_detail.html:9 core/templates/core/shop_form.html:10
+#: core/templates/core/shop_list.html:5 core/templates/core/shop_list.html:9
+#: core/templates/core/shop_list.html:15 groups/admin.py:53
 msgid "Shops"
 msgstr "Магазины"
 
-#: core/templates/core/base/base.html:52 core/templates/core/coupon_list.html:5
-#: core/templates/core/coupon_list.html:8
-#: core/templates/core/shop_detail.html:14
+#: core/templates/core/base/base.html:73
+#: core/templates/core/coupon_confirm_delete.html:11
+#: core/templates/core/coupon_detail.html:9
+#: core/templates/core/coupon_form.html:16
+#: core/templates/core/coupon_list.html:5
+#: core/templates/core/coupon_list.html:9
+#: core/templates/core/coupon_list.html:15 core/templates/core/overview.html:80
+#: core/templates/core/shop_detail.html:89
 msgid "Coupons"
 msgstr "Купоны"
 
-#: core/templates/core/base/base.html:59
+#: core/templates/core/base/base.html:80 core/templates/core/overview.html:120
+#: groups/templates/groups/accept.html:10
+#: groups/templates/groups/add_shop.html:9
+#: groups/templates/groups/group_confirm_delete.html:11
+#: groups/templates/groups/group_detail.html:9
+#: groups/templates/groups/group_form.html:10
 #: groups/templates/groups/group_list.html:5
-#: groups/templates/groups/group_list.html:27
+#: groups/templates/groups/group_list.html:9
+#: groups/templates/groups/group_list.html:33
+#: groups/templates/groups/invitation_detail.html:9
+#: groups/templates/groups/invitation_list.html:9
+#: groups/templates/groups/invite.html:9
+#: groups/templates/groups/remove_member.html:9
+#: groups/templates/groups/remove_shop.html:9
 msgid "Groups"
 msgstr "Группы"
 
-#: core/templates/core/base/base.html:69
+#: core/templates/core/base/base.html:86
+#: marketplace/templates/marketplace/shop_detail.html:9
+#: marketplace/templates/marketplace/shop_list.html:5
+#: marketplace/templates/marketplace/shop_list.html:9
+#: marketplace/templates/marketplace/shop_list.html:14
+msgid "Marketplace"
+msgstr "Маркетплейс"
+
+#: core/templates/core/base/base.html:95
 msgid "My account"
 msgstr "Мой аккаунт"
-
-#: core/templates/core/base/base.html:75
-msgid "Profile"
-msgstr "Профиль"
-
-#: core/templates/core/base/base.html:132
-msgid "Close"
-msgstr "Закрыть"
 
 #: core/templates/core/coupon_confirm_delete.html:5
 #: core/templates/core/coupon_confirm_delete.html:7
@@ -383,7 +479,22 @@ msgstr "Закрыть"
 msgid "Are you sure you want to delete coupon %(title)s?"
 msgstr "Вы уверены, что хотите удалить купон %(title)s?"
 
-#: core/templates/core/coupon_confirm_delete.html:10
+#: core/templates/core/coupon_confirm_delete.html:12
+#: core/templates/core/coupon_detail.html:5
+#: core/templates/core/coupon_detail.html:10
+#: core/templates/core/coupon_detail.html:14
+#: core/templates/core/coupon_form.html:18
+#, python-format
+msgid "Coupon %(title)s"
+msgstr "Купон %(title)s"
+
+#: core/templates/core/coupon_confirm_delete.html:13
+#, python-format
+#| msgid "Coupon %(title)s"
+msgid "Delete coupon %(title)s"
+msgstr "Удалить купон %(title)s"
+
+#: core/templates/core/coupon_confirm_delete.html:17
 msgid ""
 "This will permanently delete the coupon. \n"
 "This action cannot be undone. The coupon will be removed from all groups and "
@@ -395,87 +506,152 @@ msgstr ""
 "не будет доступен пользователям в них.\n"
 "Вы уверены, что хотите удалить купон?\n"
 
-#: core/templates/core/coupon_confirm_delete.html:18
-#: core/templates/core/coupon_detail.html:66
+#: core/templates/core/coupon_confirm_delete.html:25
+#: core/templates/core/coupon_detail.html:73
 msgid "Delete coupon"
 msgstr "Удалить купон"
 
-#: core/templates/core/coupon_detail.html:5
-#: core/templates/core/coupon_detail.html:8
-#, python-format
-msgid "Coupon %(title)s"
-msgstr "Купон %(title)s"
-
-#: core/templates/core/coupon_detail.html:25
+#: core/templates/core/coupon_detail.html:32
 msgid "Back to coupon list"
 msgstr "Вернуться к списку купонов"
 
-#: core/templates/core/coupon_detail.html:28
-#| msgid "Create coupon"
+#: core/templates/core/coupon_detail.html:35
 msgid "Change coupon"
 msgstr "Изменить купон"
 
-#: core/templates/core/coupon_detail.html:32
-#| msgid "is used?"
+#: core/templates/core/coupon_detail.html:39
 msgid "Mark as used"
 msgstr "Отметить как использованный"
 
-#: core/templates/core/coupon_detail.html:37
-#| msgid "Mark selected coupons as unused"
+#: core/templates/core/coupon_detail.html:44
 msgid "Mark as unused"
 msgstr "Отметить как неиспользованный"
 
-#: core/templates/core/coupon_detail.html:44
-#| msgid "Edit coupon"
+#: core/templates/core/coupon_detail.html:51
 msgid "Pin coupon"
 msgstr "Закрепить купон"
 
-#: core/templates/core/coupon_detail.html:49
-#| msgid "Update coupon"
+#: core/templates/core/coupon_detail.html:56
 msgid "Unpin coupon"
 msgstr "Отерепить купон"
 
-#: core/templates/core/coupon_detail.html:56
-#| msgid "Update coupon"
+#: core/templates/core/coupon_detail.html:63
 msgid "Share coupon"
 msgstr "Поделиться купоном"
 
-#: core/templates/core/coupon_detail.html:62
-#| msgid "Update coupon"
+#: core/templates/core/coupon_detail.html:69
 msgid "Unshare coupon"
 msgstr "Отменить совместное использование купона"
 
 #: core/templates/core/coupon_form.html:12
-#: core/templates/core/coupon_form.html:15
+#: core/templates/core/coupon_form.html:26
 msgid "Edit coupon"
 msgstr "Изменить купон"
 
 #: core/templates/core/coupon_form.html:12
-#: core/templates/core/coupon_form.html:15
-#: core/templates/core/coupon_list.html:18
+#: core/templates/core/coupon_form.html:21
+#: core/templates/core/coupon_form.html:26
+#: core/templates/core/coupon_list.html:17 core/templates/core/index.html:47
 msgid "Create coupon"
 msgstr "Создать купон"
 
-#: core/templates/core/coupon_list.html:13
-#: core/templates/core/shop_list.html:13
-#: groups/templates/groups/group_list.html:32
-#: groups/templates/groups/invitation_list.html:14
-msgid "Details"
-msgstr "Побробнее"
+#: core/templates/core/coupon_form.html:19
+#, python-format
+#| msgid "Coupon %(title)s"
+msgid "Edit coupon %(title)s"
+msgstr "Изменить купон %(title)s"
 
-#: core/templates/core/index.html:5
-msgid "Home"
-msgstr "Домашняя"
+#: core/templates/core/coupon_list.html:25 core/templates/core/index.html:59
+#: core/templates/core/shop_detail.html:94
+#| msgid "coupon uuid"
+msgid "No coupons found"
+msgstr "Купоны не найдены"
 
-#: core/templates/core/index.html:8
-msgid "Welcome to Registar"
-msgstr "Добро пожаловать в Registar"
+#: core/templates/core/index.html:13
+#, python-format
+msgid ""
+"<span class=\"returned-amount\">%(amount)s€</span><span class=\"returned-"
+"text\">Returned</span>"
+msgstr ""
+"<span class=\"returned-amount\">%(amount)s€</span><span class=\"returned-"
+"text\">Возвращено</span>"
 
-#: core/templates/core/index.html:18
+#: core/templates/core/index.html:16
+msgid "See overview"
+msgstr "Посмотреть обзор"
+
+#: core/templates/core/index.html:22
+#| msgid "shops"
+msgid "Your shops"
+msgstr "Ваши магазины"
+
+#: core/templates/core/index.html:25 core/templates/core/shop_form.html:6
+#: core/templates/core/shop_form.html:15 core/templates/core/shop_form.html:20
+#: core/templates/core/shop_list.html:17
+msgid "Create shop"
+msgstr "Создать магазин"
+
+#: core/templates/core/index.html:28
+msgid "See all shops"
+msgstr "Посмотреть все магазины"
+
+#: core/templates/core/index.html:37 core/templates/core/shop_list.html:25
+#| msgid "shop uuid"
+msgid "No shops found"
+msgstr "Магазины не найдены"
+
+#: core/templates/core/index.html:44
+#| msgid "coupons"
+msgid "Your coupons"
+msgstr "Ваши купоны"
+
+#: core/templates/core/index.html:50
+#| msgid "Share coupon"
+msgid "See all coupons"
+msgstr "Посмотреть все купоны"
+
+#: core/templates/core/index.html:66
+#| msgid "shop groups"
+msgid "Your groups"
+msgstr "Ваши группы"
+
+#: core/templates/core/index.html:69 groups/templates/groups/group_form.html:6
+#: groups/templates/groups/group_form.html:15
+#: groups/templates/groups/group_form.html:20
+#: groups/templates/groups/group_list.html:47
+msgid "Create group"
+msgstr "Создать группу"
+
+#: core/templates/core/index.html:72
+#| msgid "Delete group"
+msgid "See all groups"
+msgstr "Просмотреть все группы"
+
+#: core/templates/core/index.html:81
+#| msgid "group uuid"
+msgid "No groups found"
+msgstr "Группы не найдены"
+
+#: core/templates/core/index.html:86
 msgid "Welcome to Registar! Please login or register to continue."
 msgstr ""
 "Добро пожаловать в Registar. Пожалуйста войдите или зарегистрируйтесь чтобы "
 "продолжить."
+
+#: core/templates/core/modules/coupon_card.html:23
+#, python-format
+msgid "For shop %(shop)s"
+msgstr "Для магазина %(shop)s"
+
+#: core/templates/core/modules/coupon_card.html:27
+#, python-format
+msgid "Amount: %(amount)s€"
+msgstr "Сумма: %(amount)s€"
+
+#: core/templates/core/modules/coupon_card.html:28
+#| msgid "Share coupon"
+msgid "See coupon"
+msgstr "Посмотреть купон"
 
 #: core/templates/core/modules/creation_form.html:10
 msgid "Edit"
@@ -485,13 +661,207 @@ msgstr "Изменить"
 msgid "Create"
 msgstr "Создать"
 
+#: core/templates/core/modules/group_card.html:23
+#, python-format
+msgid "%(members)s member"
+msgid_plural "%(members)s members"
+msgstr[0] "Один участник"
+msgstr[1] "%(members)s участника"
+msgstr[2] "Нет участников"
+msgstr[3] "%(members)s участников"
+
+#: core/templates/core/modules/group_card.html:24
+#, python-format
+msgid "%(shops)s shop"
+msgid_plural "%(shops)s shops"
+msgstr[0] "Один магазин"
+msgstr[1] "%(shops)s магазина"
+msgstr[2] "Нет магазинов"
+msgstr[3] "%(shops)s магазинов"
+
+#: core/templates/core/modules/group_card.html:29
+#, python-format
+msgid "Remaining %(amount)s€ total"
+msgstr "Осталось %(amount)s€ всего"
+
+#: core/templates/core/modules/group_card.html:31
+msgid "Remaining --,--€ total"
+msgstr "Осталось --,--€ всего"
+
+#: core/templates/core/modules/group_card.html:33
+#| msgid "Delete group"
+msgid "See group"
+msgstr "Посмотреть группу"
+
+#: core/templates/core/modules/pagination.html:8
+#: core/templates/core/modules/pagination.html:32
+msgid "First page"
+msgstr "Первая страница"
+
+#: core/templates/core/modules/pagination.html:70
+#: core/templates/core/modules/pagination.html:81
+msgid "Last page"
+msgstr "Последняя страница"
+
+#: core/templates/core/modules/shop_card.html:22
+#, python-format
+msgid "Used %(used)s of %(total)s coupon"
+msgid_plural "Used %(used)s of %(total)s coupons"
+msgstr[0] "Использовано %(used)s из %(total)s купона"
+msgstr[1] "Использовано %(used)s из %(total)s купонов"
+msgstr[2] "Использовано %(used)s из %(total)s купонов"
+msgstr[3] "Использовано %(used)s из %(total)s купонов"
+
+#: core/templates/core/modules/shop_card.html:24
+#| msgid "coupons"
+msgid "No coupons yet"
+msgstr "Пока нет купонов"
+
+#: core/templates/core/modules/shop_card.html:30
+#, python-format
+msgid "Remaining %(amount)s€"
+msgstr "Осталось %(amount)s€"
+
+#: core/templates/core/modules/shop_card.html:32
+msgid "Remaining --,--€"
+msgstr "Осталось --,--€"
+
+#: core/templates/core/modules/shop_card.html:34
+#| msgid "Share coupon"
+msgid "See coupons"
+msgstr "Посмотреть купоны"
+
+#: core/templates/core/overview.html:5 core/templates/core/overview.html:9
+msgid "Overview"
+msgstr "Обзор"
+
+#: core/templates/core/overview.html:13
+msgid ""
+"Your <span\n"
+"        class=\"fw-bold display-font gradient-text\">overview</span>"
+msgstr ""
+"Ваш <span\n"
+"        class=\"fw-bold display-font gradient-text\">обзор</span>"
+
+#: core/templates/core/overview.html:24
+msgid "Money"
+msgstr "Деньги"
+
+#: core/templates/core/overview.html:31
+msgid "Total amount of money in coupons"
+msgstr "Общая сумма денег в купонах"
+
+#: core/templates/core/overview.html:32
+#, python-format
+msgid "%(total_amount)s€"
+msgstr "%(total_amount)s€"
+
+#: core/templates/core/overview.html:35
+msgid "Total amount of money returned"
+msgstr "Общая сумма возвращенных денег"
+
+#: core/templates/core/overview.html:36
+#, python-format
+msgid "%(total_amount_returned)s€"
+msgstr "%(total_amount_returned)s€"
+
+#: core/templates/core/overview.html:39
+msgid "Total amount of money remaining"
+msgstr "Общая сумма оставшихся денег"
+
+#: core/templates/core/overview.html:40
+#, python-format
+msgid "%(total_amount_remaining)s€"
+msgstr "%(total_amount_remaining)s€"
+
+#: core/templates/core/overview.html:43
+msgid "Percentage of money returned"
+msgstr "Процент возвращенных денег"
+
+#: core/templates/core/overview.html:44
+#, python-format
+msgid "%(returned_percentage)s%%"
+msgstr "%(returned_percentage)s%%"
+
+#: core/templates/core/overview.html:63
+msgid "Total amount of shops"
+msgstr "Общее количество магазинов"
+
+#: core/templates/core/overview.html:64 core/templates/core/overview.html:68
+#: core/templates/core/overview.html:88 core/templates/core/overview.html:92
+#: core/templates/core/overview.html:96 core/templates/core/overview.html:100
+#: core/templates/core/overview.html:104 core/templates/core/overview.html:128
+#: core/templates/core/overview.html:132
+#, python-format
+msgid "%(total_amount)s"
+msgstr "%(total_amount)s"
+
+#: core/templates/core/overview.html:67
+msgid "Total amount of pinned shops"
+msgstr "Общее количество закрепленных магазинов"
+
+#: core/templates/core/overview.html:87
+msgid "Total amount of coupons"
+msgstr "Общее количество купонов"
+
+#: core/templates/core/overview.html:91
+msgid "Total amount of pinned coupons"
+msgstr "Общее количество закрепленных купонов"
+
+#: core/templates/core/overview.html:95
+#| msgid "Can unshare coupon"
+msgid "Total amount of shared coupons"
+msgstr "Общее количество купонов с совместным доступом"
+
+#: core/templates/core/overview.html:99
+msgid "Total amount of used coupons"
+msgstr "Общая сумма использованных купонов"
+
+#: core/templates/core/overview.html:103
+msgid "Total amount of unused coupons"
+msgstr "Общая сумма неиспользованных купонов"
+
+#: core/templates/core/overview.html:107
+msgid "Percentage of used coupons"
+msgstr "Процент использованных купонов"
+
+#: core/templates/core/overview.html:108
+#, python-format
+msgid "%(percentage)s%%"
+msgstr "%(percentage)s%%"
+
+#: core/templates/core/overview.html:127
+msgid "Total amount of groups"
+msgstr "Общее количество групп"
+
+#: core/templates/core/overview.html:131
+msgid "Total amount of memberships in other users' groups"
+msgstr "Общее количество членств в группах других пользователей"
+
 #: core/templates/core/shop_confirm_delete.html:5
 #: core/templates/core/shop_confirm_delete.html:7
 #, python-format
 msgid "Are you sure you want to delete shop %(title)s?"
 msgstr "Вы уверены, что хотите удалить магазин %(title)s?"
 
-#: core/templates/core/shop_confirm_delete.html:10
+#: core/templates/core/shop_confirm_delete.html:12
+#: core/templates/core/shop_detail.html:5
+#: core/templates/core/shop_detail.html:10
+#: core/templates/core/shop_form.html:12
+#: marketplace/templates/marketplace/shop_detail.html:5
+#: marketplace/templates/marketplace/shop_detail.html:10
+#: marketplace/templates/marketplace/shop_detail.html:14
+#, python-format
+msgid "Shop %(title)s"
+msgstr "Магазин %(title)s"
+
+#: core/templates/core/shop_confirm_delete.html:13
+#, python-format
+#| msgid "Shop %(title)s"
+msgid "Delete shop %(title)s"
+msgstr "Удалить магазин %(title)s"
+
+#: core/templates/core/shop_confirm_delete.html:17
 msgid ""
 "\n"
 "This will permanently delete the shop and all coupons associated with it. \n"
@@ -506,149 +876,174 @@ msgstr ""
 "удалены из всех групп и больше не будут доступны пользователям в них.\n"
 "Вы уверены, что хотите удалить магазин?\n"
 
-#: core/templates/core/shop_confirm_delete.html:19
-#: core/templates/core/shop_detail.html:41
+#: core/templates/core/shop_confirm_delete.html:26
+#: core/templates/core/shop_detail.html:82
 msgid "Delete shop"
 msgstr "Удалить магазин"
 
-#: core/templates/core/shop_detail.html:5
-#: core/templates/core/shop_detail.html:8
+#: core/templates/core/shop_detail.html:15
 #, python-format
-msgid "Shop %(title)s"
-msgstr "Магазин %(title)s"
+msgid "Shop <span class=\"gradient-text\">%(title)s</span>"
+msgstr "Магазин <span class=\"gradient-text\">%(title)s</span>"
 
-#: core/templates/core/shop_detail.html:19
-#| msgid "Edit coupon"
-msgid "View coupon"
-msgstr "Посмотреть купон"
+#: core/templates/core/shop_detail.html:18
+#| msgid "is pinned"
+msgid "Pinned"
+msgstr "Закреплен"
 
-#: core/templates/core/shop_detail.html:24
-msgid "Back to shop list"
-msgstr "Вернуться к списку магазинов"
+#: core/templates/core/shop_detail.html:21
+msgid "On marketplace"
+msgstr "На маркетплейсе"
 
 #: core/templates/core/shop_detail.html:27
+#, python-format
+msgid "Added at %(date)s"
+msgstr "Добавлено %(date)s"
+
+#: core/templates/core/shop_detail.html:35
 msgid "Update shop"
 msgstr "Изменить магазин"
 
-#: core/templates/core/shop_detail.html:31
-#| msgid "Update shop"
+#: core/templates/core/shop_detail.html:39
+#| msgid "optional"
+msgid "Options"
+msgstr "Опции"
+
+#: core/templates/core/shop_detail.html:47
 msgid "Unpin shop"
 msgstr "Открепить магазин"
 
-#: core/templates/core/shop_detail.html:36
-#| msgid "Edit shop"
+#: core/templates/core/shop_detail.html:53
 msgid "Pin shop"
 msgstr "Закрепить магазин"
 
-#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
+#: core/templates/core/shop_detail.html:63
+msgid "Remove from marketplace"
+msgstr "Убрать с маркетплейса"
+
+#: core/templates/core/shop_detail.html:69
+msgid "Upload to marketplace"
+msgstr "Добавить на маркетплейс"
+
+#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:20
 msgid "Edit shop"
 msgstr "Изменить магазин"
 
-#: core/templates/core/shop_form.html:6 core/templates/core/shop_form.html:9
-#: core/templates/core/shop_list.html:18
-msgid "Create shop"
-msgstr "Создать магазин"
+#: core/templates/core/shop_form.html:13
+#, python-format
+#| msgid "Shop %(title)s"
+msgid "Edit shop %(title)s"
+msgstr "Изменить магазин %(title)s"
 
-#: core/views.py:61
+#: core/views.py:254
 msgid "Shop created successfully"
 msgstr "Магазин успешно создан"
 
-#: core/views.py:75
+#: core/views.py:279
 msgid "Shop updated successfully"
 msgstr "Магазин успешно изменён"
 
-#: core/views.py:94
+#: core/views.py:315
 msgid "Shop deleted successfully"
 msgstr "Магазин успешно удален"
 
-#: core/views.py:106
-#| msgid "Shop updated successfully"
+#: core/views.py:344
 msgid "Shop pinned successfully!"
 msgstr "Магазин успешно закреплен"
 
-#: core/views.py:129
-#| msgid "Shop updated successfully"
+#: core/views.py:373
 msgid "Shop unpinned successfully!"
 msgstr "Магазин успешно откреплён"
 
-#: core/views.py:190
+#: core/views.py:402
+#| msgid "Shop updated successfully"
+msgid "Shop uploaded to the marketplace successfully!"
+msgstr "Магазин успешно добавлен на маркетплейс!"
+
+#: core/views.py:433
+#| msgid "Shop removed successfully"
+msgid "Shop removed from the marketplace successfully!"
+msgstr "Магазин успешно удален с маркетплейса!"
+
+#: core/views.py:522
 msgid "Coupon created successfully"
 msgstr "Купон успешно создан"
 
-#: core/views.py:209
+#: core/views.py:555
 msgid "Coupon updated successfully"
 msgstr "Купон успешно изменён"
 
-#: core/views.py:233
+#: core/views.py:605
 msgid "Coupon deleted successfully"
 msgstr "Купон успешно удален"
 
-#: core/views.py:245
+#: core/views.py:634
 #, python-format
-#| msgid "Coupon created successfully"
 msgid "Coupon shared successfully! Access URL: %(url)s"
 msgstr "Включен совместный доступ к купону! URL-адрес доступа: %(url)s"
 
-#: core/views.py:273
-#| msgid "Coupon updated successfully"
+#: core/views.py:668
 msgid "Coupon unshared successfully!"
 msgstr "Совместный доступ к купону успешно отключен!"
 
-#: core/views.py:319
-#| msgid "Coupon created successfully"
+#: core/views.py:726
 msgid "Coupon marked as used successfully!"
 msgstr "Купон успешно отмечен как использованный!"
 
-#: core/views.py:342
-#| msgid "Coupon created successfully"
+#: core/views.py:755
 msgid "Coupon marked as unused successfully!"
 msgstr "Купон успешно отмечен как неиспользованный!"
 
-#: core/views.py:365
-#| msgid "Coupon updated successfully"
+#: core/views.py:784
 msgid "Coupon pinned successfully!"
 msgstr "Купон успешно закреплен!"
 
-#: core/views.py:388
-#| msgid "Coupon updated successfully"
+#: core/views.py:813
 msgid "Coupon unpinned successfully!"
 msgstr "Купон успешно откреплён!"
 
-#: groups/admin.py:16
+#: groups/admin.py:16 groups/templates/groups/accept.html:13
 msgid "Accept invitation"
-msgstr ""
+msgstr "Принять приглашение"
 
 #: groups/admin.py:21
 msgid "Reject invitation"
-msgstr ""
+msgstr "Отклонить приглашение"
 
 #: groups/admin.py:47
-#| msgid "Search by title, owner username, owner email"
 msgid "Search by title, barcode, owner username, owner email"
 msgstr ""
-"Поиск по названию, штрих-коду, имени пользователя владельца, адресу электронной почты владельца"
+"Поиск по названию, штрих-коду, имени пользователя владельца, адресу "
+"электронной почты владельца"
 
 #: groups/admin.py:49
 msgid "Members"
 msgstr "Участники"
 
 #: groups/admin.py:74
-#| msgid ""
-#| "Search by title, barcode, owner username, owner email, amount, store title"
 msgid ""
 "Search by group title, sender username, sender email, recipient username, "
 "recipient email"
 msgstr ""
-"Поиск по названию группы, имени пользователя отправителя, адресу электронной почты отправителя, имени пользователя получателя, "
-"адресу электронной почты получателя"
+"Поиск по названию группы, имени пользователя отправителя, адресу электронной "
+"почты отправителя, имени пользователя получателя, адресу электронной почты "
+"получателя"
+
+#: groups/admin.py:87
+#| msgid "Add shops to the group %(title)s"
+msgid "Search by shop title, group title"
+msgstr "Поиск по названию магазина, названию группы"
+
+#: groups/admin.py:99
+#| msgid "Search by title, owner username, owner email"
+msgid "Search by user username, user email, group title"
+msgstr "Поиск по имени пользователя, адресу электронной почты пользователя, названию группы"
 
 #: groups/forms.py:48
-#| msgid "is pinned?"
 msgid "is pinned"
 msgstr "закреплен?"
 
 #: groups/forms.py:59 groups/forms.py:75
-#| msgid "You cannot select another user's store!"
 msgid "You cannot select another user's shop!"
 msgstr "Вы не можете выбрать магазин другого пользователя!"
 
@@ -661,7 +1056,6 @@ msgid "Shop is not added to the group!"
 msgstr "Магазин не добавлен в группу!"
 
 #: groups/forms.py:88
-#| msgid "Owner's username"
 msgid "username"
 msgstr "имя пользователя"
 
@@ -670,7 +1064,6 @@ msgid "User does not exist!"
 msgstr "Пользователь не существует!"
 
 #: groups/forms.py:102
-#| msgid "You cannot select another user's store!"
 msgid "You cannot invite yourself!"
 msgstr "Вы не можете пригласить себя!"
 
@@ -683,7 +1076,6 @@ msgid "Invitation has already been sent to this user!"
 msgstr "Приглашение уже отправлено этому пользователю!"
 
 #: groups/forms.py:128
-#| msgid "You cannot select another user's store!"
 msgid "You cannot remove the owner of the group!"
 msgstr "Вы не можете удалить владельца группы!"
 
@@ -692,7 +1084,6 @@ msgid "User is not a member of the group!"
 msgstr "Пользователь не является участником группы!"
 
 #: groups/forms.py:141 groups/models.py:18
-#| msgid "Change password"
 msgid "access password"
 msgstr "пароль доступа"
 
@@ -701,17 +1092,14 @@ msgid "group uuid"
 msgstr "uuid группы"
 
 #: groups/models.py:15
-#| msgid "coupon title"
 msgid "group title"
 msgstr "название группы"
 
-#: groups/models.py:16 groups/models.py:50
-#| msgid "is shop pinned?"
+#: groups/models.py:16 groups/models.py:51
 msgid "is group pinned?"
 msgstr "группа закреплена?"
 
 #: groups/models.py:17
-#| msgid "owner of the shop"
 msgid "owner of the group"
 msgstr "владелец группы"
 
@@ -723,8 +1111,8 @@ msgstr "необязательный"
 msgid "members"
 msgstr "участники"
 
-#: groups/models.py:26 groups/models.py:49 groups/models.py:69
-#: groups/models.py:88
+#: groups/models.py:26 groups/models.py:50 groups/models.py:70
+#: groups/models.py:89
 msgid "group"
 msgstr "группа"
 
@@ -748,114 +1136,148 @@ msgstr "Может добавить магазин в группу"
 msgid "Can remove shop from a group"
 msgstr "Может удалить магазин из группы"
 
-#: groups/models.py:51
+#: groups/models.py:34
+#| msgid "Create group"
+msgid "Can leave group"
+msgstr "Может покинуть группу"
+
+#: groups/models.py:52
 msgid "joined at"
 msgstr "присоединился в"
 
-#: groups/models.py:57
+#: groups/models.py:58
 msgid "group membership"
 msgstr "членство в группе"
 
-#: groups/models.py:58
+#: groups/models.py:59
 msgid "group memberships"
 msgstr "членство в группах"
 
-#: groups/models.py:71
-#| msgid "updated at"
+#: groups/models.py:72
 msgid "added at"
 msgstr "добавлено в"
 
-#: groups/models.py:77
+#: groups/models.py:78
 msgid "shop group"
 msgstr "магазин группы"
 
-#: groups/models.py:78
-#| msgid "shops"
+#: groups/models.py:79
 msgid "shop groups"
 msgstr "магазины группы"
 
-#: groups/models.py:89
+#: groups/models.py:90
 msgid "sender"
 msgstr "отправитель"
 
-#: groups/models.py:90
+#: groups/models.py:91
 msgid "recipient"
 msgstr "получатель"
 
-#: groups/models.py:91
+#: groups/models.py:92
 msgid "is accepted?"
 msgstr "принято?"
 
-#: groups/models.py:92
-#| msgid "is used?"
+#: groups/models.py:93
 msgid "is processed?"
 msgstr "была обработана?"
 
-#: groups/models.py:93
+#: groups/models.py:94
 msgid "sent at"
 msgstr "отправлено в"
 
-#: groups/models.py:94
-#| msgid "created at"
+#: groups/models.py:95
 msgid "accepted at"
 msgstr "принято в"
 
-#: groups/models.py:95
-#| msgid "created at"
+#: groups/models.py:96
 msgid "rejected at"
 msgstr "отказано в"
 
-#: groups/models.py:101
+#: groups/models.py:102
 msgid "invitation"
 msgstr "приглашение"
 
-#: groups/models.py:102
+#: groups/models.py:103
 msgid "invitations"
 msgstr "приглашения"
 
-#: groups/models.py:105
+#: groups/models.py:106
 msgid "Can accept invitation"
 msgstr "Может принять приглашение"
 
-#: groups/models.py:106
+#: groups/models.py:107
 msgid "Can reject invitation"
 msgstr "Может отклонить приглашение"
 
-#: groups/templates/groups/accept.html:6 groups/templates/groups/accept.html:9
+#: groups/templates/groups/accept.html:6 groups/templates/groups/accept.html:17
 msgid "Please enter access password to join"
 msgstr "Пожалуйста, введите пароль доступа, чтобы присоединиться"
 
-#: groups/templates/groups/accept.html:13
+#: groups/templates/groups/accept.html:11
+#: groups/templates/groups/group_list.html:14
+#: groups/templates/groups/invitation_detail.html:10
+#: groups/templates/groups/invitation_list.html:5
+#: groups/templates/groups/invitation_list.html:10
+#: groups/templates/groups/invitation_list.html:14
+msgid "Invitations"
+msgstr "Приглашения"
+
+#: groups/templates/groups/accept.html:12
+#: groups/templates/groups/invitation_detail.html:11
+#, python-format
+#| msgid "Invite users to the group %(title)s"
+msgid "Invitation to join group %(title)s"
+msgstr "Приглашение присоединиться к группе %(title)s"
+
+#: groups/templates/groups/accept.html:21
 msgid "Join"
 msgstr "Присоединиться"
 
 #: groups/templates/groups/add_shop.html:5
-#: groups/templates/groups/add_shop.html:8
+#: groups/templates/groups/add_shop.html:15
 #, python-format
 msgid "Add shops to the group %(title)s"
 msgstr "Добавить магазины в группу %(title)s"
 
-#: groups/templates/groups/add_shop.html:9
+#: groups/templates/groups/add_shop.html:10
+#: groups/templates/groups/group_confirm_delete.html:12
+#: groups/templates/groups/group_detail.html:5
+#: groups/templates/groups/group_detail.html:10
+#: groups/templates/groups/group_detail.html:14
+#: groups/templates/groups/group_form.html:12
+#: groups/templates/groups/invite.html:10
+#: groups/templates/groups/remove_member.html:10
+#: groups/templates/groups/remove_shop.html:10
+#, python-format
+msgid "Group %(title)s"
+msgstr "Группа %(title)s"
+
+#: groups/templates/groups/add_shop.html:11
+#: groups/templates/groups/group_detail.html:76
+msgid "Add shop"
+msgstr "Добавить магазин"
+
+#: groups/templates/groups/add_shop.html:16
 msgid "Select the shop you want to add to the group."
 msgstr "Выберите магазин, который вы хотите добавить в группу."
 
-#: groups/templates/groups/add_shop.html:12
+#: groups/templates/groups/add_shop.html:19
 msgid "Add"
 msgstr "Добавить"
 
 #: groups/templates/groups/group_confirm_delete.html:5
 #: groups/templates/groups/group_confirm_delete.html:7
 #, python-format
-#| msgid "Are you sure you want to delete coupon %(title)s?"
 msgid "Are you sure you want to delete group %(title)s?"
 msgstr "Вы уверены, что хотите удалить группу %(title)s?"
 
-#: groups/templates/groups/group_confirm_delete.html:10
-#| msgid ""
-#| "This will permanently delete the coupon. \n"
-#| "This action cannot be undone. The coupon will be removed from all groups "
-#| "and will no longer be available to users in them.\n"
-#| "Are you sure you want to delete the coupon?\n"
+#: groups/templates/groups/group_confirm_delete.html:13
+#, python-format
+#| msgid "Group %(title)s"
+msgid "Delete group %(title)s"
+msgstr "Удалить группу %(title)s"
+
+#: groups/templates/groups/group_confirm_delete.html:17
 msgid ""
 "This will permanently delete the group. \n"
 "This action cannot be undone. All the members and shops associated with this "
@@ -865,90 +1287,75 @@ msgid ""
 msgstr ""
 "Это приведет к окончательному удалению группы. \n"
 "Это действие невозможно отменить. Все участники и магазины, связанные с этой "
-"группой, будут удалены из группы. Ваши магазины по-прежнему будут доступны для"
-"вас.\n"
+"группой, будут удалены из группы. Ваши магазины по-прежнему будут доступны "
+"длявас.\n"
 "Вы уверены, что хотите удалить группу?\n"
 
-#: groups/templates/groups/group_confirm_delete.html:18
-#| msgid "Delete coupon"
+#: groups/templates/groups/group_confirm_delete.html:25
+#: groups/templates/groups/group_detail.html:86
 msgid "Delete group"
 msgstr "Удалить группу"
 
-#: groups/templates/groups/group_detail.html:5
-#: groups/templates/groups/group_detail.html:8
-#, python-format
-#| msgid "Coupon %(title)s"
-msgid "Group %(title)s"
-msgstr "Группа %(title)s"
-
-#: groups/templates/groups/group_detail.html:15
+#: groups/templates/groups/group_detail.html:21
 msgid "Members:"
 msgstr "Участники:"
 
-#: groups/templates/groups/group_detail.html:21
-#| msgid "Shops"
+#: groups/templates/groups/group_detail.html:27
 msgid "Shops:"
 msgstr "Магазины:"
 
-#: groups/templates/groups/group_detail.html:25
-#| msgid "Edit shop"
+#: groups/templates/groups/group_detail.html:31
+#: marketplace/templates/marketplace/shop_list.html:19
 msgid "View shop"
 msgstr "Посмотреть магазин"
 
-#: groups/templates/groups/group_detail.html:30
-#| msgid "Back to coupon list"
+#: groups/templates/groups/group_detail.html:36
 msgid "Back to group list"
 msgstr "Вернуться к списку групп"
 
-#: groups/templates/groups/group_detail.html:35
-#: groups/templates/groups/group_detail.html:47
+#: groups/templates/groups/group_detail.html:41
+#: groups/templates/groups/group_detail.html:57
 msgid "Unpin group"
 msgstr "Открепить группу"
 
-#: groups/templates/groups/group_detail.html:40
-#: groups/templates/groups/group_detail.html:52
+#: groups/templates/groups/group_detail.html:46
+#: groups/templates/groups/group_detail.html:62
 msgid "Pin group"
 msgstr "Закрепить группу"
 
-#: groups/templates/groups/group_detail.html:60
+#: groups/templates/groups/group_detail.html:51
+#| msgid "Create group"
+msgid "Leave group"
+msgstr "Покинуть группу"
+
+#: groups/templates/groups/group_detail.html:70
+#: groups/templates/groups/invite.html:11
 msgid "Invite users"
 msgstr "Пригласить пользователей"
 
-#: groups/templates/groups/group_detail.html:63
+#: groups/templates/groups/group_detail.html:73
+#: groups/templates/groups/remove_member.html:11
 msgid "Remove users"
 msgstr "Удалить пользователей"
 
-#: groups/templates/groups/group_detail.html:66
-#| msgid "Edit shop"
-msgid "Add shop"
-msgstr "Добавить магазин"
-
-#: groups/templates/groups/group_detail.html:69
-#| msgid "Delete shop"
+#: groups/templates/groups/group_detail.html:79
+#: groups/templates/groups/remove_shop.html:11
 msgid "Remove shop"
 msgstr "Удалить магазин"
 
-#: groups/templates/groups/group_detail.html:72
+#: groups/templates/groups/group_detail.html:82
 #: groups/templates/groups/group_form.html:6
-#: groups/templates/groups/group_form.html:9
-#| msgid "Edit coupon"
+#: groups/templates/groups/group_form.html:20
 msgid "Edit group"
 msgstr "Изменить группу"
 
-#: groups/templates/groups/group_form.html:6
-#: groups/templates/groups/group_form.html:9
-#: groups/templates/groups/group_list.html:38
-#| msgid "Create coupon"
-msgid "Create group"
-msgstr "Создать группу"
+#: groups/templates/groups/group_form.html:13
+#, python-format
+#| msgid "Group %(title)s"
+msgid "Edit group %(title)s"
+msgstr "Изменить группу %(title)s"
 
-#: groups/templates/groups/group_list.html:9
-#: groups/templates/groups/invitation_list.html:5
-#: groups/templates/groups/invitation_list.html:8
-msgid "Invitations"
-msgstr "Приглашения"
-
-#: groups/templates/groups/group_list.html:13
+#: groups/templates/groups/group_list.html:18
 #, python-format
 msgid ""
 "\n"
@@ -975,182 +1382,211 @@ msgstr[3] ""
 "                    У вас %(count)s необработанных приглашений\n"
 "                    "
 
-#: groups/templates/groups/group_list.html:20
-#: groups/templates/groups/invitation_list.html:19
+#: groups/templates/groups/group_list.html:25
+#: groups/templates/groups/invitation_list.html:27
 msgid "No invitations"
 msgstr "Нет приглашений"
 
-#: groups/templates/groups/group_list.html:23
+#: groups/templates/groups/group_list.html:28
 msgid "Open invitation overview"
 msgstr "Открыть обзор приглашений"
 
+#: groups/templates/groups/group_list.html:38
+#: groups/templates/groups/invitation_list.html:20
+msgid "Details"
+msgstr "Побробнее"
+
 #: groups/templates/groups/invitation_detail.html:5
-#: groups/templates/groups/invitation_detail.html:8
+#: groups/templates/groups/invitation_detail.html:15
 #, python-format
 msgid "Invitation from %(sender)s to join group %(group)s"
 msgstr "Приглашение от %(sender)s присоединиться к группе %(group)s"
 
-#: groups/templates/groups/invitation_detail.html:15
-#| msgid "Back to coupon list"
+#: groups/templates/groups/invitation_detail.html:22
 msgid "Back to invitations list"
 msgstr "Вернуться к списку приглашений"
 
-#: groups/templates/groups/invitation_detail.html:17
+#: groups/templates/groups/invitation_detail.html:24
 msgid "Accept"
 msgstr "Принять"
 
-#: groups/templates/groups/invitation_detail.html:20
+#: groups/templates/groups/invitation_detail.html:27
 msgid "Reject"
 msgstr "Отклонить"
 
-#: groups/templates/groups/invitation_list.html:12
-#: groups/templates/groups/invitation_list.html:31
-#: groups/templates/groups/invitation_list.html:42
+#: groups/templates/groups/invitation_list.html:18
+#: groups/templates/groups/invitation_list.html:39
+#: groups/templates/groups/invitation_list.html:50
 #, python-format
 msgid "%(sender)s invited you in a group %(group)s."
 msgstr "%(sender)s пригласил вас в группу %(group)s."
 
-#: groups/templates/groups/invitation_list.html:23
+#: groups/templates/groups/invitation_list.html:31
 msgid "Invitation archive"
 msgstr "Архив приглашений"
 
-#: groups/templates/groups/invitation_list.html:24
+#: groups/templates/groups/invitation_list.html:32
 msgid "Here you can find all invitations that you have already processed."
 msgstr "Здесь вы можете найти все приглашения, которые вы уже обработали."
 
-#: groups/templates/groups/invitation_list.html:25
+#: groups/templates/groups/invitation_list.html:33
 msgid "Accepted"
 msgstr "Принятые"
 
-#: groups/templates/groups/invitation_list.html:27
+#: groups/templates/groups/invitation_list.html:35
 msgid "No accepted invitations"
 msgstr "Нет принятых приглашений"
 
-#: groups/templates/groups/invitation_list.html:35
+#: groups/templates/groups/invitation_list.html:43
 msgid "Rejected"
 msgstr "Отклоненные"
 
-#: groups/templates/groups/invitation_list.html:38
+#: groups/templates/groups/invitation_list.html:46
 msgid "No rejected invitations"
 msgstr "Нет отклоненных приглашений"
 
-#: groups/templates/groups/invite.html:5 groups/templates/groups/invite.html:8
+#: groups/templates/groups/invite.html:5 groups/templates/groups/invite.html:15
 #, python-format
 msgid "Invite users to the group %(title)s"
 msgstr "Пригласить пользователей в группу %(title)s"
 
-#: groups/templates/groups/invite.html:9
+#: groups/templates/groups/invite.html:16
 msgid "Enter the username of the users you want to invite to the group."
 msgstr "Введите имя пользователя, которого вы хотите пригласить в группу."
 
-#: groups/templates/groups/invite.html:12
+#: groups/templates/groups/invite.html:19
 msgid "Invite"
 msgstr "Пригласить"
 
 #: groups/templates/groups/remove_member.html:5
-#: groups/templates/groups/remove_member.html:8
+#: groups/templates/groups/remove_member.html:15
 #, python-format
 msgid "Remove users from the group %(title)s"
 msgstr "Удалить пользователей из группы %(title)s"
 
-#: groups/templates/groups/remove_member.html:9
+#: groups/templates/groups/remove_member.html:16
 msgid "Select the user you want to remove from the group."
 msgstr "Выберите пользователя, которого вы хотите удалить из группы."
 
-#: groups/templates/groups/remove_member.html:12
-#: groups/templates/groups/remove_shop.html:12
+#: groups/templates/groups/remove_member.html:19
+#: groups/templates/groups/remove_shop.html:19
 msgid "Remove"
 msgstr "Удалить"
 
 #: groups/templates/groups/remove_shop.html:5
-#: groups/templates/groups/remove_shop.html:8
+#: groups/templates/groups/remove_shop.html:15
 #, python-format
 msgid "Remove shop from the group %(title)s"
 msgstr "Удалить магазин из группы %(title)s"
 
-#: groups/templates/groups/remove_shop.html:9
+#: groups/templates/groups/remove_shop.html:16
 msgid "Select the shop you want to remove from the group."
 msgstr "Выберите магазин, который вы хотите удалить из группы."
 
-#: groups/views.py:82
-#| msgid "Coupon created successfully"
+#: groups/views.py:88
 msgid "Group created successfully"
 msgstr "Группа успешно создана"
 
-#: groups/views.py:101
-#| msgid "Coupon updated successfully"
+#: groups/views.py:118
 msgid "Group updated successfully"
 msgstr "Группа успешно изменена"
 
-#: groups/views.py:124
-#| msgid "Coupon deleted successfully"
+#: groups/views.py:154
 msgid "Group deleted successfully"
 msgstr "Группа успешно удалена"
 
-#: groups/views.py:137
+#: groups/views.py:185
 #, python-format
 msgid "You have left the group %(group)s"
 msgstr "Вы покинули группу %(group)s"
 
-#: groups/views.py:163
-#| msgid "Coupon updated successfully"
+#: groups/views.py:221
 msgid "Group pinned successfully!"
 msgstr "Группа успешно закреплена!"
 
-#: groups/views.py:200
-#| msgid "Coupon updated successfully"
+#: groups/views.py:263
 msgid "Group unpinned successfully!"
 msgstr "Группа успешно откреплена!"
 
-#: groups/views.py:238
-#| msgid "Coupon created successfully"
+#: groups/views.py:306
 msgid "Invitation sent successfully"
 msgstr "Приглашение успешно отправлено"
 
-#: groups/views.py:278
-#| msgid "User deleted successfully"
+#: groups/views.py:356
 msgid "Member removed successfully"
 msgstr "Участник успешно удален"
 
-#: groups/views.py:323
-#| msgid "Shop created successfully"
+#: groups/views.py:411
 msgid "Shop added successfully"
 msgstr "Магазин успешно добавлен"
 
-#: groups/views.py:363
-#| msgid "Shop created successfully"
+#: groups/views.py:460
 msgid "Shop removed successfully"
 msgstr "Магазин успешно убран"
 
-#: groups/views.py:446 groups/views.py:459
-#| msgid "Coupon created successfully"
+#: groups/views.py:553 groups/views.py:574
 msgid "Invitation accepted successfully"
 msgstr "Приглашение успешно принято"
 
-#: groups/views.py:462
+#: groups/views.py:584
 msgid "Access password is incorrect!"
 msgstr "Пароль доступа неверный!"
 
-#: groups/views.py:471
-#| msgid "Coupon deleted successfully"
+#: groups/views.py:593
 msgid "Invitation declined successfully"
 msgstr "Приглашение успешно отклонено"
 
-#: groups/views.py:481
+#: groups/views.py:603
 msgid "Invitation was declined"
 msgstr "Приглашение было отклонено"
 
-#: registar/settings.py:155
+#: marketplace/models.py:11
+msgid "Can view a shop on the marketplace"
+msgstr "Может просмотреть магазин на маркетплейсе"
+
+#: marketplace/models.py:12
+#| msgid "Can remove shop from a group"
+msgid "Can use a shop from the marketplace"
+msgstr "Может использовать магазин на маркетплейсе"
+
+#: marketplace/templates/marketplace/shop_detail.html:19
+msgid "Back to the marketplace"
+msgstr "Вернуться на маркетплейс"
+
+#: marketplace/templates/marketplace/shop_detail.html:24
+#| msgid "Unpin shop"
+msgid "Use this shop"
+msgstr "Использовать этот магазин"
+
+#: marketplace/views.py:49
+#, python-format
+msgid "Shop '%(title)s' has been added to your account."
+msgstr "Магазин '%(title)s' добавлен в ваш аккаунт."
+
+#: registar/settings.py:158
 msgid "English"
 msgstr "Английский"
 
-#: registar/settings.py:156
+#: registar/settings.py:159
 msgid "Latvian"
 msgstr "Латышский"
 
-#: registar/settings.py:157
+#: registar/settings.py:160
 msgid "Russian"
 msgstr "Русский"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Welcome to Registar"
+#~ msgstr "Добро пожаловать в Registar"
+
+#~| msgid "Edit coupon"
+#~ msgid "View coupon"
+#~ msgstr "Посмотреть купон"
+
+#~ msgid "Back to shop list"
+#~ msgstr "Вернуться к списку магазинов"
 
 #~ msgid "Hi!"
 #~ msgstr "Привет!"

@@ -11,44 +11,49 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% translate "Invitations" %}</h2>
-    {% if page_obj %}
-        <ul>
-            {% for invitation in page_obj %}
-                <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
-                {% if perms.groups.view_invitation %}
-                <a href="{% url 'groups:invitation_detail' invitation.id %}">{% translate "Details" %}</a>
-                {% endif %}
-            {% endfor %}
+    {% if perms.groups.view_invitation %}
+        <div class="mb-4">
+            <h2 class="mb-0"><i class="bi bi-envelope-arrow-down me-3 color-purple"></i>{% translate "Invitations" %}</h2>
+            <hr>
 
-        </ul>
-        {% include "core/modules/pagination.html" with collection=page_obj %}
-    {% else %}
-        <p>{% translate "No invitations" %}</p>
-    {% endif %}
-    <hr>
+            {% if page_obj %}
+                {% include "core/modules/invitation_card.html" with invitations=page_obj %}
+            {% else %}
+                <p>{% translate "No invitations" %}</p>
+            {% endif %}
 
-    <h2>{% translate "Invitation archive" %}</h2>
-    <p>{% translate "Here you can find all invitations that you have already processed." %}</p>
-    <h3>{% translate "Accepted" %}</h3>
-    {% if not accepted %}
-        <p>{% translate "No accepted invitations" %}</p>
-    {% else %}
-    <ul>
-        {% for invitation in accepted %}
-            <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <h3>{% translate "Rejected" %}</h3>
+        </div>
 
-    {% if not rejected %}
-        <p>{% translate "No rejected invitations" %}</p>
-    {% else %}
-    <ul>
-        {% for invitation in rejected %}
-            <li>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}{{ sender }} invited you in a group {{ group }}.{% endblocktranslate %}</li>
-        {% endfor %}
-    </ul>
+        {% if page_obj %}
+        <div class="pagination mb-5">
+            {% include "core/modules/pagination.html" with collection=page_obj %}
+        </div>
+        {% endif %}
+
     {% endif %}
+
+    <div class="mb-4">
+        <h2 class="mb-0"><i class="bi bi-archive me-3 color-purple"></i>{% translate "Invitation archive" %}</h2>
+        <hr>
+
+        <div class="mb-4">
+            <h3 class="mb-3">{% translate "Accepted" %}</h3>
+            {% if not accepted %}
+                <p class="mb-0">{% translate "No accepted invitations" %}</p>
+            {% else %}
+                {% include "core/modules/invitation_card.html" with invitations=accepted archive=True %}
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <h3 class="mb-3">{% translate "Rejected" %}</h3>
+            {% if not rejected %}
+                <p class="mb-0">{% translate "No rejected invitations" %}</p>
+            {% else %}
+                {% include "core/modules/invitation_card.html" with invitations=rejected archive=True %}
+            {% endif %}
+        </div>
+
+    </div>
+
 {% endblock %}

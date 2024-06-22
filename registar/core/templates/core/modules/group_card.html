@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for group in groups %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title  mb-0">{{ group.title }}</h5>
+                    <div class="d-flex gap-3 ms-3">
+                        {% if group.is_pinned %}
+                            <i class="bi bi-star-fill color-purple"></i>
+                        {% endif %}
+                        {% if group.owner == request.user %}
+                            <i class="bi bi-patch-check-fill color-purple"></i>
+                        {% endif %}
+                        {% if group.access_password %}
+                            <i class="bi bi-shield-lock-fill color-purple"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0">{% blocktranslate count members=group.member_count %}{{ members }} member{% plural %}{{ members }} members{% endblocktranslate %}</p>
+                <p class="mb-0">{% blocktranslate count shops=group.shop_count %}{{ shops }} shop{% plural %}{{ shops }} shops{% endblocktranslate %}</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    {% if group.money_amount %}
+                    <p class="card-text mb-0">{% blocktranslate with amount=group.money_amount %}Remaining {{ amount }}€ total{% endblocktranslate %}</p>
+                    {% else %}
+                    <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€ total{% endblocktranslate %}</p>
+                    {% endif %}
+                    <a href="{% url 'groups:group_detail' group.id %}" class="btn-outline-primary btn stretched-link">{% translate 'See group' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

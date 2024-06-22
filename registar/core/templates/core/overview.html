@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Overview" %}{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'core:index' %}">{% translate "Home" %}</a></li>
+<li class="breadcrumb-item active" aria-current="page">{% blocktranslate %}Overview{% endblocktranslate %}</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="align-self-center">{% blocktranslate %}Your <span
+        class="fw-bold display-font gradient-text">overview</span>{% endblocktranslate %}</h1>
+
+<hr>
+
+<div class="accordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button header-font fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne">
+                {% blocktranslate %}Money{% endblocktranslate %}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of money in coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_amount %}{{ total_amount }}€{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of money returned{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount_returned=total_amount_returned %}{{ total_amount_returned }}€{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of money remaining{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount_returned=total_amount_remaining %}{{ total_amount_remaining }}€{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Percentage of money returned{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with returned_percentage=returned_percentage %}{{ returned_percentage }}%{% endblocktranslate %}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button header-font fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseTwo">
+                {% blocktranslate %}Shops{% endblocktranslate %}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of shops{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_shops %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of pinned shops{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_shops_pinned %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button header-font fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseThree">
+                {% blocktranslate %}Coupons{% endblocktranslate %}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_coupons %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of pinned coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_pinned_coupons %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of shared coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_shared_coupons %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of used coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_used_coupons %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of unused coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_unused_coupons %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Percentage of used coupons{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with percentage=used_percentage %}{{ percentage }}%{% endblocktranslate %}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button header-font fw-bold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseFour">
+                {% blocktranslate %}Groups{% endblocktranslate %}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show">
+            <div class="accordion-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of groups{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_groups %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                    <tr>
+                        <td>{% blocktranslate %}Total amount of memberships in other users' groups{% endblocktranslate %}</td>
+                        <td class="text-end"><span class="stats-value">{% blocktranslate with total_amount=total_memberships %}{{ total_amount }}{% endblocktranslate %}</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

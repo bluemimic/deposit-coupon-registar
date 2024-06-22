@@ -11,67 +11,141 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% blocktranslate with title=coupon.title %}Coupon {{ title }}{% endblocktranslate %}</h2>
-    <ul>
-        <p class="barcode">{{ coupon.barcode }}</p>
-        <li>Barcode: {{ coupon.barcode }}</li>
-        <li>Is used: {{ coupon.is_used }}</li>
-        <li>Is pinned: {{ coupon.is_pinned }}</li>
-        <li>Is shared: {{ coupon.is_shared }}</li>
-        {% if coupon.is_shared %}
-            <li>Access URL: {{ shared_url }}</li>
+<div class="d-flex justify-content-between">
+    <h2 class="mb-0">{% blocktranslate with title=coupon.title %}Coupon <span class="gradient-text">{{ title }}</span>{% endblocktranslate %}</h2>
+    <div class="d-flex gap-4 ms-4">
+
+        {% if coupon.is_pinned %}
+            <h2 class="mb-0"><i class="bi bi-star-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Pinned' %}"></i></h2>
         {% endif %}
-        <li>Amount: {{ coupon.amount }}</li>
-        <li>Store: {{ coupon.store }}</li>
-        <li>Date added: {{ coupon.date_added }}</li>
-    </ul>
-
-    {% if user.is_authenticated %}
-    <div class="d-flex gap-3">
-        <a href="{% url 'core:coupon_list' %}" class="btn btn-primary">{% translate "Back to coupon list" %}</a>
-        {% if coupon.owner.pk == request.user.pk %}
-            {% if perms.core.change_coupon %}
-                <a href="{% url 'core:coupon_update' coupon.pk %}" class="btn btn-primary">{% translate "Change coupon" %}</a>
-                {% if not coupon.is_used %}
-                    <form action="{% url 'core:coupon_use' coupon.pk %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="{% translate 'Mark as used' %}">
-                    </form>
-                {% else %}
-                    <form action="{% url 'core:coupon_unuse' coupon.pk %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="{% translate 'Mark as unused' %}">
-                    </form>
-                {% endif %}
-
-                {% if not coupon.is_pinned %}
-                    <form action="{% url 'core:coupon_pin' coupon.pk %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="{% translate 'Pin coupon' %}">
-                    </form>
-                {% else %}
-                    <form action="{% url 'core:coupon_unpin' coupon.pk %}" method="post" class="d-inline">
-                        {% csrf_token %}
-                        <input type="submit" class="btn btn-primary" value="{% translate 'Unpin coupon' %}">
-                    </form>
-                {% endif %}
-            {% endif %}
-            {% if perms.core.share_coupon and not coupon.is_shared %}
-                <form action="{% url 'core:coupon_share' coupon.pk %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="{% translate 'Share coupon' %}">
-                </form>
-            {% endif %}
-            {% if perms.core.share_coupon and coupon.is_shared %}
-                <form action="{% url 'core:coupon_unshare' coupon.pk %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="{% translate 'Unshare coupon' %}">
-                </form>
-            {% endif %}
-            {% if perms.core.delete_coupon %}
-                <a href="{% url 'core:coupon_delete' coupon.pk %}" class="btn btn-danger ms-auto">{% translate "Delete coupon" %}</a>
-            {% endif %}
+        {% if coupon.is_shared %}
+            <h2 class="mb-0"><i class="bi bi-link-45deg color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Shared' %}"></i></h2>
+        {% endif %}
+        {% if coupon.is_used %}
+            <h2 class="mb-0"><i class="bi bi-check-lg color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Used' %}"></i></h2>
         {% endif %}
     </div>
+</div>
+<hr>
+
+<p class="text-body-secondary">{% blocktranslate with date=coupon.date_added %}Added at {{ date }}{% endblocktranslate %}</p>
+
+<div class="coupon_details">
+    <p class="fs-3 mb-0">
+        {% blocktranslate with shop=coupon.store eur=coupon.amount %}<span class="display-font gradient-text">{{ eur }}€</span> for shop {{ shop }}{% endblocktranslate %}
+        <i class="bi bi-info-circle color-purple" data-bs-toggle="tooltip" data-bs-title="{% blocktranslate with usd=in_usd %}{{ usd }}${% endblocktranslate %}"></i>
+    </p>
+    <p class="barcode">{{ coupon.barcode }}</p>
+</div>
+
+<div class="d-flex gap-3 controls mb-5">
+    {% if coupon.owner.pk == request.user.pk %}
+
+        <div class="btn-group" role="group">
+            {% if perms.core.change_coupon %}
+            <a href="{% url 'core:coupon_update' coupon.pk %}" class="btn btn-primary">{% translate "Change coupon" %}</a>
+            {% endif %}
+        
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% translate "Actions" %}
+                </button>
+
+                <ul class="dropdown-menu">
+                    {% if perms.core.change_coupon %}
+                        <li>
+                            {% if not coupon.is_pinned %}
+                                <form action="{% url 'core:coupon_pin' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Pin coupon' %}">
+                                </form>
+                            {% else %}
+                                <form action="{% url 'core:coupon_unpin' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Unpin coupon' %}">
+                                </form>
+                            {% endif %}
+                        </li>
+
+                        <li>
+                            {% if not coupon.is_used %}
+                                <form action="{% url 'core:coupon_use' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Mark as used' %}">
+                                </form>
+                            {% else %}
+                                <form action="{% url 'core:coupon_unuse' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Mark as unused' %}">
+                                </form>
+                            {% endif %}
+                        </li>
+
+                        {% if perms.core.share_coupon and not coupon.is_shared %}
+                            <li>
+                                <form action="{% url 'core:coupon_share' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Share coupon' %}">
+                                </form>
+                            </li>
+                        {% endif %}
+
+                        {% if perms.core.share_coupon and coupon.is_shared %}
+                            <li>
+                                <form action="{% url 'core:coupon_unshare' coupon.pk %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary dropdown-item" value="{% translate 'Unshare coupon' %}">
+                                </form>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if coupon.is_shared %}
+                        <li>
+                            <button type="button" class="btn btn-primary dropdown-item" id="copyCurrentUrl">{% translate 'Copy shared url' %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        {% if perms.core.delete_coupon %}
+            <a href="{% url 'core:coupon_delete' coupon.pk %}" class="btn btn-danger ms-auto">{% translate "Delete coupon" %}</a>
+        {% endif %}
+
     {% endif %}
+</div>
+
+{% if coupon.is_shared %}
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <div class="toast fade text-bg-success" role="alert" aria-live="polite" aria-atomic="true" id="copyCurrentUrlToast" data-bs-autohide="false">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {% blocktranslate %}Successfully copied the shared URL!{% endblocktranslate %}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function copyCurrentUrl() {
+        navigator.clipboard.writeText("{{ shared_url }}");
+    }
+
+    const toastTrigger = document.getElementById('copyCurrentUrl')
+    const toastLiveExample = document.getElementById('copyCurrentUrlToast')
+
+    if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+            copyCurrentUrl()
+        })
+    }
+</script>
 {% endblock %}

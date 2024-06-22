@@ -14,7 +14,7 @@ class CouponForm(forms.ModelForm):
     A form that creates a coupon.
     """
     coupon_image = forms.ImageField(required=False, label=_("Coupon image"))
-    barcode = forms.CharField(required=False, label=_("Barcode"), widget=forms.TextInput(attrs={'placeholder': _("Barcode")}))
+    barcode = forms.CharField(required=False, label=_("Barcode"))
 
     class Meta:
         model = Coupon

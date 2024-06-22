@@ -12,19 +12,36 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation from {{ sender }} to join group {{ group }}{% endblocktranslate %}</h2>
-    <ul>
-        <li>Group: {{ invitation.group.title }}</li>
-        <li>Sender: {{ invitation.sender.username }}</li>
-        <li>Date sent: {{ invitation.date_sent }}</li>
-    </ul>
-    <div class="d-flex gap-3">
-        <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Back to invitations list" %}</a>
-        {% if perms.groups.accept_invitation %}
-        <a href="{% url 'groups:invitation_accept' invitation.id %}" class="btn btn-success">{% translate "Accept" %}</a>
-        {% endif %}
-        {% if perms.groups.reject_invitation %}
-        <a href="{% url 'groups:invitation_reject' invitation.id %}" class="btn btn-danger ms-auto">{% translate "Reject" %}</a>
-        {% endif %}
+    <div class="d-flex justify-content-between">
+        <h2 class="mb-0">{% blocktranslate with sender=invitation.sender.username group=invitation.group.title %}Invitation to join group <span class="gradient-text">{{ group }}</span>{% endblocktranslate %}</h2>
+        <div class="d-flex gap-4 ms-4">
+
+            {% if invitation.group.access_password %}
+                <h2 class="mb-0"><i class="bi bi-shield-lock-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Password protection enabled' %}"></i></h2>
+            {% endif %}
+        </div>
     </div>
+    <hr>
+    <p class="text-body-secondary">{% blocktranslate with date=invitation.date_sent %}Sent at {{ date }}{% endblocktranslate %}</p>
+
+    <div class="mb-4">
+        <p class="fs-3 mb-0">
+            {% blocktranslate with user=invitation.sender.username %}Invitation from <span class="display-font gradient-text">{{ user }}</span>{% endblocktranslate %}
+        </p>
+    </div>
+
+    <div class="d-flex gap-3 controls mb-5">
+        <div class="btn-group" role="group">
+
+            {% if perms.groups.accept_invitation %}
+                <a href="{% url 'groups:invitation_accept' invitation.id %}" class="btn btn-success">{% translate "Accept" %}</a>
+            {% endif %}
+
+            {% if perms.groups.reject_invitation %}
+                <a href="{% url 'groups:invitation_reject' invitation.id %}" class="btn btn-danger ms-auto">{% translate "Reject" %}</a>
+            {% endif %}
+
+        </div>
+    </div>
+
 {% endblock %}

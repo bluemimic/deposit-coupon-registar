@@ -11,19 +11,33 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</h2>
-    <ul>
-        <li>Title: {{ shop.title }}</li>
-    </ul>
-    <div class="d-flex gap-3">
-        <a href="{% url 'marketplace:shop_list' %}" class="btn btn-primary">{% translate "Back to the marketplace" %}</a>
-        
+<div class="d-flex justify-content-between">
+    <h2 class="mb-0">{% blocktranslate with title=shop.title %}Shop <span class="gradient-text">{{ title }}</span>{% endblocktranslate %}</h2>
+    <div class="d-flex gap-4 ms-4">
+        {% if shop.is_pinned %}
+            <h2 class="mb-0"><i class="bi bi-star-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Pinned' %}"></i></h2>
+        {% endif %}
+        {% if shop.is_on_marketplace %}
+        <h2 class="mb-0"><i class="bi bi-shop-window color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'On marketplace' %}""></i></h2>
+        {% endif %}
+    </div>
+</div>
+<hr>
+
+<p class="text-body-secondary mb-5">{% blocktranslate with username=shop.owner.username %}Created by {{ username }}{% endblocktranslate %}</p>
+
+<div class="d-flex gap-3 controls mb-5">
+
+    <div class="btn-group" role="group">
+
         {% if perms.marketplace.use_shop_from_marketplace %}
             <form action="{% url 'marketplace:shop_use' shop.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">{% translate "Use this shop" %}</button>
             </form>
-
         {% endif %}
+    
     </div>
+</div>
+
 {% endblock %}

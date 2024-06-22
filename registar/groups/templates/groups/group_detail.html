@@ -11,81 +11,174 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% blocktranslate with title=group.title %}Group {{ title }}{% endblocktranslate %}</h2>
-    <ul>
-        <li>Title: {{ group.title }}</li>
-        <li>Owner: {{ group.owner.username }}</li>
-        <li>Is pinned?: {% if membership %}{{ membership.is_pinned }}{% else %}{{ group.is_pinned }}{% endif %}</li>
-        <li>Date added: {{ group.date_added }}</li>
-    </ul>
-    <h3>{% translate "Members:" %}</h3>
-    <ul>
-        {% for member in group.members.all %}
-            <li>{{ member.username }}</li>
-        {% endfor %}
-    </ul>
-    <h3>{% translate "Shops:" %}</h3>
-    <ul>
-        {% for shop in group.shops.all %}
-            <li>{{ shop.title }}</li>
-            <a href="{% url 'core:shop_detail' shop.id %}">{% translate "View shop" %}</a>
-        {% endfor %}
-    </ul>
-
-    <div class="d-flex gap-3 mb-3">
-        <a href="{% url 'groups:group_list' %}" class="btn btn-primary">{% translate "Back to group list" %}</a>
+<div class="d-flex justify-content-between">
+    <h2 class="mb-0">{% blocktranslate with title=group.title %}Group <span class="gradient-text">{{ title }}</span>{% endblocktranslate %}</h2>
+    <div class="d-flex gap-4 ms-4">
+        
         {% if membership %}
             {% if membership.is_pinned %}
-                <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">{% translate "Unpin group" %}</button>
-                </form>
-            {% else %}
-                <form action="{% url 'groups:group_pin' group.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">{% translate "Pin group" %}</button>
-                </form>
+                <h2 class="mb-0"><i class="bi bi-star-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Pinned' %}"></i></h2>
             {% endif %}
-            <form action="{% url 'groups:group_leave' group.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">{% translate "Leave group" %}</button>
-            </form>
+            {% if membership.group.owner == request.user %}
+                <h2 class="mb-0"><i class="bi bi-patch-check-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'You are the owner' %}"></i></h2>
+            {% endif %}
+            {% if membership.group.access_password %}
+                <h2 class="mb-0"><i class="bi bi-shield-lock-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Password protection enabled' %}"></i></h2>
+            {% endif %}
         {% else %}
-        {% if group.is_pinned %}
-                <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">{% translate "Unpin group" %}</button>
-                </form>
-            {% else %}
-                <form action="{% url 'groups:group_pin' group.id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">{% translate "Pin group" %}</button>
-                </form>
+            {% if group.is_pinned %}
+                <h2 class="mb-0"><i class="bi bi-star-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Pinned' %}"></i></h2>
+            {% endif %}
+            {% if group.owner == request.user %}
+                <h2 class="mb-0"><i class="bi bi-patch-check-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'You are the owner' %}"></i></h2>
+            {% endif %}
+            {% if group.access_password %}
+                <h2 class="mb-0"><i class="bi bi-shield-lock-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Password protection enabled' %}"></i></h2>
             {% endif %}
         {% endif %}
+
     </div>
-    {% if group.owner.pk == request.user.pk %}
-        <div class="d-flex gap-3">
-            {% if perms.groups.invite_user_group %}
-            <a href="{% url 'groups:group_invite' group.id %}" class="btn btn-primary">{% translate "Invite users" %}</a>
-            {% endif %}
-            {% if perms.groups.remove_user_group %}
-            <a href="{% url 'groups:group_remove_member' group.id %}" class="btn btn-primary {% if not group.members.all %}disabled{% endif %}">{% translate "Remove users" %}</a>
-            {% endif %}
-            {% if perms.groups.add_shop_group %}
-            <a href="{% url 'groups:group_add_shop' group.id %}" class="btn btn-primary">{% translate "Add shop" %}</a>
-            {% endif %}
-            {% if perms.groups.remove_shop_group %}
-            <a href="{% url 'groups:group_remove_shop' group.id %}" class="btn btn-primary {% if not group.shops.all %}disabled{% endif %}">{% translate "Remove shop" %}</a>
-            {% endif %}
+</div>
+<hr>
+
+{% if membership %}
+    <p class="text-body-secondary">{% blocktranslate with date=membership.date_joined %}Joined at {{ date }}{% endblocktranslate %}</p>
+    <p class="fs-3">{% blocktranslate with owner=membership.group.owner.username %}<span class="gradient-text display-font">{{ owner }}</span> is the owner{% endblocktranslate %}</p>
+{% else %}
+    <p class="text-body-secondary">{% blocktranslate with date=group.date_added %}Added at {{ date }}{% endblocktranslate %}</p>
+{% endif %}
+
+<div class="d-flex gap-3 controls mb-5">
+    <div class="btn-group" role="group">
+        {% if membership %}
+
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% translate "Actions" %}
+                </button>
+
+                <ul class="dropdown-menu">
+
+                    {% if membership.is_pinned %}
+                        <li>
+                            <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary dropdown-item">{% translate "Unpin group" %}</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li>
+                            <form action="{% url 'groups:group_pin' group.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary dropdown-item">{% translate "Pin group" %}</button>
+                            </form>
+                        </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+
+        {% else %}
+
             {% if perms.groups.change_group %}
             <a href="{% url 'groups:group_update' group.id %}" class="btn btn-primary">{% translate "Edit group" %}</a>
             {% endif %}
 
-            {% if perms.groups.delete_group %}
-                <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% translate "Actions" %}
+                </button>
 
-            {% endif %}
-        </div>
+                <ul class="dropdown-menu">
+                    {% if perms.group.change_group %}
+
+                        {% if group.is_pinned %}
+                            <li>
+                                <form action="{% url 'groups:group_unpin' group.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary dropdown-item">{% translate "Unpin group" %}</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li>
+                                <form action="{% url 'groups:group_pin' group.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary dropdown-item">{% translate "Pin group" %}</button>
+                                </form>
+                            </li>
+                        {% endif %}
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        {% if group.owner.pk == request.user.pk %}
+                            {% if perms.groups.invite_user_group %}
+                            <li>
+                                <a href="{% url 'groups:group_invite' group.id %}" class="btn btn-primary dropdown-item">{% translate "Invite users" %}</a>
+                            </li>
+                            {% endif %}
+
+                            {% if perms.groups.remove_user_group %}
+                            <li>
+                                <a href="{% url 'groups:group_remove_member' group.id %}" class="btn btn-primary dropdown-item {% if not group.members.all %}disabled{% endif %}">{% translate "Remove users" %}</a>
+                            </li>
+                            {% endif %}
+                            {% if perms.groups.add_shop_group %}
+                            <li>
+                                <a href="{% url 'groups:group_add_shop' group.id %}" class="btn btn-primary dropdown-item">{% translate "Add shop" %}</a>
+                            </li>
+                            {% endif %}
+
+                            {% if perms.groups.remove_shop_group %}
+                            <li>
+                                <a href="{% url 'groups:group_remove_shop' group.id %}" class="btn btn-primary dropdown-item{% if not group.shops.all %}disabled{% endif %}">{% translate "Remove shop" %}</a>
+                            </li>
+                            {% endif %}
+
+                        {% endif %}
+                    {% endif %}
+                </ul>
+
+                
+            </div>
+            
+        {% endif %}
+    </div>
+
+    {% if not membership and group.owner.pk == request.user.pk and perms.groups.delete_group %}
+        <a href="{% url 'groups:group_delete' group.id %}" class="btn btn-danger ms-auto">{% translate "Delete group" %}</a>
     {% endif %}
+
+    {% if membership %}
+    <form action="{% url 'groups:group_leave' group.id %}" method="POST" class="ms-auto">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% translate "Leave group" %}</button>
+    </form>
+    {% endif %}
+</div>
+
+<h2 class="mb-0"><i class="bi bi-people me-3 color-purple"></i>{% blocktranslate %}Members{% endblocktranslate %}</h2>
+<hr>
+
+<div class="mb-5">
+    {% if group.members.all %}
+        {% for member in group.members.all %}
+            <span class="badge rounded-pill text-bg-primary fs-6">{{ member.username }}</span>
+        {% endfor %}
+    {% else %}
+        <p>{% translate "No members found" %}</p>
+    {% endif %}
+</div>
+
+<div class="mb-5">
+    <h2 class="mb-0"><i class="bi bi-shop me-3 color-purple"></i>{% blocktranslate %}Shops{% endblocktranslate %}</h2>
+    <hr>
+
+    {% if group_shops %}
+        {% include "core/modules/shop_card.html" with shops=group_shops shop_group=True %}
+    {% else %}
+        <p>{% translate "No shops found" %}</p>
+    {% endif %}
+</div>
+
+
 {% endblock %}

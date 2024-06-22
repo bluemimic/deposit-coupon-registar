@@ -9,7 +9,8 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q
+from django.db.models import Q, Count, Sum, Case, When, Value, IntegerField
+from django.db.models.functions import Coalesce
 from django.db.models.query import QuerySet
 from django.forms import BaseForm
 from django.http import HttpRequest, HttpResponse
@@ -24,7 +25,8 @@ import registar.settings as settings
 
 from .forms import (AddShopForm, GroupForm, InvitationAcceptForm,
                     InvitationForm, RemoveMemberForm, RemoveShopForm)
-from .models import Group, GroupMembership, Invitation
+from .models import Group, GroupMembership, Invitation, ShopGroup
+from itertools import chain
 
 logger = logging.getLogger(__name__)
 
@@ -49,11 +51,42 @@ class GroupsListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(Q(owner=self.request.user.pk) | Q(members=self.request.user.pk)).distinct()
+        queryset = super().get_queryset()
+
+        owned_groups = Group.objects.filter(owner=self.request.user).annotate(
+            member_count=Count('groupmembership__user_id', distinct=True),
+            shop_count=Count('shopgroup__id', distinct=True),
+            money_amount=Coalesce(Sum(
+                Case(
+                    When(shops__coupon__is_used=False, then='shops__coupon__amount'),
+                    default=Value(0),
+                    output_field=IntegerField()
+                )
+            ), 0)
+        ).order_by('-is_pinned', '-date_added')
+
+        return owned_groups
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['invitation_count'] = Invitation.objects.filter(recipient=self.request.user, is_processed=False).count()
+
+        memberships = GroupMembership.objects.filter(
+            user=self.request.user
+        ).annotate(
+            member_count=Count('group__groupmembership__user_id', distinct=True),
+            shop_count=Count('group__shopgroup__id', distinct=True),
+            money_amount=Coalesce(Sum(
+                Case(
+                    When(group__shops__coupon__is_used=False, then='group__shops__coupon__amount'),
+                    default=Value(0),
+                    output_field=IntegerField()
+                )
+            ), 0)
+        ).order_by('-is_pinned', '-date_joined')
+
+        context['memberships'] = memberships
+
         return context
 
 
@@ -72,6 +105,27 @@ class GroupDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['shops'] = Invitation.objects.filter(recipient=self.request.user, is_processed=False).count()
+        
+        amount_of_unused_coupons = Sum(
+                    'shop__coupon__amount',
+                    default=0,
+                    filter=Q(
+                        shop__coupon__is_used=False
+                    )
+                )
+
+        count_of_unused_coupons = Sum(1, default = 0, filter = Q(shop__coupon__is_used = False))
+        count_of_coupons = Sum(1, default = 0)
+        
+        context["group_shops"] = ShopGroup.objects.filter(
+            group=self.get_object()
+        ).annotate(
+            amount_unused=amount_of_unused_coupons,
+            count_unused=count_of_unused_coupons,
+            count=count_of_coupons
+        ).order_by('-is_pinned', '-date_added')
+        
+        print(context["group_shops"])
 
         if self.request.user.pk != self.get_object().owner.pk:
             context['membership'] = get_object_or_404(GroupMembership, user=self.request.user, group=self.get_object())
@@ -243,6 +297,8 @@ class GroupPinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMi
         membership.is_pinned = True
         membership.save()
         
+        messages.add_message(request, messages.INFO, self.success_message)
+        
         logger.info("User %s (pk: %d) pinned the group %s (pk: %d)",
                     request.user,
                     request.user.pk,
@@ -283,6 +339,8 @@ class GroupUnpinView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
         membership = GroupMembership.objects.get(user=request.user, group=group)
         membership.is_pinned = False
         membership.save()
+        
+        messages.add_message(request, messages.INFO, self.success_message)
         
         logger.info("User %s (pk: %d) unpinned the group %s (pk: %d)",
                     request.user,

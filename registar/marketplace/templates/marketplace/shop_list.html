@@ -10,15 +10,22 @@
 {% endblock %}
 
 {% block content %}
-    {% if page_obj %}
-        <h1>{% translate "Marketplace" %}</h1>
+    <div class="mb-4">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-0"><i class="bi bi-shop-window me-3 color-purple"></i>{% translate "Marketplace" %}</h2>
+        </div>
+        <hr>
 
-        <ul>
-            {% for shop in page_obj %}
-                <li>{{ shop.title }}</li>
-                <a href="{% url 'marketplace:shop_detail' shop.id %}">{% translate "View shop" %}</a>
-            {% endfor %}
-        </ul>
+        {% if page_obj %}
+            {% include "core/modules/marketplace_card.html" with shops=page_obj %}
+        {% else %}
+            <p>{% translate "No shops found" %}</p>
+        {% endif %}
+    </div>
+    
+    {% if page_obj %}
+    <div class="pagination mb-4">
         {% include "core/modules/pagination.html" with collection=page_obj %}
+    </div>
     {% endif %}
 {% endblock %}

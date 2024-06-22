@@ -10,20 +10,25 @@
 {% endblock %}
 
 {% block content %}
+    <div class="mb-4">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-0"><i class="bi bi-ticket me-3 color-purple"></i>{% translate "Coupons" %}</h2>
+            {% if perms.core.add_coupon %}
+                <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+            {% endif %}
+        </div>
+        <hr>
+            
+        {% if page_obj %}
+            {% include "core/modules/coupon_card.html" with coupons=page_obj %}
+        {% else %}
+            <p>{% translate "No coupons found" %}</p>
+        {% endif %}
+    </div>
+
     {% if page_obj %}
-        <h2>{% translate "Coupons" %}</h2>
-        <ul>
-            {% for coupon in page_obj %}
-                <li>{{ coupon.title }} - {{ coupon.store }} {{ coupon.date_added }}</li>
-                {% if perms.core.view_coupon %}
-                <a href="{% url 'core:coupon_detail' coupon.pk %}">{% translate "Details" %}</a>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        {% include "core/modules/pagination.html" with collection=page_obj %}    
-    {% endif %}
-        
-    {% if perms.core.add_coupon %}
-        <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+    <div class="pagination mb-4">
+        {% include "core/modules/pagination.html" with collection=page_obj %}
+    </div>
     {% endif %}
 {% endblock %}

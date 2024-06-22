@@ -10,20 +10,25 @@
 {% endblock %}
 
 {% block content %}
-    {% if page_obj %}
-        <div class="pinned_shops mb-4">
-            <h2><i class="bi bi-shop me-3 color-purple"></i>{% translate "Shops" %}</h2>
-            <hr>
-            
+    <div class="mb-4">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-0"><i class="bi bi-shop me-3 color-purple"></i>{% translate "Shops" %}</h2>
+            {% if perms.core.add_shop %}
+                <a href="{% url 'core:shop_create' %}" class="btn btn-primary">{% translate "Create shop" %}</a>
+            {% endif %}
+        </div>
+        <hr>
+
+        {% if page_obj %}
             {% include "core/modules/shop_card.html" with shops=page_obj %}
-        </div>
-        <div class="pagination mb-4">
-            {% include "core/modules/pagination.html" with collection=page_obj %}
-        </div>
+        {% else %}
+            <p>{% translate "No shops found" %}</p>
+        {% endif %}
+    </div>
+    
+    {% if page_obj %}
+    <div class="pagination mb-4">
+        {% include "core/modules/pagination.html" with collection=page_obj %}
+    </div>
     {% endif %}
-
-    {% if perms.core.add_shop %}
-    <a href="{% url 'core:shop_create' %}" class="btn btn-primary w-100">{% translate "Create shop" %}</a>
-    {% endif %}
-
 {% endblock %}

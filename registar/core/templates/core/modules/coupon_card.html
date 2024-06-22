@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for coupon in coupons %}
+    <div class="col">
+        <div class="card h-100 {% if coupon.is_used %}text-bg-light{% endif %}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title mb-0">{{ coupon.title }}</h5>
+                    <div class="d-flex gap-3 ms-3">
+                        {% if coupon.is_pinned %}
+                            <i class="bi bi-star-fill color-purple"></i>
+                        {% endif %}
+                        {% if coupon.is_shared %}
+                            <i class="bi bi-link-45deg color-purple"></i>
+                        {% endif %}
+                        {% if coupon.is_used %}
+                            <i class="bi bi-check-lg color-purple"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <p class="card-text mb-0">{% blocktranslate with shop=coupon.store %}For shop {{ shop }}{% endblocktranslate %}</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text mb-0">{% blocktranslate with amount=coupon.amount %}Amount: {{ amount }}€{% endblocktranslate %}</p>
+                    <a href="{% url 'core:coupon_detail' coupon.id %}" class="btn-outline-primary btn stretched-link">{% translate 'See coupon' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

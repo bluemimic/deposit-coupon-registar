@@ -55,9 +55,10 @@ class GroupAdmin(admin.ModelAdmin):
         return obj.shops.count()
 
     def save_model(self, request, obj, form, change):
-        access_password = make_password(form.cleaned_data["access_password"])
-        if access_password:
+        if form.cleaned_data["access_password"]:
+            access_password = make_password(form.cleaned_data["access_password"])
             obj.access_password = access_password
+
         super().save_model(request, obj, form, change)
 
     

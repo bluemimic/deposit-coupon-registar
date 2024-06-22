@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for shop in shops %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title mb-0">{{ shop.title }}</h5>
+                </div>
+                <hr>
+                {% if shop.owner.username %}
+                <p class="mb-0">{% blocktranslate with username=shop.owner.username %}Created by {{ username }}{% endblocktranslate %}</p>
+                {% endif %}
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'marketplace:shop_detail' shop.id %}" class="btn-outline-primary btn stretched-link ms-auto">{% translate 'See shop' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

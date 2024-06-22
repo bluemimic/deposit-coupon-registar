@@ -1,13 +1,15 @@
 import logging
+from itertools import chain
 from typing import Any
 
-import registar.settings as settings
+import requests
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin,
                                         UserPassesTestMixin)
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q, Sum
+from django.db.models import Case, Count, IntegerField, Q, Sum, Value, When
+from django.db.models.functions import Coalesce
 from django.db.models.query import QuerySet
 from django.forms import BaseForm
 from django.http import HttpRequest, HttpResponse
@@ -16,6 +18,9 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView, View)
+from groups.models import Group, GroupMembership
+
+import registar.settings as settings
 
 from .forms import CouponForm
 from .models import Coupon, Shop
@@ -31,8 +36,22 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        
+
+        context["shops"] = self.get_shops()
+        context["coupons"] = self.get_coupons()
+        context["groups"] = self.get_groups()
+
         amount_of_coupons = Sum('amount',  default=0)
+        context["total_amount_returned"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons)['amount__sum']
+
+        context["recent_coupons"] = Coupon.objects.filter(owner=self.request.user.pk).order_by('-date_added')[:3]
+        context["pinned_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_pinned=True)[:3]
+
+        return context
+
+    def get_shops(self):
+        max_shops_in_index = settings.MAX_SHOPS_IN_INDEX
+
         count_of_unused_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = False))
         count_of_coupons = Sum(1, default = 0)
         amount_of_unused_coupons = Sum(
@@ -43,9 +62,7 @@ class IndexView(TemplateView):
                     )
                 )
 
-        context["total_amount_returned"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons)['amount__sum']
-
-        shops = Shop.objects.filter(
+        all_shops = Shop.objects.filter(
             owner=self.request.user.pk,
         ).annotate(
             amount_unused=amount_of_unused_coupons, 
@@ -54,18 +71,85 @@ class IndexView(TemplateView):
         ).order_by(
             "-date_added"
         )
-        
-        context["pinned_shops"] = shops.filter(is_pinned=True)[:3]
-        context["recent_shops"] = shops[:3]
 
-        context["recent_coupons"] = Coupon.objects.filter(owner=self.request.user.pk).order_by('-date_added')[:3]
-        context["pinned_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_pinned=True)[:3]
+        pinned_shops = all_shops.filter(is_pinned=True)[:3]
+        number_of_remaining_shops = max_shops_in_index - pinned_shops.count()
+        unpinned_shops = all_shops.filter(is_pinned=False)[:number_of_remaining_shops]
+
+        return list(chain(pinned_shops, unpinned_shops))
+    
+    def get_coupons(self):
+        max_coupons_in_index = settings.MAX_COUPONS_IN_INDEX
+
+        all_coupons = Coupon.objects.filter(
+            owner=self.request.user.pk,
+            is_used=False
+        ).order_by(
+            "-date_added"
+        )
+
+        pinned_coupons = all_coupons.filter(is_pinned=True)[:3]
+        number_of_remaining_coupons = max_coupons_in_index - pinned_coupons.count()
+        unpinned_coupons = all_coupons.filter(is_pinned=False)[:number_of_remaining_coupons]
+
+        return list(chain(pinned_coupons, unpinned_coupons))
+
+    def get_groups(self):
         
-        
-        return context
+        # owned_groups = Group.objects.raw(
+        #     f"""
+        #     SELECT
+        #         g.id,
+        #         g.title,
+        #         g.is_pinned,
+        #         g.date_added,
+        #         COUNT(DISTINCT m.user_id) AS member_count,
+        #         COUNT(DISTINCT s.id) AS shop_count,
+        #         COALESCE(SUM(CASE WHEN c.is_used = False THEN c.amount ELSE NULL END), 0) as money_amount
+        #     FROM
+        #         groups_group g
+        #     LEFT JOIN
+        #         groups_groupmembership m
+        #     ON
+        #         g.id = m.group_id
+        #     LEFT JOIN
+        #         groups_shopgroup s
+        #     ON
+        #         g.id = s.group_id
+        #     LEFT JOIN
+        #         core_shop sh
+        #     ON
+        #         s.shop_id = sh.id
+        #     LEFT JOIN
+        #         core_coupon c
+        #     ON
+        #         sh.id = c.store_id
+        #     WHERE
+        #         g.owner_id = {self.request.user.pk}
+        #     GROUP BY
+        #         g.id
+        #     ORDER BY
+        #         g.is_pinned DESC,
+        #         g.date_added DESC
+        #     """
+        # )
+
+        owned_groups = Group.objects.filter(owner_id=self.request.user.pk).annotate(
+                member_count=Count('groupmembership__user_id', distinct=True),
+                shop_count=Count('shopgroup__id', distinct=True),
+                money_amount=Coalesce(Sum(
+                    Case(
+                        When(shops__coupon__is_used=False, then='shops__coupon__amount'),
+                        default=Value(0),
+                        output_field=IntegerField()
+                    )
+                ), 0)
+            ).order_by('-is_pinned', '-date_added')
+
+        return owned_groups[:6]
 
 
-class OverviewView(TemplateView):
+class OverviewView(LoginRequiredMixin, TemplateView):
     """
     A view that renders the overview page.
     """
@@ -73,15 +157,34 @@ class OverviewView(TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        amount_of_coupons = Sum('amount',  default=0)
         
-        context["total_amount"] = Coupon.objects.filter(owner=self.request.user.pk).aggregate(Sum('amount'))
+        total_amount = Coupon.objects.filter(owner=self.request.user.pk).aggregate(Sum('amount')).get('amount__sum', 0)
+        context["total_amount"] = total_amount
         
+        total_amount_returned = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons).get('amount__sum', 0)
+        context["total_amount_returned"] = total_amount_returned
+        
+        total_amount_remaining = total_amount - total_amount_returned
+        context["total_amount_remaining"] = total_amount_remaining
+
+        context["returned_percentage"] = round(total_amount_returned / total_amount * 100, 2) if total_amount else 0
+
         context["total_shops"] = Shop.objects.filter(owner=self.request.user.pk).count()
+        context["total_shops_pinned"] = Shop.objects.filter(owner=self.request.user.pk, is_pinned=True).count()
+    
         context["total_coupons"] = Coupon.objects.filter(owner=self.request.user.pk).count()
         context["total_shared_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_shared=True).count()
+        context["total_pinned_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_pinned=True).count()
         context["total_used_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).count()
         context["total_unused_coupons"] = Coupon.objects.filter(owner=self.request.user.pk, is_used=False).count()
         
+        context["used_percentage"] = round(context["total_used_coupons"] / context["total_coupons"] * 100, 2) if context["total_coupons"] else 0
+
+        context["total_groups"] = Group.objects.filter(owner=self.request.user.pk).count()
+        context["total_memberships"] = GroupMembership.objects.filter(group__owner=self.request.user.pk).count()
+
         return context
 
 
@@ -115,6 +218,9 @@ class ShopListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             amount_unused=amount_of_unused_coupons, 
             count_unused=count_of_unused_coupons, 
             count=count_of_coupons
+        ).order_by(
+            "-is_pinned",
+            "-date_added"
         )
 
 
@@ -129,6 +235,14 @@ class ShopDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTest
     def test_func(self) -> bool:
         shop = self.get_object()
         return shop.owner.pk == self.request.user.pk or shop.groups.filter(members=self.request.user.pk).exists()
+    
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        shop = self.get_object()
+
+        context["coupons"] = shop.coupon_set.filter(owner=self.request.user.pk).order_by('-is_pinned', '-date_added')
+        
+        return context
 
 
 class ShopCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -356,7 +470,13 @@ class CouponListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self) -> QuerySet[Any]:
-        return super().get_queryset().filter(owner=self.request.user.pk)
+        return super().get_queryset().filter(
+            owner=self.request.user.pk
+        ).order_by(
+            "-is_pinned",
+            "is_used",
+            "-date_added"
+        )
 
 
 class CouponDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DetailView):
@@ -378,6 +498,19 @@ class CouponDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         shared_url = self.request.build_absolute_uri(reverse('core:coupon_shared_detail', kwargs={'pk': coupon.pk}))
         context["shared_url"] = shared_url
 
+        # Get the exchange rate
+        url = "https://api.frankfurter.app/latest"
+        params = {
+            'amount': coupon.amount,
+            'from': 'EUR',
+            'to': 'USD'
+        }
+
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        context["in_usd"] = round(data['rates']['USD'], 2)
+
         return context
 
 
@@ -392,6 +525,9 @@ class CouponCreateView(LoginRequiredMixin, PermissionRequiredMixin, SuccessMessa
 
     def form_valid(self, form) -> Any:
         form.instance.owner = self.request.user
+        
+        if not form.instance.title:
+            form.instance.title = f"Unnamed coupon for shop {form.instance.store.title} ({form.instance.amount}€)"
         
         logger.info("User %s (pk: %d) created a coupon %s (pk: %s)",
                     self.request.user,
@@ -443,6 +579,16 @@ class CouponUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTe
         return super().get(request, *args, **kwargs)
     
     def form_valid(self, form: BaseForm) -> HttpResponse:
+        if not form.instance.title:
+            form.instance.title = f"Unnamed coupon for shop {form.instance.store.title} ({form.instance.amount}€)"
+        
+        logger.info("User %s (pk: %d) created a coupon %s (pk: %s)",
+                    self.request.user,
+                    self.request.user.pk,
+                    form.instance.title,
+                    form.instance.pk
+        )
+
         logger.info("User %s (pk: %d) updated coupon %s (pk: %s)",
                     self.request.user, self.request.user.pk,
                     self.get_object().title,

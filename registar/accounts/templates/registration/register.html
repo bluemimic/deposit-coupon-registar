@@ -6,7 +6,8 @@
 {% block title %}{% translate "Register" %}{% endblock %}
 
 {% block content %}
-    <h2>{% translate "Register" %}</h2>
+    <h2 class="mb-0">{% translate "Register" %}</h2>
+    <hr>
     
     {% translate 'Register' as register %}
     {% include "creation_form.html" with form=form submit_text=register %}

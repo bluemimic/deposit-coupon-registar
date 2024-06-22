@@ -1,0 +1,39 @@
+{% load i18n %}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for membership in memberships %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title  mb-0">{{ membership.group.title }}</h5>
+                    <div class="d-flex gap-3 ms-3">
+                        {% if membership.is_pinned %}
+                            <i class="bi bi-star-fill color-purple"></i>
+                        {% endif %}
+                        {% if membership.group.owner == request.user %}
+                            <i class="bi bi-patch-check-fill color-purple"></i>
+                        {% endif %}
+                        {% if membership.group.access_password %}
+                            <i class="bi bi-shield-lock-fill color-purple"></i>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0">{% blocktranslate count members=membership.member_count %}{{ members }} member{% plural %}{{ members }} members{% endblocktranslate %}</p>
+                <p class="mb-0">{% blocktranslate count shops=membership.shop_count %}{{ shops }} shop{% plural %}{{ shops }} shops{% endblocktranslate %}</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    {% if membership.money_amount %}
+                    <p class="card-text mb-0">{% blocktranslate with amount=membership.money_amount %}Remaining {{ amount }}€ total{% endblocktranslate %}</p>
+                    {% else %}
+                    <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€ total{% endblocktranslate %}</p>
+                    {% endif %}
+                    <a href="{% url 'groups:group_detail' membership.group.id %}" class="btn-outline-primary btn stretched-link">{% translate 'See group' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

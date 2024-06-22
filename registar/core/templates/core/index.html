@@ -6,28 +6,81 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <div class="d-flex justify-content-between mb-4">
-            <h1>{% translate 'Hi' %}, <span class="fw-bold display-font username">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</span></h1>
-            <p>{% blocktranslate with amount=total_amount_returned %}Returned: {{ amount }}€{% endblocktranslate %}</p>
+        <div class="d-flex justify-content-between mb-5">
+            <h1 class="">{% translate 'Hi' %}, <span class="fw-bold display-font gradient-text">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</span></h1>
+            <div class="d-flex">
+                <div class="overview-box">
+                    <p class="mb-0">{% blocktranslate with amount=total_amount_returned %}<span class="returned-amount">{{ amount }}€</span><span class="returned-text">Returned</span>{% endblocktranslate %}</p>
+                </div>
+                <div class="overview-link">
+                    <a href="{% url 'core:overview' %}" class="align-self-center">{% blocktranslate with amount=total_amount_spent %}See overview{% endblocktranslate %}</a>
+                </div>
+            </div>
         </div>
-
-
-        {% if pinned_shops %}
-        <div class="pinned_shops mb-5">
-            <h2><i class="bi bi-pin-angle me-3 color-purple"></i>{% translate "Pinned shops" %}</h2>
+        <div class="shops mb-5">
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-0"><i class="bi bi-shop me-3 color-purple"></i>{% translate "Your shops" %}</h2>
+                <div class="d-flex justify-content-between gap-3">
+                    {% if perms.core.add_shop %}
+                        <a href="{% url 'core:shop_create' %}" class="btn btn-primary">{% translate "Create shop" %}</a>
+                    {% endif %}
+                    {% if perms.core.view_shop %}
+                        <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "See all shops" %}</a>
+                    {% endif %}
+                </div>
+            </div>
             <hr>
-            {% include "core/modules/shop_card.html" with shops=pinned_shops %}
+    
+            {% if shops %}
+                {% include "core/modules/shop_card.html" with shops=shops %}
+            {% else %}
+                <p>{% translate "No shops found" %}</p>
+            {% endif %}
         </div>
-        {% endif %}
 
-        {% if recent_shops %}
-        <div class="recent_shops">
-            <h2><i class="bi bi-clock-history me-3 color-purple"></i>{% translate "Recent shops" %}</h2>
+
+        <div class="coupons mb-5">
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-0"><i class="bi bi-ticket me-3 color-purple"></i>{% translate "Your coupons" %}</h2>
+                <div class="d-flex justify-content-between gap-3">
+                    {% if perms.core.add_coupon %}
+                        <a href="{% url 'core:coupon_create' %}" class="btn btn-primary">{% translate "Create coupon" %}</a>
+                    {% endif %}
+                    {% if perms.core.view_coupon %}
+                        <a href="{% url 'core:coupon_list' %}" class="btn btn-primary">{% translate "See all coupons" %}</a>
+                    {% endif %}
+                </div>
+            </div>
             <hr>
-            
-            {% include "core/modules/shop_card.html" with shops=recent_shops %}
+
+            {% if coupons %}
+                {% include "core/modules/coupon_card.html" with coupons=coupons %}
+            {% else %}
+                <p>{% translate "No coupons found" %}</p>
+            {% endif %}
+
         </div>
-        {% endif %}
+
+        <div class="groups mb-5">
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-0"><i class="bi bi-people me-3 color-purple"></i>{% translate "Your groups" %}</h2>
+                <div class="d-flex justify-content-between gap-3">
+                    {% if perms.groups.add_group %}
+                        <a href="{% url 'groups:group_create' %}" class="btn btn-primary">{% translate "Create group" %}</a>
+                    {% endif %}
+                    {% if perms.groups.view_group %}
+                        <a href="{% url 'groups:group_list' %}" class="btn btn-primary">{% translate "See all groups" %}</a>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+
+            {% if groups %}
+                {% include "core/modules/group_card.html" with groups=groups %}
+            {% else %}
+                <p>{% translate "No groups found" %}</p>
+            {% endif %}
+        </div>
 
     {% else %}
         <p>{% translate "Welcome to Registar! Please login or register to continue." %}</p>

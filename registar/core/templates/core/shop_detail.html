@@ -11,67 +11,88 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% blocktranslate with title=shop.title %}Shop {{ title }}{% endblocktranslate %}</h2>
-    <ul>
-        <li>Title: {{ shop.title }}</li>
-        <li>Is pinned?: {{ shop.is_pinned }}</li>
-        <li>Date added: {{ shop.date_added }}</li>
-    </ul>
-    <h3>{% translate "Coupons" %}</h3>
-    <ul>
-        {% for coupon in shop.coupon_set.all %}
-            <li>{{ coupon.title }}</li>
-            {% if perms.core.view_coupon %}
-            <a href="{% url 'core:coupon_detail' coupon.id %}">{% translate "View coupon" %}</a>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    <div class="d-flex gap-3">
-        <a href="{% url 'core:shop_list' %}" class="btn btn-primary">{% translate "Back to shop list" %}</a>
-        {% if shop.owner.pk == request.user.pk %}
-
-            {% if perms.core.change_shop %}
-            <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary">{% translate "Update shop" %}</a>
-
-                {% if shop.is_pinned %}
-                    <form action="{% url 'core:shop_unpin' shop.id %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">{% translate "Unpin shop" %}</button>
-                    </form>
-
-                {% else %}
-                    <form action="{% url 'core:shop_pin' shop.id %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">{% translate "Pin shop" %}</button>
-                    </form>
-
-                {% endif %}
-
-            {% endif %}
-
-            {% if perms.core.shop_upload_to_marketplace %}
-
-                {% if shop.is_on_marketplace %}
-                    <form action="{% url 'core:shop_remove_from_marketplace' shop.id %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">{% translate "Remove from marketplace" %}</button>
-                    </form>
-
-                {% else %}
-                    <form action="{% url 'core:shop_upload_to_marketplace' shop.id %}" method="POST" class="d-inline">
-                    {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">{% translate "Upload to marketplace" %}</button>
-                    </form>
-
-                {% endif %}
-
-            {% endif %}
-
-            {% if perms.core.delete_shop %}
-                <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger ms-auto">{% translate "Delete shop" %}</a>
-
-            {% endif %}
-
+<div class="d-flex justify-content-between">
+    <h2 class="mb-0">{% blocktranslate with title=shop.title %}Shop <span class="gradient-text">{{ title }}</span>{% endblocktranslate %}</h2>
+    <div class="d-flex gap-4 ms-4">
+        {% if shop.is_pinned %}
+            <h2 class="mb-0"><i class="bi bi-star-fill color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'Pinned' %}"></i></h2>
+        {% endif %}
+        {% if shop.is_on_marketplace %}
+        <h2 class="mb-0"><i class="bi bi-shop-window color-purple" data-bs-toggle="tooltip" data-bs-title="{% translate 'On marketplace' %}""></i></h2>
         {% endif %}
     </div>
+</div>
+<hr>
+
+<p class="text-body-secondary">{% blocktranslate with date=shop.date_added %}Added at {{ date }}{% endblocktranslate %}</p>
+
+<div class="d-flex gap-3 controls mb-5">
+    {% if shop.owner.pk == request.user.pk %}
+
+        <div class="btn-group" role="group">
+            {% if perms.core.change_shop %}
+
+                <a href="{% url 'core:shop_update' shop.id %}" class="btn btn-primary">{% translate "Update shop" %}</a>
+        
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% translate "Actions" %}
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            {% if shop.is_pinned %}
+                            <form action="{% url 'core:shop_unpin' shop.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary dropdown-item">{% translate "Unpin shop" %}</button>
+                            </form>
+
+                            {% else %}
+                            <form action="{% url 'core:shop_pin' shop.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary dropdown-item">{% translate "Pin shop" %}</button>
+                            </form>
+                            {% endif %}
+                        </li>
+
+                        {% if perms.core.shop_upload_to_marketplace %}
+                            <li>
+                                {% if shop.is_on_marketplace %}
+                                    <form action="{% url 'core:shop_remove_from_marketplace' shop.id %}" method="POST" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary dropdown-item">{% translate "Remove from marketplace" %}</button>
+                                    </form>
+
+                                {% else %}
+                                    <form action="{% url 'core:shop_upload_to_marketplace' shop.id %}" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-primary dropdown-item">{% translate "Upload to marketplace" %}</button>
+                                    </form>
+                                {% endif %}
+                            </li>
+                        
+                        {% endif %}
+                    </ul>
+                </div>
+
+            {% endif %}
+        </div>
+
+        
+        
+        {% if perms.core.delete_shop %}
+        <a href="{% url 'core:shop_delete' shop.id %}" class="btn btn-danger ms-auto">{% translate "Delete shop" %}</a>
+        {% endif %}
+    {% endif %}
+    </div>
+    
+
+<h3 class="mb-0"><i class="bi bi-ticket me-3 color-purple"></i>{% translate "Coupons" %}</h3>
+<hr>
+{% if coupons %}
+    {% include "core/modules/coupon_card.html" with coupons=coupons %}
+{% else %}
+    <p>{% translate "No coupons found" %}</p>
+{% endif %}
+
 {% endblock %}

@@ -18,7 +18,8 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}</h2>
+    <h2 class="mb-0">{% if edit %}{% translate "Edit profile" %}{% else %}{% translate "Create profile" %}{% endif %}</h2>
+    <hr>
 
     {% url 'account:profile' as link %}
     {% include "creation_form.html" with form=form return_url=link %}

@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% translate "Hi" %}, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</h2>
+<h1 class="mb-5">{% translate 'Hi' %}, <span class="fw-bold display-font gradient-text">{% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}!</span></h1>
 
     <div class="d-flex gap-3">
         <a href="{% url 'account:password_change' %}" class="btn btn-primary">{% translate "Change password" %}</a>

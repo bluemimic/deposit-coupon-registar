@@ -14,7 +14,8 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% translate "Please enter access password to join" %}</h2>
+    <h2 class="mb-0">{% translate "Please enter access password to join" %}</h2>
+    <hr>
     
     {% url 'groups:invitation_detail' invitation.pk as link %}
 

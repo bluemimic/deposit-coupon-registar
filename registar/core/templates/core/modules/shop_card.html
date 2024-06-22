@@ -5,22 +5,71 @@
     <div class="col">
         <div class="card h-100">
             <div class="card-body">
-                <h5 class="card-title">{{ shop.title }}</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title mb-0">{% if shop_group %}{{ shop.shop.title }}{% else %}{{ shop.title }}{% endif %}</h5>
+
+                    <div class="d-flex gap-3 ms-3">
+                        {% if shop_group %}
+
+                            {% if shop.is_pinned %}
+                                <i class="bi bi-star-fill color-purple"></i>
+                            {% endif %}
+                            {% if shop.shop.is_on_marketplace %}
+                                <i class="bi bi-shop-window color-purple"></i>
+                            {% endif %}
+
+                        {% else %}
+
+                            {% if shop.is_pinned %}
+                                <i class="bi bi-star-fill color-purple"></i>
+                            {% endif %}
+                            {% if shop.is_on_marketplace %}
+                                <i class="bi bi-shop-window color-purple"></i>
+                            {% endif %}
+
+                        {% endif %}
+                    </div>
+                </div>
                 <hr>
-                {% if shop.amount_unused %}
-                <p>{% blocktranslate with used=shop.count_unused count total=shop.coupon_set.count %}Used {{ used }} of {{ total }} coupon{% plural %}Used {{ used }} of {{ total }} coupons{% endblocktranslate %}</p>
+                {% if shop_group %}
+
+                    {% if shop.shop.amount_unused %}
+                        <p class="mb-0">{% blocktranslate with used=shop.shop.count_unused count total=shop.shop.coupon_set.count %}Used {{ used }} of {{ total }} coupon{% plural %}Used {{ used }} of {{ total }} coupons{% endblocktranslate %}</p>
+                        {% else %}
+                        <p class="mb-0">{% blocktranslate with count=shop.shop.coupon_set.count %}No coupons yet{% endblocktranslate %}</p>
+                    {% endif %}
+
                 {% else %}
-                <p>{% blocktranslate with count=shop.coupon_set.count %}No coupons yet{% endblocktranslate %}</p>
+
+                    {% if shop.amount_unused %}
+                    <p class="mb-0">{% blocktranslate with used=shop.count_unused count total=shop.coupon_set.count %}Used {{ used }} of {{ total }} coupon{% plural %}Used {{ used }} of {{ total }} coupons{% endblocktranslate %}</p>
+                    {% else %}
+                    <p class="mb-0">{% blocktranslate with count=shop.coupon_set.count %}No coupons yet{% endblocktranslate %}</p>
+                    {% endif %}
+
                 {% endif %}
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
-                    {% if shop.amount_unused %}
-                    <p class="card-text mb-0">{% blocktranslate with amount=shop.amount_unused %}Remaining {{ amount }}€{% endblocktranslate %}</p>
+                    {% if shop_group %}
+
+                        {% if shop.shop.amount_unused %}
+                            <p class="card-text mb-0">{% blocktranslate with amount=shop.shop.amount_unused %}Remaining {{ amount }}€{% endblocktranslate %}</p>
+                            {% else %}
+                            <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€{% endblocktranslate %}</p>
+                            {% endif %}
+                        <a href="{% url 'core:shop_detail' shop.shop.id %}" class="btn-outline-primary btn stretched-link">{% translate 'See shop' %}</a>
+
                     {% else %}
-                    <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€{% endblocktranslate %}</p>
+
+                        {% if shop.amount_unused %}
+                        <p class="card-text mb-0">{% blocktranslate with amount=shop.amount_unused %}Remaining {{ amount }}€{% endblocktranslate %}</p>
+                        {% else %}
+                        <p class="card-text mb-0">{% blocktranslate %}Remaining --,--€{% endblocktranslate %}</p>
+                        {% endif %}
+                        <a href="{% url 'core:shop_detail' shop.id %}" class="btn-outline-primary btn stretched-link">{% translate 'See shop' %}</a>
+
                     {% endif %}
-                    <a href="{% url 'core:shop_detail' shop.id %}" class="btn-blue btn stretched-link">{% translate 'See coupons' %}</a>
                 </div>
             </div>
         </div>

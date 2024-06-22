@@ -5,9 +5,10 @@
 {% block title %}{% translate "Contact admin" %}{% endblock %}
 
 {% block content %}
-    <h2>{% translate "Hi" %}!</h2>
+    <h2 class="mb-0">{% translate "Hi" %}!</h2>
+    <hr>
 
-    <p>{% blocktranslate %}Looks like you have forgotten your password? Don't worry! Just contact the admin and he will help you out!{% endblocktranslate %}</p>
+    <p class="mb-4">{% blocktranslate %}Looks like you have forgotten your password? Don't worry! Just contact the admin and he will help you out!{% endblocktranslate %}</p>
     
 
     <a href="{% url 'core:index' %}" class="btn btn-primary">{% translate "Return to the main page" %}</a>

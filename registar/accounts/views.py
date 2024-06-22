@@ -27,6 +27,9 @@ class CustomLoginView(SuccessMessageMixin, auth_views.LoginView):
         logger.info("User %s (pk: %d) logged in", form.get_user(), form.get_user().pk)
         return super().form_valid(form)
 
+    def get_success_url(self) -> str:
+        return reverse_lazy('core:index')
+
 
 class CustomLogoutView(SuccessMessageMixin, auth_views.LogoutView):
     """
@@ -72,7 +75,7 @@ class ProfileView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     permission_required = "accounts.view_user"
 
 
-class ContactAdminView(LoginRequiredMixin, TemplateView):
+class ContactAdminView(TemplateView):
     """
     View for contacting the admin in case of forgotten password.
     Temporary solution for MVP.

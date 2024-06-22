@@ -11,40 +11,55 @@
 
 {% block content %}
     {% if perms.groups.view_invitation %}
-        <h2>{% translate "Invitations" %}</h2>
-        <p>{{ invitations }}</p>
-        {% if invitation_count %}
-            <div class="alert alert-primary" role="alert">
-                <p class="mb-0">{% blocktranslate count count=invitation_count %}
-                    You have {{ count }} unprocessed invitation
-                    {% plural %}
-                    You have {{ count }} unprocessed invitations
-                    {% endblocktranslate %}
+        <div class="mb-5">
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-0"><i class="bi bi-envelope-arrow-down me-3 color-purple"></i>{% translate "Invitations" %}</h2>
+                <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Open invitation overview" %}</a>
             </div>
-        {% else %}
-            <p>{% translate "No invitations" %}</p>
-        {% endif %}
-        
-        <a href="{% url 'groups:invitation_list' %}" class="btn btn-primary">{% translate "Open invitation overview" %}</a>
-        <hr>
+            <hr>
+
+            {% if invitation_count %}
+                <p class="mb-0 fs-3">{% blocktranslate count count=invitation_count %}You have <span class="display-font gradient-text">{{ count }}</span> unprocessed invitation{% plural %}You have <span class="display-font gradient-text">{{ count }}</span> unprocessed invitations{% endblocktranslate %}</p>
+            {% else %}
+                <p class="mb-0 fs-3">{% blocktranslate %}<span class="display-font gradient-text">No</span> invitations{% endblocktranslate %}</p>
+            {% endif %}
+        </div>
+
     {% endif %}
     
-    {% if page_obj %}
-        <h2>{% translate "Groups" %}</h2>
-        <ul>
-            {% for group in page_obj %}
-                <li>{{ group.title }} {{ group.date_added }}</li>
-                {% if perms.groups.view_group %}
-                <a href="{% url 'groups:group_detail' group.id %}">{% translate "Details" %}</a>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        {% include "core/modules/pagination.html" with collection=page_obj %}
-    {% endif %}
+    <div class="mb-5">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-0"><i class="bi bi-people me-3 color-purple"></i>{% translate "My groups" %}</h2>
+            {% if perms.groups.add_group %}
+                <a href="{% url 'groups:group_create' %}" class="btn btn-primary">{% translate "Create group" %}</a>
+            {% endif %}
+        </div>
+        <hr>
 
-    <div class="d-flex gap-3">
-        {% if perms.groups.add_group %}
-        <a href="{% url 'groups:group_create' %}" class="btn btn-primary">{% translate "Create group" %}</a>
+        {% if page_obj %}
+            {% include "core/modules/group_card.html" with groups=page_obj %}
+        {% else %}
+            <p>{% translate "No groups found" %}</p>
         {% endif %}
     </div>
+    
+    <div class="mb-4">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-0"><i class="bi bi-person-badge me-3 color-purple"></i>{% translate "My memberships" %}</h2>
+        </div>
+        <hr>
+
+        {% if memberships %}
+            {% include "core/modules/membership_card.html" with memberships=memberships %}
+        {% else %}
+            <p>{% translate "No memberships found" %}</p>
+        {% endif %}
+    </div>
+
+    {% if page_obj %}
+    <div class="pagination mb-4">
+        {% include "core/modules/pagination.html" with collection=page_obj %}
+    </div>
+    {% endif %}
+
 {% endblock %}
