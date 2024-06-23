@@ -270,3 +270,6 @@ LOGGING = {
 PAGINATE_BY = 6
 MAX_SHOPS_IN_INDEX = 6
 MAX_COUPONS_IN_INDEX = 6
+
+
+from .local import *
