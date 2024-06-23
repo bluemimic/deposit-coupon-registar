@@ -52,8 +52,8 @@ class IndexView(TemplateView):
     def get_shops(self):
         max_shops_in_index = settings.MAX_SHOPS_IN_INDEX
 
-        count_of_unused_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = False))
-        count_of_coupons = Sum(1, default = 0)
+        count_of_used_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = True))
+        count_of_coupons = Count('coupon', distinct=True)
         amount_of_unused_coupons = Sum(
                     'coupon__amount',
                     default=0,
@@ -65,13 +65,13 @@ class IndexView(TemplateView):
         all_shops = Shop.objects.filter(
             owner=self.request.user.pk,
         ).annotate(
-            amount_unused=amount_of_unused_coupons, 
-            count_unused=count_of_unused_coupons, 
+            amount_unused=amount_of_unused_coupons,
+            count_used=count_of_used_coupons,
             count=count_of_coupons
         ).order_by(
             "-date_added"
         )
-
+        
         pinned_shops = all_shops.filter(is_pinned=True)[:3]
         number_of_remaining_shops = max_shops_in_index - pinned_shops.count()
         unpinned_shops = all_shops.filter(is_pinned=False)[:number_of_remaining_shops]
@@ -203,6 +203,8 @@ class ShopListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
 
+        count_of_used_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = True))
+        count_of_coupons = Count('coupon', distinct=True)
         amount_of_unused_coupons = Sum(
                     'coupon__amount',
                     default=0,
@@ -211,12 +213,11 @@ class ShopListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
                     )
                 )
 
-        count_of_unused_coupons = Sum(1, default = 0, filter = Q(coupon__is_used = False))
-        count_of_coupons = Sum(1, default = 0)
-
-        return queryset.filter(owner=self.request.user.pk).annotate(
-            amount_unused=amount_of_unused_coupons, 
-            count_unused=count_of_unused_coupons, 
+        return Shop.objects.filter(
+            owner=self.request.user.pk,
+        ).annotate(
+            amount_unused=amount_of_unused_coupons,
+            count_used=count_of_used_coupons,
             count=count_of_coupons
         ).order_by(
             "-is_pinned",

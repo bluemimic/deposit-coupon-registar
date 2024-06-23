@@ -106,6 +106,8 @@ class GroupDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
         context = super().get_context_data(**kwargs)
         context['shops'] = Invitation.objects.filter(recipient=self.request.user, is_processed=False).count()
         
+        count_of_used_coupons = Sum(1, default = 0, filter = Q(shop__coupon__is_used = True))
+        count_of_coupons = Count('shop__coupon', distinct=True)
         amount_of_unused_coupons = Sum(
                     'shop__coupon__amount',
                     default=0,
@@ -113,20 +115,15 @@ class GroupDetailView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTes
                         shop__coupon__is_used=False
                     )
                 )
-
-        count_of_unused_coupons = Sum(1, default = 0, filter = Q(shop__coupon__is_used = False))
-        count_of_coupons = Sum(1, default = 0)
         
         context["group_shops"] = ShopGroup.objects.filter(
             group=self.get_object()
         ).annotate(
             amount_unused=amount_of_unused_coupons,
-            count_unused=count_of_unused_coupons,
+            count_used=count_of_used_coupons,
             count=count_of_coupons
         ).order_by('-is_pinned', '-date_added')
         
-        print(context["group_shops"])
-
         if self.request.user.pk != self.get_object().owner.pk:
             context['membership'] = get_object_or_404(GroupMembership, user=self.request.user, group=self.get_object())
 
