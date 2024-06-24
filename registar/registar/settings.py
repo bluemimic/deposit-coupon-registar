@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -271,5 +271,5 @@ PAGINATE_BY = 6
 MAX_SHOPS_IN_INDEX = 6
 MAX_COUPONS_IN_INDEX = 6
 
-
+    
 from .local import *

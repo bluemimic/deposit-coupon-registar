@@ -1,0 +1,55 @@
+services:
+
+  nginx:
+    image: nginx
+    container_name: registar_nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./static:/usr/src/app/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django_gunicorn
+    networks:
+      - registar_network
+    
+  django_gunicorn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: registar_django
+    command: sh -c "python3 manage.py migrate --noinput && 
+                    python3 manage.py initgroups --nooutput &&
+                    python3 manage.py collectstatic --noinput &&
+                    django-admin compilemessages &&
+                    gunicorn --bind 0.0.0.0:8000 registar.wsgi"
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: always
+    networks:
+      - registar_network
+    
+  db:
+    image: mysql
+    container_name: registar_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ../db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - registar_network
+
+networks:
+  registar_network:
