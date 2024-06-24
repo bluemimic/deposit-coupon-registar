@@ -165,3 +165,4 @@ db/
 
 # Django
 static/
+!/*/*/static/

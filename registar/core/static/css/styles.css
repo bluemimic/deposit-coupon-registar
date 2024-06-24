@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Wix+Madefor+Display:wght@400..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Extended+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+
+
+:root {
+    --primary-font: 'Source Sans 3', sans-serif;
+    --header-font: 'Wix Madefor Display', sans-serif;
+    --barcode-font: "Libre Barcode 39 Extended Text", system-ui;
+    --display-font: 'Dela Gothic One', cursive;
+    --gradient: linear-gradient(45deg, rgb(32, 105, 239), rgb(163, 11, 163));
+
+    --color-purple: rgb(163, 11, 163);
+    --color-purple-darker: rgb(114, 11, 114);
+    --color-blue: rgb(32, 105, 239);
+}
+
+body {
+    font-family: var(--primary-font);
+    font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--header-font);
+    font-weight: 700;
+}
+
+/* a[class~="btn-primary"] {
+    background-color: var(--color-blue);
+    color: white;
+    border-color: var(--color-blue);
+}
+
+a[class~="btn-outline-primary"] {
+    background-color: white;
+    color: var(--color-blue);
+    border-color: var(--color-blue);
+}
+
+a[class~="btn-primary"]:hover,
+a[class~="btn-primary"]:focus,
+a[class~="btn-outline-primary"]:hover,
+a[class~="btn-outline-primary"]:focus {
+    background-color: var(--color-purple);
+    color: white;
+    border-color: var(--color-purple);
+}
+
+a[class~="btn-primary"]:active,
+a[class~="btn-outline-primary"]:active {
+    background-color: var(--color-purple-darker) !important;
+    color: white;
+    border-color: var(--color-purple-darker) !important;
+} */
+
+
+.display-font {
+    font-family: var(--display-font);
+}
+
+.header-font {
+    font-family: var(--header-font);
+}
+
+.gradient-text {
+    background-image: var(--gradient);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.color-purple {
+    color: var(--color-purple);
+}
+
+.color-blue {
+    color: var(--color-blue)
+}
+
+.bg-purple {
+    background-color: var(--color-purple);
+}
+
+.bg-blue {
+    background-color: var(--color-blue);
+}
+
+.color-purple {
+    color: var(--color-purple);
+
+}
+
+.barcode {
+    font-family: var(--barcode-font);
+    font-size: 6rem;
+}
+
+.overview-box {
+    background: var(--gradient);
+    border-radius: 0.5rem;
+    
+    padding: 0.5rem 2rem;
+    color: white;
+    transform: translateX(0.5rem);
+}
+
+.overview-link {
+    padding: 0.5rem 2.5rem;
+    
+    border: var(--color-purple) 2px solid;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+
+    color: var(--color-purple);
+
+    display: flex;
+}
+
+.overview-link > a {
+    margin: 0;
+    z-index: 1;
+    text-decoration: none;
+    color: var(--color-purple);
+}
+
+.overview-link > a:hover {
+    color: var(--color-purple-darker)
+}
+
+.returned-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.returned-text {
+    display: block;
+    text-align: center;
+}
+
+.stats-value {
+    font-weight: 700;
+}
