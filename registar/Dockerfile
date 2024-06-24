@@ -15,5 +15,3 @@ RUN apt-get update && apt-get install -y gettext && \
 
     
 COPY . .
-
-RUN python3 manage.py collectstatic --noinput
