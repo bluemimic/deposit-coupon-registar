@@ -13,5 +13,6 @@ RUN apt-get update && apt-get install -y gettext && \
     apt install -y libzbar0 && \
     apt install -y python3-opencv
 
+RUN python3 manage.py collectstatic --noinput
 
 COPY . .
