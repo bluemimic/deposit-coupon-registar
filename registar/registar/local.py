@@ -1,1 +1,0 @@
-# Local settings for registar project.
