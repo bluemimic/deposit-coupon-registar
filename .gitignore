@@ -166,3 +166,5 @@ db/
 # Django
 static/
 !/*/*/static/
+
+local.py
