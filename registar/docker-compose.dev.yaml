@@ -4,7 +4,9 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: registar_django
-    command: sh -c "python3 manage.py migrate --noinput && 
+    command: sh -c "mkdir -p logs &&
+                    touch registar/local.py &&
+                    python3 manage.py migrate --noinput && 
                     python3 manage.py initgroups --nooutput &&
                     python3 manage.py collectstatic --noinput &&
                     django-admin compilemessages &&

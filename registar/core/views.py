@@ -160,10 +160,10 @@ class OverviewView(LoginRequiredMixin, TemplateView):
 
         amount_of_coupons = Sum('amount',  default=0)
         
-        total_amount = Coupon.objects.filter(owner=self.request.user.pk).aggregate(Sum('amount')).get('amount__sum', 0)
+        total_amount = Coupon.objects.filter(owner=self.request.user.pk).aggregate(amount_of_coupons).get('amount__sum') or 0
         context["total_amount"] = total_amount
         
-        total_amount_returned = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons).get('amount__sum', 0)
+        total_amount_returned = Coupon.objects.filter(owner=self.request.user.pk, is_used=True).aggregate(amount_of_coupons).get('amount__sum') or 0
         context["total_amount_returned"] = total_amount_returned
         
         total_amount_remaining = total_amount - total_amount_returned

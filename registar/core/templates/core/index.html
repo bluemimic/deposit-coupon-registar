@@ -83,11 +83,229 @@
         </div>
 
     {% else %}
-        <p>{% translate "Welcome to Registar! Please login or register to continue." %}</p>
-        
-        <div class="d-flex flex-row">
-            <a href="{% url 'account:login' %}" class="btn btn-outline-primary me-3">{% translate 'Login' %}</a>
-            <a href="{% url 'account:register' %}" class="btn btn-outline-primary">{% translate 'Register' %}</a>
+        <!-- Hero Banner Section -->
+        <div class="hero-section mb-5">
+            <h1>{% blocktranslate %}Welcome to <span class="fw-bold display-font gradient-text">Registar</span>{% endblocktranslate %}</h1>
+            <hr>
+            <p class="lead">{% translate "An online system for scanning and saving deposit coupons digitally, so you no longer need paper coupons." %}</p>
         </div>
+
+        <!-- What is Registar -->
+        <div class="what-is mb-5" style="background: #f8f9fa; border-left: 5px solid #667eea; padding: 30px; border-radius: 8px;">
+            <h2><i class="bi bi-info-circle me-3 color-purple" style="font-size: 2rem;"></i>{% blocktranslate %}What is <span class="fw-bold display-font gradient-text">Registar</span>?{% endblocktranslate %}</h2>
+            <hr>
+            <p>{% blocktranslate %}Registar is an online deposit coupon system where users can scan or enter coupons and store them in digital format instead of keeping paper slips.{% endblocktranslate %}</p>
+            <p>{% blocktranslate %}Users can create shops, add coupons, publish shops to the marketplace, share coupons in groups, and manage everything in one place.{% endblocktranslate %}</p>
+            <p class="mb-0">{% blocktranslate %}The overview helps track coupon earnings, spendings, returned amounts, and remaining balances.{% endblocktranslate %}</p>
+        </div>
+
+        <!-- Who is this for -->
+        <div class="who-is-for mb-5">
+            <h2><i class="bi bi-people me-3 color-purple"></i>{% translate "Who is this for?" %}</h2>
+            <hr>
+            <p class="mb-4 lead">{% blocktranslate %}<span class="fw-bold display-font gradient-text">Registar</span> is built for people and teams who want to replace paper coupons with a secure digital workflow:{% endblocktranslate %}</p>
+            <div class="row row-cols-1 row-cols-lg-2 mb-0 g-4">
+                <div class="col">
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-shop" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Users who want to scan and save deposit coupons digitally" %}</h5>
+                            <p class="card-text text-muted">{% blocktranslate %}Save coupons online and avoid losing paper slips.{% endblocktranslate %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-ticket-perforated" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Users who hold deposit coupons and need to track them efficiently" %}</h5>
+                            <p class="card-text text-muted">{% blocktranslate %}Monitor your deposit balances, redemptions, and coupon values in real-time.{% endblocktranslate %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people-fill" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Groups that share coupons and coordinate returns" %}</h5>
+                            <p class="card-text text-muted">{% blocktranslate %}Share coupons in groups and coordinate deposit returns together.{% endblocktranslate %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-eyeglasses" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Anyone who wants a clear overview of earnings and spendings" %}</h5>
+                            <p class="card-text text-muted">{% blocktranslate %}Track returned, spent, and remaining amounts in one clear overview.{% endblocktranslate %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purpose -->
+        <div class="purpose mb-5" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 10px; padding: 40px; color: white;">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2><i class="bi bi-bullseye me-3" style="font-size: 2rem;"></i>{% translate "Our Purpose" %}</h2>
+                    <hr>
+                    <p class="mb-3">{% blocktranslate %}We aim to provide a reliable, user-friendly platform that:{% endblocktranslate %}</p>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-check-circle me-3" style="font-size: 1.5rem; flex-shrink: 0;"></i>
+                                <p class="mb-0">{% translate "Replaces paper coupons with secure digital records" %}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-check-circle me-3" style="font-size: 1.5rem; flex-shrink: 0;"></i>
+                                <p class="mb-0">{% translate "Makes coupon scanning, saving, and sharing simple" %}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-check-circle me-3" style="font-size: 1.5rem; flex-shrink: 0;"></i>
+                                <p class="mb-0">{% translate "Keeps coupon records organized and easy to use" %}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-check-circle me-3" style="font-size: 1.5rem; flex-shrink: 0;"></i>
+                                <p class="mb-0">{% translate "Gives a clear overview of earnings, spendings, and balances" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img src="https://static.lsm.lv/media/2020/12/large/1/ecp3.jpg" alt="Deposit Management" class="img-fluid rounded" style="box-shadow: 0 4px 15px rgba(255,255,255,0.2);">
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="how-to-use mb-5">
+            <h2><i class="bi bi-play-circle me-3 color-purple" style="font-size: 2rem;"></i>{% translate "How to use Registar" %}</h2>
+            <hr>
+            <div class="row mt-4">
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #667eea; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Register" %}</h5>
+                        <p>{% translate "Create your account to get started" %}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #667eea; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Create Shop Presets" %}</h5>
+                        <p>{% translate "As a buyer, create your own shop presets for faster coupon saving" %}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #667eea; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-upc-scan"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Scan or Add Coupons" %}</h5>
+                        <p>{% translate "Scan coupon barcodes or add coupon details manually" %}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #764ba2; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-shop-window"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Publish and Share" %}</h5>
+                        <p>{% translate "Publish shops to marketplace and share coupons in groups" %}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #764ba2; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-share"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Share and Manage" %}</h5>
+                        <p>{% translate "Share coupons with groups and manage your deposits" %}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="text-center">
+                        <div class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 70px; height: 70px; background: #764ba2; color: white; font-size: 2rem; margin-bottom: 15px;">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h5 class="fw-bold">{% translate "Track Earnings & Spendings" %}</h5>
+                        <p>{% translate "See coupon earnings, spendings, and balances in overview" %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="key-features mb-5">
+            <h2><i class="bi bi-star me-3 color-purple" style="font-size: 2rem;"></i>{% translate "Key Features" %}</h2>
+            <hr>
+            <div class="row row-cols-1 row-cols-lg-2 mb-0 g-4">
+                <div class="col">
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-shop" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Shop Management" %}</h5>
+                            <p class="card-text">{% translate "Create and manage shop presets for faster coupon saving." %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-ticket-perforated" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Coupon Tracking" %}</h5>
+                            <p class="card-text">{% translate "Scan or add coupons with barcode or image, then track earnings and spendings." %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people-fill" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Group Collaboration" %}</h5>
+                            <p class="card-text">{% translate "Create groups, invite members, and share coupons for coordinated deposit management." %}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card h-100 border-1 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-graph-up-arrow" style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px; display: block;"></i>
+                            <h5 class="card-title fw-bold">{% translate "Overview & Analytics" %}</h5>
+                            <p class="card-text">{% translate "See returned, spent, and remaining amounts with clear overview analytics." %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section mb-5">
+            <div class="alert alert-info">
+                <h5 class="alert-heading">{% translate "Ready to get started?" %}</h5>
+                <p>{% translate "Join users who are replacing paper coupons with fast and reliable digital coupon management." %}</p>
+                <hr>
+                <div class="d-flex flex-row gap-2">
+                    <a href="{% url 'account:register' %}" class="btn btn-primary">{% translate "Create Account Now" %}</a>
+                    <a href="{% url 'account:login' %}" class="btn btn-outline-primary">{% translate "Already registered?" %} {% translate "Login" %}</a>
+                </div>
+            </div>
+        </div>
+
     {% endif %}
 {% endblock %}

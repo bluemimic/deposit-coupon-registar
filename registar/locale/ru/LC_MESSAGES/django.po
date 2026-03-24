@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-23 13:33+0000\n"
+"POT-Creation-Date: 2026-03-24 18:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,7 @@ msgstr "Вы вышли из системы"
 #: accounts/templates/registration/login.html:6
 #: accounts/templates/registration/login.html:9
 #: accounts/templates/registration/login.html:16
-#: core/templates/core/base/base.html:114 core/templates/core/index.html:89
+#: core/templates/core/base/base.html:114 core/templates/core/index.html:305
 msgid "Login"
 msgstr "Войти"
 
@@ -190,7 +190,7 @@ msgstr "Удалить аккаунт"
 #: accounts/templates/registration/register.html:6
 #: accounts/templates/registration/register.html:9
 #: accounts/templates/registration/register.html:12
-#: core/templates/core/base/base.html:118 core/templates/core/index.html:90
+#: core/templates/core/base/base.html:118 core/templates/core/index.html:197
 msgid "Register"
 msgstr "Зарегистрироваться"
 
@@ -669,11 +669,249 @@ msgstr "Просмотреть все группы"
 msgid "No groups found"
 msgstr "Группы не найдены"
 
-#: core/templates/core/index.html:86
-msgid "Welcome to Registar! Please login or register to continue."
+#: core/templates/core/index.html:88
+msgid ""
+"Welcome to <span class=\"fw-bold display-font gradient-text\">Registar</span>"
 msgstr ""
-"Добро пожаловать в Registar. Пожалуйста войдите или зарегистрируйтесь чтобы "
-"продолжить."
+"Добро пожаловать в <span class=\"fw-bold display-font gradient-"
+"text\">Registar</span>"
+
+#: core/templates/core/index.html:90
+msgid ""
+"An online system for scanning and saving deposit coupons digitally, so you "
+"no longer need paper coupons."
+msgstr ""
+"Онлайн-система для сканирования и цифрового сохранения депозитных купонов, "
+"чтобы больше не хранить их на бумаге."
+
+#: core/templates/core/index.html:95
+msgid ""
+"What is <span class=\"fw-bold display-font gradient-text\">Registar</span>?"
+msgstr ""
+"Что такое <span class=\"fw-bold display-font gradient-text\">Registar</span>?"
+
+#: core/templates/core/index.html:97
+msgid ""
+"Registar is an online deposit coupon system where users can scan or enter "
+"coupons and store them in digital format instead of keeping paper slips."
+msgstr ""
+"Registar — это онлайн-система депозитных купонов, где пользователи могут "
+"сканировать или добавлять купоны и хранить их в цифровом формате вместо "
+"бумажных талонов."
+
+#: core/templates/core/index.html:98
+msgid ""
+"Users can create shops, add coupons, publish shops to the marketplace, share "
+"coupons in groups, and manage everything in one place."
+msgstr ""
+"Пользователи могут создавать магазины, добавлять купоны, публиковать "
+"магазины на маркетплейсе, делиться купонами в группах и управлять всем в "
+"одном месте."
+
+#: core/templates/core/index.html:99
+msgid ""
+"The overview helps track coupon earnings, spendings, returned amounts, and "
+"remaining balances."
+msgstr ""
+"Обзор помогает отслеживать доходы по купонам, расходы, возвращенные суммы и "
+"остатки."
+
+#: core/templates/core/index.html:104
+msgid "Who is this for?"
+msgstr "Для кого это предназначено?"
+
+#: core/templates/core/index.html:106
+msgid ""
+"<span class=\"fw-bold display-font gradient-text\">Registar</span> is built "
+"for people and teams who want to replace paper coupons with a secure digital "
+"workflow:"
+msgstr ""
+"<span class=\"fw-bold display-font gradient-text\">Registar</span> создан "
+"для людей и команд, которые хотят заменить бумажные купоны безопасным "
+"цифровым процессом:"
+
+#: core/templates/core/index.html:112
+msgid "Users who want to scan and save deposit coupons digitally"
+msgstr ""
+"Пользователям, которые хотят сканировать и сохранять депозитные купоны в "
+"цифровом виде"
+
+#: core/templates/core/index.html:113
+msgid "Save coupons online and avoid losing paper slips."
+msgstr "Сохраняйте купоны онлайн и не теряйте бумажные талоны."
+
+#: core/templates/core/index.html:121
+msgid "Users who hold deposit coupons and need to track them efficiently"
+msgstr ""
+"Пользователям, которые имеют купоны депозитов и нуждаются в их эффективном "
+"отслеживании"
+
+#: core/templates/core/index.html:122
+msgid ""
+"Monitor your deposit balances, redemptions, and coupon values in real-time."
+msgstr ""
+"Отслеживайте остатки депозитов, возмещения и значения купонов в режиме "
+"реального времени."
+
+#: core/templates/core/index.html:130
+msgid "Groups that share coupons and coordinate returns"
+msgstr "Группам, которые делятся купонами и координируют возврат тары"
+
+#: core/templates/core/index.html:131
+msgid "Share coupons in groups and coordinate deposit returns together."
+msgstr "Делитесь купонами в группах и координируйте возврат депозитов вместе."
+
+#: core/templates/core/index.html:139
+msgid "Anyone who wants a clear overview of earnings and spendings"
+msgstr "Тем, кому нужен понятный обзор доходов и расходов"
+
+#: core/templates/core/index.html:140
+msgid "Track returned, spent, and remaining amounts in one clear overview."
+msgstr "Отслеживайте возвращенные, потраченные и оставшиеся суммы в одном обзоре."
+
+#: core/templates/core/index.html:151
+msgid "Our Purpose"
+msgstr "Наша цель"
+
+#: core/templates/core/index.html:153
+msgid "We aim to provide a reliable, user-friendly platform that:"
+msgstr ""
+"Мы стремимся предоставить надежную, удобную для пользователя платформу, "
+"которая:"
+
+#: core/templates/core/index.html:158
+msgid "Replaces paper coupons with secure digital records"
+msgstr "Заменяет бумажные купоны безопасными цифровыми записями"
+
+#: core/templates/core/index.html:164
+msgid "Makes coupon scanning, saving, and sharing simple"
+msgstr "Упрощает сканирование, сохранение и совместное использование купонов"
+
+#: core/templates/core/index.html:170
+msgid "Keeps coupon records organized and easy to use"
+msgstr "Держит записи купонов упорядоченными и удобными в использовании"
+
+#: core/templates/core/index.html:176
+msgid "Gives a clear overview of earnings, spendings, and balances"
+msgstr "Дает понятный обзор доходов, расходов и остатков"
+
+#: core/templates/core/index.html:189
+msgid "How to use Registar"
+msgstr "Как использовать Registar"
+
+#: core/templates/core/index.html:198
+msgid "Create your account to get started"
+msgstr "Создайте свой аккаунт, чтобы начать"
+
+#: core/templates/core/index.html:206
+msgid "Create Shop Presets"
+msgstr "Создать шаблоны магазинов"
+
+#: core/templates/core/index.html:207
+msgid "As a buyer, create your own shop presets for faster coupon saving"
+msgstr "Как покупатель, создайте свои шаблоны магазинов для более быстрого сохранения купонов"
+
+#: core/templates/core/index.html:215
+msgid "Scan or Add Coupons"
+msgstr "Сканировать или добавить купоны"
+
+#: core/templates/core/index.html:216
+msgid "Scan coupon barcodes or add coupon details manually"
+msgstr "Сканируйте штрихкоды купонов или добавляйте данные купонов вручную"
+
+#: core/templates/core/index.html:224
+msgid "Publish and Share"
+msgstr "Публиковать и делиться"
+
+#: core/templates/core/index.html:225
+msgid "Publish shops to marketplace and share coupons in groups"
+msgstr "Публикуйте магазины на маркетплейсе и делитесь купонами в группах"
+
+#: core/templates/core/index.html:233
+msgid "Share and Manage"
+msgstr "Поделиться и управлять"
+
+#: core/templates/core/index.html:234
+msgid "Share coupons with groups and manage your deposits"
+msgstr "Поделитесь купонами с группами и управляйте своими депозитами"
+
+#: core/templates/core/index.html:242
+msgid "Track Earnings & Spendings"
+msgstr "Отслеживать доходы и расходы"
+
+#: core/templates/core/index.html:243
+msgid "See coupon earnings, spendings, and balances in overview"
+msgstr "Смотрите доходы по купонам, расходы и остатки в обзоре"
+
+#: core/templates/core/index.html:251
+msgid "Key Features"
+msgstr "Ключевые функции"
+
+#: core/templates/core/index.html:258
+msgid "Shop Management"
+msgstr "Управление магазином"
+
+#: core/templates/core/index.html:259
+msgid ""
+"Create and manage shop presets for faster coupon saving."
+msgstr ""
+"Создавайте и управляйте шаблонами магазинов для более быстрого сохранения "
+"купонов."
+
+#: core/templates/core/index.html:268
+msgid "Coupon Tracking"
+msgstr "Отслеживание купонов"
+
+#: core/templates/core/index.html:269
+msgid ""
+"Scan or add coupons with barcode or image, then track earnings and "
+"spendings."
+msgstr ""
+"Сканируйте или добавляйте купоны по штрихкоду или изображению, затем "
+"отслеживайте доходы и расходы."
+
+#: core/templates/core/index.html:278
+msgid "Group Collaboration"
+msgstr "Групповое сотрудничество"
+
+#: core/templates/core/index.html:279
+msgid ""
+"Create groups, invite members, and share coupons for coordinated deposit "
+"management."
+msgstr ""
+"Создавайте группы, приглашайте участников и делитесь купонами для "
+"координированного управления депозитами."
+
+#: core/templates/core/index.html:289
+msgid "Overview & Analytics"
+msgstr "Обзор и аналитика"
+
+#: core/templates/core/index.html:290
+msgid ""
+"See returned, spent, and remaining amounts with clear overview analytics."
+msgstr ""
+"Смотрите возвращенные, потраченные и оставшиеся суммы в наглядной аналитике "
+"обзора."
+
+#: core/templates/core/index.html:300
+msgid "Ready to get started?"
+msgstr "Готовы начать?"
+
+#: core/templates/core/index.html:301
+msgid ""
+"Join users who are replacing paper coupons with fast and reliable digital "
+"coupon management."
+msgstr ""
+"Присоединяйтесь к пользователям, которые заменяют бумажные купоны быстрым и "
+"надежным цифровым управлением купонами."
+
+#: core/templates/core/index.html:304
+msgid "Create Account Now"
+msgstr "Создать аккаунт сейчас"
+
+#: core/templates/core/index.html:305
+msgid "Already registered?"
+msgstr "Уже зарегистрированы?"
 
 #: core/templates/core/modules/coupon_card.html:23
 #, python-format
@@ -1653,6 +1891,14 @@ msgstr "Латышский"
 msgid "Russian"
 msgstr "Русский"
 
+#~ msgid "Welcome to Registar! Please login or register to continue."
+#~ msgstr ""
+#~ "Добро пожаловать в Registar. Пожалуйста войдите или зарегистрируйтесь "
+#~ "чтобы продолжить."
+
+#~ msgid "Get started in just a few simple steps:"
+#~ msgstr "Начните всего за несколько простых шагов:"
+
 #~ msgid "Back to coupon list"
 #~ msgstr "Вернуться к списку купонов"
 
@@ -1712,9 +1958,6 @@ msgstr "Русский"
 
 #~ msgid "Close"
 #~ msgstr "Закрыть"
-
-#~ msgid "Welcome to Registar"
-#~ msgstr "Добро пожаловать в Registar"
 
 #~| msgid "Edit coupon"
 #~ msgid "View coupon"
