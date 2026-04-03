@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'registar.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
+        'NAME': BASE_DIR / "persistance" / "db.sqlite3",
     }
 }
 
@@ -268,4 +268,4 @@ MAX_SHOPS_IN_INDEX = 6
 MAX_COUPONS_IN_INDEX = 6
 
     
-from .local import *
+from persistance.local import *
